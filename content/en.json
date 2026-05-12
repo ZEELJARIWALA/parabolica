@@ -1,4 +1,12 @@
 {
+    "nav": {
+        "home": "Home",
+        "about": "About",
+        "stack": "Stack",
+        "projects": "Projects",
+        "roadmap": "Roadmap",
+        "contact": "Contact"
+    },
     "hero": {
         "title": "I <span class='highlight-text-primary'>help</span> founders turn <span class='highlight-text-primary'> ideas</span> into seamless digital experiences",
         "cta_primary": "Let's Connect",
@@ -286,6 +294,8 @@
         "technologies": "Technologies",
         "live_demo": "Live Demo",
         "source_code": "Source Code",
-        "project_details": "Details about"
+        "project_details": "Details about",
+        "select_language": "Select Language",
+        "change_the_site_language": "Change the site language."
     }
 }

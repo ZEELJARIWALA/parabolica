@@ -1,4 +1,12 @@
 {
+    "nav": {
+        "home": "Ana Sayfa",
+        "about": "Hakkımda",
+        "stack": "Teknolojiler",
+        "projects": "Projeler",
+        "roadmap": "Yol Haritası",
+        "contact": "İletişim"
+    },
     "hero": {
         "title": "Kurucuların <span class='highlight-text-primary'>fikirlerini</span> sorunsuz dijital deneyimlere dönüştürmelerine <span class='highlight-text-primary'>yardım ediyorum</span>",
         "cta_primary": "İletişim",
@@ -286,6 +294,8 @@
         "technologies": "Teknolojiler",
         "live_demo": "Canlı Demo",
         "source_code": "Kaynak Kodları",
-        "project_details": "Proje Detayları"
+        "project_details": "Proje Detayları",
+        "select_language": "Dil Seçin",
+        "change_the_site_language": "Sitenin dilini değiştirmek için tıklayın."
     }
 }

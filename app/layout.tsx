@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { LanguageProvider } from "@/context/language-context";
 import { Preloader } from "@/components/preloader";
 import { CustomCursor } from "@/components/custom-cursor";
+import Navbar from "@/components/navbar";
 import { APP_CONFIG } from "@/lib/constants";
 
 const syne = Syne({ subsets: ["latin"], variable: "--font-syne" });
@@ -33,6 +34,7 @@ export default function RootLayout({
             <CustomCursor />
             <Preloader />
             <SmoothScroll>
+              <Navbar />
               {children}
             </SmoothScroll>
           </ThemeProvider>
