@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence, useScroll, useTransform, useMotionTemplate } from "framer-motion";
 import { Menu, X } from "lucide-react";
@@ -8,19 +8,32 @@ import LanguageSwitcher from "./settings/language-switcher";
 import ThemeSwitcher from "./settings/theme-switcher";
 import { useLanguage } from "@/context/language-context";
 import { useLenis } from "@/components/smooth-scroll";
-import { cn } from "@/lib/utils";
 
 export default function Navbar() {
   const { content } = useLanguage();
   const lenis = useLenis();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [screenWidth, setScreenWidth] = useState(1920);
+  const [containerWidth, setContainerWidth] = useState(1280);
+  const [scrollHeight, setScrollHeight] = useState(800);
+  const dummyRef = useRef<HTMLDivElement>(null);
 
-  // Scroll-driven dynamic values for professional transition
   const { scrollY } = useScroll();
-  const bgOpacity = useTransform(scrollY, [0, 400], [0, 1]);
-  const backdropBlur = useTransform(scrollY, [0, 400], [0, 16]);
+
+  const bgOpacity = useTransform(scrollY, (val) => Math.min(val / scrollHeight, 1));
+  const backdropBlur = useTransform(scrollY, (val) => Math.min(val / scrollHeight, 1) * 16);
   const backdropFilter = useMotionTemplate`blur(${backdropBlur}px)`;
-  const py = useTransform(scrollY, [0, 400], [24, 12]); // py-6 (24px) to py-3 (12px)
+
+  const py = useTransform(scrollY, (val) => {
+    const ratio = Math.min(val / scrollHeight, 1);
+    return 24 - ratio * 12;
+  });
+
+  const startWidth = Math.max(screenWidth, containerWidth);
+  const navMaxWidth = useTransform(scrollY, (val) => {
+    const ratio = Math.min(val / scrollHeight, 1);
+    return startWidth - ratio * (startWidth - containerWidth);
+  });
 
   const navLinks = [
     { name: content.nav.home, href: "#home" },
@@ -30,6 +43,25 @@ export default function Navbar() {
     { name: content.nav.roadmap, href: "#roadmap" },
     { name: content.nav.contact, href: "#contact" },
   ];
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setScreenWidth(window.innerWidth);
+      setScrollHeight(window.innerHeight);
+
+      const updateDimensions = () => {
+        setScreenWidth(window.innerWidth);
+        setScrollHeight(window.innerHeight);
+        if (dummyRef.current) {
+          setContainerWidth(dummyRef.current.getBoundingClientRect().width);
+        }
+      };
+
+      updateDimensions();
+      window.addEventListener("resize", updateDimensions);
+      return () => window.removeEventListener("resize", updateDimensions);
+    }
+  }, []);
 
   useEffect(() => {
     if (isMobileMenuOpen) {
@@ -84,7 +116,8 @@ export default function Navbar() {
       }}
       className="fixed top-0 left-0 right-0 z-[100] transition-colors duration-300"
     >
-      {/* Dynamic Background and Border Overlay synchronized with Scroll */}
+      <div ref={dummyRef} className="container invisible absolute pointer-events-none -z-50" />
+
       <motion.div
         style={{
           opacity: bgOpacity,
@@ -94,7 +127,12 @@ export default function Navbar() {
         className="absolute inset-0 bg-background/75 border-b border-border/40 -z-10 pointer-events-none"
       />
 
-      <nav className="mx-auto px-container flex items-center justify-between w-full max-w-7xl">
+      <motion.nav
+        style={{
+          maxWidth: navMaxWidth,
+        }}
+        className="mx-auto px-container flex items-center justify-between w-full"
+      >
         <Link
           href="#home"
           onClick={(e) => scrollToSection(e, "#home")}
@@ -136,7 +174,7 @@ export default function Navbar() {
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
-      </nav>
+      </motion.nav>
 
       <AnimatePresence>
         {isMobileMenuOpen && (
