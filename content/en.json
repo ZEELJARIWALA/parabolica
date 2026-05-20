@@ -9,8 +9,8 @@
     },
     "hero": {
         "title": "I <span class='highlight-text-primary'>help</span> founders turn <span class='highlight-text-primary'> ideas</span> into seamless digital experiences",
-        "cta_primary": "Let's Connect",
-        "cta_secondary": "Projects",
+        "cta_primary": "Connect",
+        "cta_secondary": "Explore Works",
         "stats": "<span class='highlight-text-tertiary'>Startup</span> Ready Solutions",
         "scroll": "Scroll Down"
     },
