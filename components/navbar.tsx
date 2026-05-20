@@ -218,7 +218,7 @@ export default function Navbar() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
-                className="mt-auto pt-8 border-t border-border/20 flex items-center justify-between"
+                className="mt-8 flex items-center justify-between"
               >
                 <div className="flex items-center gap-4">
                   <LanguageSwitcher />
