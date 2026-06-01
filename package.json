@@ -1,6 +1,7 @@
 {
-  "name": "kintarowwwards",
-  "version": "0.1.0",
+  "name": "parabolica-web",
+  "version": "1.0.0",
+  "author": "Parabolica Studio",
   "private": true,
   "scripts": {
     "dev": "next dev",
