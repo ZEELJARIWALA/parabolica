@@ -1,12 +1,12 @@
-import Hero from "@/components/sections/hero";
 import Projects from "@/components/sections/projects";
 import ManifestoFlow from "@/components/manifesto-flow";
-import Stack from "@/components/sections/stack";
-import Roadmap from "@/components/sections/roadmap";
+import PhotoScroll from "@/components/sections/photo-scroll";
+import Events from "@/components/sections/events";
 import About from "@/components/sections/about";
 import Contact from "@/components/sections/contact";
 import ScrollProgress from "@/components/scroll-progress";
-import { BackgroundCar } from "@/components/background-car";
+import LandingHero from "@/components/sections/landing-hero";
+import { IntroSequence } from "@/components/intro-sequence";
 
 export default function Home() {
   return (
@@ -14,11 +14,9 @@ export default function Home() {
       <ScrollProgress />
 
       <main className="relative min-h-screen">
-        {/* Background Car - Moved inside and adjusted z-index */}
-        <BackgroundCar />
-
         <div className="relative z-10 w-full">
-          <Hero />
+          {/* Simple PARABOLICA hero — no F1 cars/drivers */}
+          <LandingHero />
 
           <div className="relative z-10 bg-background/80 backdrop-blur-sm border-t border-border">
             <section id="about">
@@ -27,8 +25,8 @@ export default function Home() {
 
             <ManifestoFlow />
 
-            <section id="stack">
-              <Stack />
+            <section id="gallery">
+              <PhotoScroll />
             </section>
 
             <ManifestoFlow reverse />
@@ -40,7 +38,7 @@ export default function Home() {
             <ManifestoFlow />
 
             <section id="roadmap">
-              <Roadmap />
+              <Events />
             </section>
 
             <ManifestoFlow reverse />
@@ -50,7 +48,7 @@ export default function Home() {
             </section>
           </div>
         </div>
-      </main >
+      </main>
     </>
   );
 }

@@ -4,7 +4,7 @@ import "./globals.css";
 import SmoothScroll from "@/components/smooth-scroll";
 import { ThemeProvider } from "@/components/theme-provider";
 import { LanguageProvider } from "@/context/language-context";
-import { Preloader } from "@/components/preloader";
+import { IntroSequence } from "@/components/intro-sequence";
 import { CustomCursor } from "@/components/custom-cursor";
 import Navbar from "@/components/navbar";
 import { APP_CONFIG } from "@/lib/constants";
@@ -17,6 +17,8 @@ export const metadata: Metadata = {
   description: APP_CONFIG.DESC,
 };
 
+import { IntroProvider } from "@/context/intro-context";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -26,14 +28,16 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${syne.variable} font-sans bg-background text-foreground antialiased`}>
         <LanguageProvider>
-          <ThemeProvider>
-            <CustomCursor />
-            <Preloader />
-            <SmoothScroll>
-              <Navbar />
-              {children}
-            </SmoothScroll>
-          </ThemeProvider>
+          <IntroProvider>
+            <ThemeProvider>
+              <CustomCursor />
+              <IntroSequence />
+              <SmoothScroll>
+                <Navbar />
+                {children}
+              </SmoothScroll>
+            </ThemeProvider>
+          </IntroProvider>
         </LanguageProvider>
       </body>
     </html>

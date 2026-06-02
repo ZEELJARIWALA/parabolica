@@ -230,7 +230,7 @@
 
   /* Custom Logo Styling */
   .logo-branding {
-    @apply transition-all duration-700 relative cursor-pointer h-10 sm:h-16 w-auto object-contain;
+    @apply transition-all duration-700 relative cursor-pointer h-12 sm:h-24 w-auto object-contain;
     filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0));
   }
 

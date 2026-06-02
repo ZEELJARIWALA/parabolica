@@ -47,13 +47,13 @@ function CarSlide({ pair, i, progress }: { pair: typeof PAIRS[0], i: number, pro
   return (
     <motion.div
       style={{ opacity, scale, x }}
-      className="absolute inset-0 flex items-center justify-center p-12 lg:p-24"
+      className="absolute inset-0 flex items-center justify-center p-4 sm:p-8 lg:p-24"
     >
       <div className="relative w-full h-full max-w-[1400px]">
         <motion.img
           src={`${pair.bgCar}?v=3`}
           alt="F1 Car"
-          className="w-full h-full object-contain px-12 lg:px-24"
+          className="w-full h-full object-contain px-4 sm:px-12 lg:px-24"
         />
       </div>
     </motion.div>
@@ -77,7 +77,7 @@ function HeroSlide({ pair, i, progress }: { pair: typeof PAIRS[0], i: number, pr
   return (
     <motion.div
       style={{ opacity, x, scale, transformStyle: "preserve-3d" }}
-      className="absolute w-[300px] h-[400px] sm:w-[500px] sm:h-[650px] lg:w-[600px] lg:h-[800px] md:mr-[-10%]"
+      className="absolute w-[200px] h-[280px] xs:w-[260px] xs:h-[340px] sm:w-[400px] sm:h-[520px] md:w-[500px] md:h-[650px] lg:w-[600px] lg:h-[800px] md:mr-[-10%]"
     >
       <div 
          className="relative w-full h-full"
@@ -98,12 +98,12 @@ function HeroSlide({ pair, i, progress }: { pair: typeof PAIRS[0], i: number, pr
         <motion.div 
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
-            className="absolute left-[-100%] top-1/2 -translate-y-1/2 w-[200%] pointer-events-none mix-blend-difference"
+            className="absolute left-[-80%] sm:left-[-100%] top-1/2 -translate-y-1/2 w-[220%] sm:w-[200%] pointer-events-none mix-blend-difference"
         >
-            <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[140px] font-black tracking-tighter leading-[0.85] text-white uppercase text-left">
+            <h1 className="text-4xl xs:text-5xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[140px] font-black tracking-tighter leading-[0.85] text-white uppercase text-left">
                 PARA<br />BOLICA
             </h1>
-            <p className="mt-8 text-sm sm:text-lg text-white/60 font-light max-w-md uppercase tracking-widest leading-relaxed">
+            <p className="mt-4 sm:mt-8 text-xs sm:text-lg text-white/60 font-light max-w-xs sm:max-w-md uppercase tracking-widest leading-relaxed">
                 Experience the next generation of F1 simulation and virtual reality.
             </p>
         </motion.div>

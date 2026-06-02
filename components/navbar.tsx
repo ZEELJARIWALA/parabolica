@@ -51,12 +51,12 @@ export default function Navbar() {
   });
 
   const navLinks = [
-    { name: content.nav.home, href: "#home" },
-    { name: content.nav.about, href: "#about" },
-    { name: content.nav.projects, href: "#projects" },
-    { name: content.nav.stack, href: "#stack" },
-    { name: content.nav.roadmap, href: "#roadmap" },
-    { name: content.nav.contact, href: "#contact" },
+    { name: content.nav.home, href: "/" },
+    { name: content.nav.about, href: "/#about" },
+    { name: content.nav.projects, href: "/#projects" },
+    { name: content.nav.stack, href: "/#stack" },
+    { name: content.nav.roadmap, href: "/#roadmap" },
+    { name: content.nav.contact, href: "/#contact" },
   ];
 
   useEffect(() => {
@@ -89,21 +89,26 @@ export default function Navbar() {
   }, [isMenuOpen, lenis]);
 
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    e.preventDefault();
-    const targetId = href.replace("#", "");
-    const elem = document.getElementById(targetId);
+    const isHomePage = typeof window !== "undefined" && window.location.pathname === "/";
+    const isHomeLink = href === "/" || href === "/#home" || href === "#home";
 
-    if (elem || targetId === "home") {
+    // If we are on the home page and clicking a home link OR an internal anchor
+    if (isHomePage && (isHomeLink || href.includes("#"))) {
+      e.preventDefault();
+      const targetId = href.includes("#") ? href.split("#")[1] : "home";
+      const elem = targetId === "home" ? null : document.getElementById(targetId);
+
       setIsMenuOpen(false);
 
-      setTimeout(() => {
-        if (lenis) {
-          lenis.scrollTo(targetId === "home" ? 0 : elem!, {
-            offset: targetId === "home" ? 0 : -80,
-            duration: 1.5,
-          });
-        }
-      }, 100);
+      if (lenis) {
+        lenis.scrollTo(targetId === "home" ? 0 : (elem || 0), {
+          offset: targetId === "home" ? 0 : -80,
+          duration: 1.5,
+        });
+      }
+    } else {
+      // Allow default Link behavior for cross-page navigation
+      setIsMenuOpen(false);
     }
   };
 
@@ -129,12 +134,12 @@ export default function Navbar() {
           className="mx-auto px-container flex items-center justify-between w-full"
         >
           <Link
-            href="#home"
-            onClick={(e) => scrollToSection(e, "#home")}
+            href="/"
+            onClick={(e) => scrollToSection(e, "/")}
             className="relative z-[110] flex items-center gap-2 group"
           >
             <img
-              src="/logo1.png?v=2"
+              src="/logo_final.png?v=2"
               alt="Parabolica"
               className="logo-branding"
             />
