@@ -59,10 +59,14 @@ export default function DeckExplorer() {
 
       <motion.div layout className="flex-1 w-full relative flex flex-col lg:flex-row border-t border-white/10">
         {DECKS.map((deck) => (
-          <Link
+          <div
             key={deck.id}
-            href={`/${deck.id}`}
-            className="flex-1 border-b lg:border-b-0 lg:border-l border-white/10 relative group overflow-hidden h-[40vh] lg:h-auto"
+            onClick={(e) => {
+                // If the user clicked the Inquiry button (or anything inside it), don't trigger the card link
+                if ((e.target as HTMLElement).closest('a')) return;
+                window.location.href = `/${deck.id}`;
+            }}
+            className="flex-1 border-b lg:border-b-0 lg:border-l border-white/10 relative group overflow-hidden h-[40vh] lg:h-auto cursor-pointer"
           >
             <motion.div
               layout
@@ -87,9 +91,21 @@ export default function DeckExplorer() {
               </div>
               
               <div className="hidden lg:block">
-                 <p className="opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-700 max-w-xs text-sm font-light leading-relaxed text-white/60">
+                 <p className="opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-700 max-w-xs text-sm font-light leading-relaxed text-white/60 mb-6">
                     {deck.description}
                  </p>
+                 <motion.div 
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className="opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-700 delay-100"
+                 >
+                    <Link 
+                        href={`/booking?event=true&type=${deck.id}`}
+                        className="inline-flex items-center gap-4 bg-white text-black px-6 py-3 font-black italic text-xs uppercase tracking-widest hover:bg-[#00ffd2] transition-colors"
+                    >
+                        Request Inquiry
+                    </Link>
+                 </motion.div>
               </div>
 
               <div className="flex items-center gap-4 mt-6 lg:mt-0">
@@ -103,7 +119,7 @@ export default function DeckExplorer() {
                 className="absolute bottom-0 left-0 w-full h-1 scale-x-0 group-hover:scale-x-100 transition-transform duration-700 origin-left"
                 style={{ backgroundColor: deck.accent }}
             />
-          </Link>
+          </div>
         ))}
       </motion.div>
     </section>

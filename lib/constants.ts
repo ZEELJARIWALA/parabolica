@@ -1,7 +1,7 @@
 export const APP_CONFIG = {
-    NAME: "Kintarowwwards",
-    DESC: "Creative Developer Portfolio",
-    PREFIX: "kintarowwwards_v1_",
+    NAME: "Parabolica",
+    DESC: "Next-Gen Gaming Experiences",
+    PREFIX: "parabolica_v1_",
 } as const;
 
 export const STORAGE_KEYS = {

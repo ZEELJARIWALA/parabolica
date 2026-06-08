@@ -1,0 +1,76 @@
+# Parabolica Frontend Audit & Design System Report
+
+This report summarizes the current visual state of the Parabolica Booking Terminal and Landing Page architecture. It groups existing patterns into 5 discrete "Design Sets" to guide all future development and ensure consistent spacing, typography, and responsiveness.
+
+---
+
+## 1. Global Visual Sets
+
+We have identified 5 recurring design patterns that define the Parabolica "Human Building" / Brutalist aesthetic.
+
+### Set 1: Cinematic Titan Headings
+*   **Usage**: Hero sections, Chapter starts, Confirmation screens.
+*   **Desktop Size**: `text-7xl` to `text-9xl` (often custom `text-[12rem]` for impact).
+*   **Mobile Size**: `text-5xl` to `text-6xl`.
+*   **Attributes**: `font-black`, `italic`, `tracking-tighter`, `uppercase`, `leading-[0.8]`.
+*   **Key Files**: [landing-hero.tsx](file:///c:/Users/ZEEL/parabolica/ParabolicaWeb/components/sections/landing-hero.tsx), [booking/page.tsx](file:///c:/Users/ZEEL/parabolica/ParabolicaWeb/app/booking/page.tsx), `[deck]/page.tsx`.
+
+### Set 2: Technical Serial Data (Mono)
+*   **Usage**: Section counters, step indicators, technical metadata, labels.
+*   **Desktop Size**: `text-[10px]` to `text-xs`.
+*   **Attributes**: `font-mono`, `tracking-[0.5em]` to `tracking-[1em]`, `uppercase`, `text-white/40` or `#00ffd2`.
+*   **Key Files**: [navbar.tsx](file:///c:/Users/ZEEL/parabolica/ParabolicaWeb/components/navbar.tsx), [booking/page.tsx](file:///c:/Users/ZEEL/parabolica/ParabolicaWeb/app/booking/page.tsx), [intro-sequence.tsx](file:///c:/Users/ZEEL/parabolica/ParabolicaWeb/components/intro-sequence.tsx).
+
+### Set 3: Brutalist Module Cards
+*   **Usage**: Selection grids, Configuration modules, Hardware displays.
+*   **Structure**: `border border-white/10`, `bg-white/[0.02]`, `backdrop-blur-md`.
+*   **Interaction**: `hover:border-[#00ffd2]`, `group-hover:translate-x-2`.
+*   **Padding**: `p-8` (Mobile) to `p-24` (Desktop Hubs).
+*   **Key Files**: [PrecisionCard](file:///c:/Users/ZEEL/parabolica/ParabolicaWeb/app/booking/page.tsx#407-416) (booking), [DeckExplorer](file:///c:/Users/ZEEL/parabolica/ParabolicaWeb/components/sections/deck-explorer.tsx#44-128) (home).
+
+### Set 4: The Manifest (Body Text)
+*   **Usage**: Descriptions, reviews, secondary info.
+*   **Properties**: `text-sm` or `text-lg`, `font-light` to `font-bold`, `leading-relaxed`, `text-white/40`.
+*   **Typography**: Mixes standard sans with monospace for "serial data" feel.
+
+### Set 5: Mission Actions (Buttons)
+*   **Type A (The Round Pulse)**: `rounded-full`, `bg-white`, `text-black`, `font-black italic`. Best for "Return to Reality" or "General CTA".
+*   **Type B (The Brutalist Trigger)**: `border-2`, `bg-[#00ffd2]`, `text-black`, `font-black italic`, `tracking-widest`. Best for "Initialize Config" or "Finalize Mission".
+
+---
+
+## 2. Spacing & Container Policy
+
+*   **Page Gutter**: Standardized variable `--container-spacing` in [globals.css](file:///c:/Users/ZEEL/parabolica/ParabolicaWeb/app/globals.css) (scales from `1rem` to `5rem` based on breakpoint).
+*   **Section Verticality**: `py-24` to `py-48`.
+*   **Card Internal Gap**: `space-y-12` (Large titles) or `space-y-4` (Meta details).
+
+---
+
+## 3. Route-Specific Audit Notes
+
+| Route | Spacing Status | Typography Alignment | Responsiveness |
+| :--- | :--- | :--- | :--- |
+| **`/` (Home)** | Balanced via [PhotoScroll](file:///c:/Users/ZEEL/parabolica/ParabolicaWeb/components/sections/photo-scroll.tsx#18-177) verticality. | Aligns with Set 1 & 2. | **PASS**: Good use of `md:` prefixes. |
+| **`/booking`** | High density (Technical). | Aligns with Set 3 & 5. | **PASS**: Cards stack to 1-col on mobile. |
+| **`/[deck]`** | Cinematic (Open). | Aligns with Set 1 & Footer Set. | **PASS**: Floating images scale well. |
+| **`/vr /f1`** | Sectional Hardware. | Uses older [globals.css](file:///c:/Users/ZEEL/parabolica/ParabolicaWeb/app/globals.css) `.title`. | **ACTION**: Consider overriding `.title` to `font-black italic`. |
+
+---
+
+## 4. Observations & Inconsistencies
+
+1.  **Title Weights**: Some older sections use `font-bold`, while the new Booking Terminal uses `font-black`. To maintain the "Premium" feel, I recommend moving all major headings to `font-black italic`.
+2.  **Border Radius**: The site uses a mix of `rounded-full` (for landing buttons) and `rounded-none`/Sharp (for booking buttons). My report suggests keeping **Round for Home** and **Sharp for Terminal** to differentiate "Leisure" from "Operation".
+3.  **Color Saturation**: `#00ffd2` is the heartbeat of the site. Ensure it is used sparingly as an accent to avoid visual fatigue.
+
+---
+
+## 5. Responsiveness Maturity
+
+The site is currently **L90 Responsive**.
+*   **The Grid System**: All 4-column layouts correctly collapse to 2-column or 1-column on mobile.
+*   **Navigation**: The mobile menu in [navbar.tsx](file:///c:/Users/ZEEL/parabolica/ParabolicaWeb/components/navbar.tsx) is robust.
+*   **Interaction**: Touch-hover states have been mitigated to prevent "stuck" hover effects.
+
+**Recommendation**: No major code changes needed. Stick to the **Set 5** Sharp Button style for all future technical modules.

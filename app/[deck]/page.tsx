@@ -114,25 +114,61 @@ export default function DeckPage({ params }: { params: Promise<{ deck: string }>
           </div>
       </section>
 
-      {/* 3. Footer with Home Button */}
-      <section className="py-32 flex flex-col items-center justify-center bg-black border-t border-white/5">
-          <BlurReveal>
-              <h2 className="text-4xl md:text-6xl font-black italic uppercase tracking-tighter mb-12 text-center px-6">
-                Ready to Experience <span className="text-primary">Parabolica</span>?
-              </h2>
-          </BlurReveal>
-          
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-              <Link 
-                href="/#events"
-                className="px-12 py-5 rounded-full border border-white/20 bg-white/5 backdrop-blur-xl group relative overflow-hidden transition-all hover:bg-white hover:text-black block"
-              >
-                <span className="relative z-10 font-mono text-sm tracking-[0.3em] uppercase transition-colors">Return to Home</span>
-              </Link>
-          </motion.div>
+      {/* 3. Footer / Call to Action */}
+      <section className="py-32 flex flex-col items-center justify-center bg-black border-t border-white/5 relative overflow-hidden">
+          {/* Subtle Background Text */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[15vw] font-black italic opacity-5 select-none pointer-events-none uppercase">
+              Parabolica!
+          </div>
+
+          <div className="container mx-auto px-container relative z-10 text-center">
+            <BlurReveal>
+                <h2 className="text-5xl md:text-8xl font-black italic uppercase tracking-tighter mb-16 px-6 leading-[0.85]">
+                  Ready to Experience <br />
+                  <span className="text-primary italic drop-shadow-[0_0_15px_rgba(0,255,210,0.4)]">Parabolica?</span>
+                </h2>
+            </BlurReveal>
+            
+            <div className="flex flex-col md:flex-row items-center justify-center gap-8 mb-20">
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                    <Link 
+                        href={`/booking?event=true&type=${deck}`}
+                        className="px-12 py-6 border-2 border-[#00ffd2] bg-[#00ffd2] text-black font-black italic text-xl uppercase tracking-widest hover:bg-white hover:border-white transition-all shadow-[0_0_30px_rgba(0,255,210,0.3)] block"
+                    >
+                        Request Inquiry
+                    </Link>
+                </motion.div>
+
+                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                    <Link 
+                        href="https://wa.me/919702437855"
+                        target="_blank"
+                        className="px-12 py-6 border-2 border-white/20 bg-white/5 backdrop-blur-xl group relative overflow-hidden transition-all hover:bg-white hover:text-black block font-black italic text-xl uppercase tracking-widest"
+                    >
+                        Contact Us
+                    </Link>
+                </motion.div>
+            </div>
+
+            <BlurReveal>
+                <div className="space-y-6 text-white/40 font-mono text-sm tracking-[0.2em] uppercase">
+                    <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-10">
+                        <span className="hover:text-white transition-colors">+91 97024 37855</span>
+                        <span className="hidden md:block text-white/10">/</span>
+                        <span className="hover:text-white transition-colors">+91 99872 07826</span>
+                    </div>
+                    <div className="hover:text-white transition-colors">
+                        @parabolica.mumbai@gmail.com
+                    </div>
+                </div>
+            </BlurReveal>
+
+            <div className="mt-20">
+                <Link href="/#events" className="text-[10px] font-mono tracking-[0.5em] text-white/20 hover:text-primary transition-colors uppercase">
+                  [ Return to Reality ]
+                </Link>
+            </div>
+          </div>
       </section>
 
       <Footer />

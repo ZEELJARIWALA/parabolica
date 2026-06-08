@@ -52,11 +52,6 @@ export default function Booking() {
         </div>
       </div>
 
-      {/* Decorative Grid Lines */}
-      <div className="absolute inset-0 z-0 opacity-10 pointer-events-none">
-          <div className="absolute top-0 left-1/4 w-px h-full bg-linear-to-b from-transparent via-white to-transparent" />
-          <div className="absolute top-0 right-1/4 w-px h-full bg-linear-to-b from-transparent via-white to-transparent" />
-      </div>
     </section>
   );
 }

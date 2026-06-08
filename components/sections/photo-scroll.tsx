@@ -3,6 +3,7 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
 import { ProjectModal } from "@/components/project-modal";
 
@@ -132,17 +133,36 @@ export default function PhotoScroll() {
           ))}
         </motion.div>
 
-        {/* Navigation Prompt */}
+        {/* Navigation Prompt & Booking CTA */}
         <div className="absolute bottom-12 md:bottom-20 right-0 w-full z-20 text-center md:text-right pointer-events-none px-[10vw]">
-             <motion.p 
+             <motion.div 
                 style={{ 
-                    opacity: useTransform(scrollYProgress, [0.4, 0.5, 0.8, 0.9], [0, 1, 1, 0]),
-                    color: textColor
+                    opacity: useTransform(scrollYProgress, [0.4, 0.5, 1.0], [0, 1, 1]),
+                    pointerEvents: "auto"
                 }}
-                className="font-mono text-[10px] md:text-xs tracking-[0.3em] uppercase"
+                className="flex flex-col items-center md:items-end gap-6"
               >
-                  [ SCROLL TO DISCOVER ]
-              </motion.p>
+                  <motion.p 
+                    style={{ color: textColor }}
+                    className="font-mono text-[10px] md:text-xs tracking-[0.3em] uppercase"
+                  >
+                      [ SCROLL TO DISCOVER ]
+                  </motion.p>
+                  
+                  {/* Climax Button */}
+                  <motion.div
+                    style={{
+                        opacity: useTransform(scrollYProgress, [0.8, 0.9], [0, 1])
+                    }}
+                  >
+                    <Link 
+                        href="/booking" 
+                        className="pointer-events-auto bg-[#00ffd2] text-black px-10 py-4 font-black italic text-xl uppercase tracking-tighter hover:bg-white transition-all shadow-[0_0_20px_rgba(0,255,210,0.3)]"
+                    >
+                        START MISSION
+                    </Link>
+                  </motion.div>
+              </motion.div>
         </div>
       </div>
       

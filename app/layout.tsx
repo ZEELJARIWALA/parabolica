@@ -8,6 +8,7 @@ import { IntroSequence } from "@/components/intro-sequence";
 import { CustomCursor } from "@/components/custom-cursor";
 import Navbar from "@/components/navbar";
 import { APP_CONFIG } from "@/lib/constants";
+import { IntroProvider } from "@/context/intro-context";
 
 const syne = Syne({ subsets: ["latin"], variable: "--font-syne" });
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -15,9 +16,10 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 export const metadata: Metadata = {
   title: APP_CONFIG.NAME,
   description: APP_CONFIG.DESC,
+  icons: {
+    icon: "/logo_final.png",
+  },
 };
-
-import { IntroProvider } from "@/context/intro-context";
 
 export default function RootLayout({
   children,
