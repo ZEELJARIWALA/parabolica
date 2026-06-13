@@ -1,301 +1,165 @@
 {
     "nav": {
-        "home": "Ana Sayfa",
-        "about": "Hakkımda",
-        "stack": "Teknolojiler",
-        "projects": "Projeler",
-        "roadmap": "Yol Haritası",
-        "contact": "İletişim"
+        "home": "ANASAYFA",
+        "about": "HAKKIMIZDA",
+        "projects": "DENEYİMLER",
+        "events": "ETKİNLİKLER",
+        "booking": "REZERVASYON",
+        "contact": "İLETİŞİM"
     },
     "hero": {
-        "title": "Kurucuların <span class='highlight-text-primary'>fikirlerini</span> sorunsuz dijital deneyimlere dönüştürmelerine <span class='highlight-text-primary'>yardım ediyorum</span>",
-        "cta_primary": "İletişim",
-        "cta_secondary": "Projeler",
-        "stats": "<span class='highlight-text-tertiary'>Startup</span> Uyumlu Çözümler",
-        "scroll": "Aşağı Kaydır"
-    },
-    "about": {
-        "title": "Hakkımda",
-        "intro": "<span class='highlight-text-primary'>Kendi projeleriyle gelişen</span> ve fikirleri <span class='highlight-text-secondary'>ürüne dönüştüren</span> bir geliştirici.",
-        "description": "<span class='highlight-text-primary'>Web geliştirme odağında</span>; frontend ve backend tarafında üretim yapan, yeni teknolojileri <span class='highlight-text-secondary'>deneyerek öğrenen</span> ve kodun <span class='highlight-text-tertiary'>sürdürülebilir olmasına</span> önem veren bir yaklaşım.",
-        "full": "Yazılımla son birkaç yıldır aktif olarak ilgileniyorum ve bu süreçte çoğunlukla kendi projelerim üzerinden ilerleyerek kendimi geliştirdim. Bir fikri alıp çalışır bir ürüne dönüştürme süreci benim en çok keyif aldığım kısım.<br/><br/>Genel olarak web geliştirme tarafında çalışıyorum. React, Next.js, Node.js, Express ve Laravel gibi teknolojilerle hem frontend hem backend tarafında projeler geliştirdim. MongoDB ve PostgreSQL ile veri yönetimi üzerine deneyim kazandım. Ayrıca C# ve WinForms ile masaüstü uygulamaları geliştirdim, son dönemde ise Tauri (Rust) ile daha hafif ve modern desktop uygulamalar denemeye başladım.<br/><br/>Bunların yanında zaman zaman ihtiyaca göre farklı araçlarla da çalışıyorum. Örneğin FFmpeg kullanarak medya işleme tarafında projeler yaptım. Yeni teknolojileri denemeyi seviyorum ve genelde bir şeyi en iyi öğrenme yolunun doğrudan kullanmak olduğunu düşünüyorum.<br/><br/>Projelerimde sadece “çalışması” yeterli gelmiyor; mümkün olduğunca temiz, anlaşılır ve sürdürülebilir olmasına dikkat ediyorum. Bir problemle karşılaştığımda hızlıca geçmek yerine biraz kurcalayıp mantığını çözmeye çalışıyorum.<br/><br/>Şu an hedefim, daha büyük ve gerçek dünya problemlerine dokunan projelerde yer almak ve kendimi özellikle backend ve sistem tasarımı tarafında daha da geliştirmek.",
-        "cta": "Tamamını Oku"
+        "greeting": "PARABOLICA",
+        "title": "Hoş Geldiniz",
+        "name": "Parabolica",
+        "description": "Mimari, mühendislik ve yapay zeka ile dijital sınırı yeniden tanımlıyoruz.",
+        "scroll": "KEŞFETMEK İÇİN KAYDIRIN"
     },
     "manifesto": {
         "items": [
-            "RADICAL TRANSPARENCY",
-            "INTENTIONAL MINIMALISM",
-            "ARCHITECTURAL INTEGRITY",
-            "FIRST PRINCIPLES THINKING",
-            "PERFORMANCE WITHOUT COMPROMISE",
-            "SCALABLE VISION"
+            "VR EĞİTİMİ",
+            "F1 SİMÜLASYONU",
+            "FPV DRONE",
+            "PARABOLICA",
+            "MAKSİMUM HIZ",
+            "GERÇEKLİĞİN ÖTESİNDE",
+            "HASSAS MÜHENDİSLİK"
         ]
     },
+    "about": {
+        "title": "Hakkımızda",
+        "intro_heading": "YENİDEN TANIMLIYORUZ",
+        "intro_sub": "DİJİTAL SINIR",
+        "description_part1": "<span class='important-word color-1'>Parabolica</span>'da sadece deneyimler inşa etmiyoruz; <span class='important-word color-2'>alternatif gerçeklikler</span> tasarlıyoruz. Felsefemiz, <span class='important-word color-3'>hassas mühendislik</span> ve sınırsız hayal gücünün birleşimidir.",
+        "description_part2": "İster <span class='important-word color-4'>F1 Yarışı</span>'nın yüksek oktanlı heyecanı, ister <span class='important-word color-5'>VR Arena</span>'nın sınırsız ufukları, ister <span class='important-word color-1'>FPV Drone</span>'ların taktiksel ustalığı olsun, geleceği bugünden sunuyoruz.",
+        "philosophy": "Misyonumuz, her tıklamanın bir yolculuk ve her yolculuğun bir evrim olduğu benzersiz bir destinasyon yaratmaktır.",
+        "stack_title": "TEKNOLOJİ",
+        "stats": {
+            "projects": "KÜRESEL BÖLGELER",
+            "experience": "YILLIK DENEYİM",
+            "clients": "AKTİF PİLOTLAR"
+        }
+    },
     "stack": {
-        "title": "Teknolojiler",
+        "title": "TEKNOLOJİ YIĞINI",
+        "description": "Teknolojik omurgamız - boşluğu güçlendiren modern araçların ve çerçevelerin bir senfonisi.",
+        "expert": "UZMAN",
+        "learning": "ÖĞRENİYOR",
+        "experience": "DENEYİM",
+        "years": "YIL",
         "items": [
             {
-                "title": "Frontend",
+                "title": "HAREKET & VR",
                 "items": [
-                    {
-                        "name": "React",
-                        "icon": "https://cdn.simpleicons.org/react"
-                    },
-                    {
-                        "name": "Next.js",
-                        "icon": "https://cdn.simpleicons.org/nextdotjs"
-                    },
-                    {
-                        "name": "Tailwind CSS",
-                        "icon": "https://cdn.simpleicons.org/tailwindcss"
-                    },
-                    {
-                        "name": "Bootstrap",
-                        "icon": "https://cdn.simpleicons.org/bootstrap"
-                    },
-                    {
-                        "name": "Framer Motion",
-                        "icon": "https://cdn.simpleicons.org/framer"
-                    },
-                    {
-                        "name": "TypeScript",
-                        "icon": "https://cdn.simpleicons.org/typescript"
-                    },
-                    {
-                        "name": "JavaScript",
-                        "icon": "https://cdn.simpleicons.org/javascript"
-                    },
-                    {
-                        "name": "HTML5",
-                        "icon": "https://cdn.simpleicons.org/html5"
-                    },
-                    {
-                        "name": "CSS3",
-                        "icon": "https://www.svgrepo.com/show/452185/css-3.svg"
-                    }
+                    { "name": "Hareket Motorları", "level": "Uzman" },
+                    { "name": "Haptik Sistemler", "level": "Usta" },
+                    { "name": "3D Takip", "level": "Uzman" }
                 ]
             },
             {
-                "title": "Backend",
+                "title": "MÜHENDİSLİK",
                 "items": [
-                    {
-                        "name": "Node.js",
-                        "icon": "https://cdn.simpleicons.org/nodedotjs"
-                    },
-                    {
-                        "name": "PHP",
-                        "icon": "https://cdn.simpleicons.org/php"
-                    },
-                    {
-                        "name": "Laravel",
-                        "icon": "https://cdn.simpleicons.org/laravel"
-                    },
-                    {
-                        "name": "ASP.NET",
-                        "icon": "https://cdn.simpleicons.org/dotnet"
-                    },
-                    {
-                        "name": "Rust",
-                        "icon": "https://cdn.simpleicons.org/rust"
-                    },
-                    {
-                        "name": "C#",
-                        "icon": "https://www.svgrepo.com/show/452184/csharp.svg"
-                    },
-                    {
-                        "name": "Python",
-                        "icon": "https://cdn.simpleicons.org/python"
-                    },
-                    {
-                        "name": "Discord.js",
-                        "icon": "https://cdn.simpleicons.org/discord"
-                    }
-                ]
-            },
-            {
-                "title": "Databases & ORMs",
-                "items": [
-                    {
-                        "name": "PostgreSQL",
-                        "icon": "https://cdn.simpleicons.org/postgresql"
-                    },
-                    {
-                        "name": "MySQL",
-                        "icon": "https://cdn.simpleicons.org/mysql"
-                    },
-                    {
-                        "name": "MongoDB",
-                        "icon": "https://cdn.simpleicons.org/mongodb"
-                    },
-                    {
-                        "name": "Prisma",
-                        "icon": "https://cdn.simpleicons.org/prisma"
-                    },
-                    {
-                        "name": "Neon",
-                        "icon": "https://cdn.jsdelivr.net/gh/homarr-labs/dashboard-icons/png/neon-tech.png"
-                    }
-                ]
-            },
-            {
-                "title": "Tools & Infrastructure",
-                "items": [
-                    {
-                        "name": "Git",
-                        "icon": "https://cdn.simpleicons.org/git"
-                    },
-                    {
-                        "name": "Vercel",
-                        "icon": "https://cdn.simpleicons.org/vercel"
-                    },
-                    {
-                        "name": "Tauri",
-                        "icon": "https://cdn.simpleicons.org/tauri"
-                    }
+                    { "name": "Simülasyon Fiziği", "level": "İleri Düzey" },
+                    { "name": "Gecikme Kontrolü", "level": "Usta" },
+                    { "name": "Mekansal Ses", "level": "İleri Düzey" }
                 ]
             }
         ]
     },
     "projects": {
-        "title": "PROJELER",
-        "intro": "<span class='highlight-text-primary'>deneyler</span>, <span class='highlight-text-primary'>ürünler</span> ve <span class='highlight-text-primary'>dijital eserlerden</span> oluşan, <span class='highlight-text-secondary'>boşlukta</span> şekillendirilmiş bir koleksiyon.",
-        "scroll_text": "KEŞFETMEK İÇİN KAYDIR",
+        "title": "DENEYİMLER",
+        "intro": "<span class='highlight-text-primary'>Sürükleyici bölgelerimize</span> adım atın. Yeni nesil yerel eğlenceyi keşfetmek için tıklayın.",
+        "scroll_text": "KEŞFETMEK İÇİN KAYDIRIN",
         "end_text": "SON",
         "items": [
             {
-                "id": "1",
-                "title": "Aether Media",
-                "category": "Medya Aracı",
-                "year": "2026",
-                "description": "Aether Media, Tauri ile geliştirilmiş güçlü bir masaüstü medya dönüştürücüsüdür. Toplu işlem desteğiyle video, görsel ve ses format dönüşümlerini destekler.",
-                "image": "/20260427093247885.jpg",
-                "repo": "https://github.com/xkintaro/aether-media",
-                "stack": [
-                    "FFmpeg",
-                    "Rust",
-                    "Tauri",
-                    "React",
-                    "TailwindCSS"
-                ]
+                "id": "f1",
+                "title": "F1 YARIŞI",
+                "category": "HAREKET SİMÜLASYONU",
+                "year": "Aktif",
+                "description": "Profesyonel düzeyde hareket simülatörlerini ve ultra gerçekçi F1 yarış fiziğini deneyimleyin. Dünya klasmanında liglerde yarışın.",
+                "image": "/assets/projects/f1.jpg"
             },
             {
-                "id": "2",
-                "title": "Aether JS",
-                "category": "Kütüphane",
-                "year": "2026",
-                "description": "AetherJS, modern web uygulamaları için geliştirilmiş, DOM manipülasyonunu en aza indiren utility-first bir JavaScript kontrolcüsüdür. Karmaşık state yönetimine veda edin.",
-                "image": "/20260427093247620.jpg",
-                "demo": "https://xkintaro.github.io/aether-js-documentation/en.html",
-                "repo": "https://github.com/xkintaro/aether-js",
-                "stack": [
-                    "JavaScript"
-                ]
+                "id": "vr",
+                "title": "VR ARENA",
+                "category": "SÜRÜKLEYİCİ GERÇEKLİK",
+                "year": "Aktif",
+                "description": "Arenaya girin. Haptik geri bildirim ve rekabetçi ekip tabanlı savaş modülleri ile 360 derece serbest dolaşım VR.",
+                "image": "/assets/projects/vr.jpg"
             },
             {
-                "id": "3",
-                "title": "File Manager",
-                "category": "Web Uygulaması",
-                "year": "2025",
-                "description": "Kintaro File Manager, cyberpunk esintili arayüze sahip, self-hosted bir dosya yönetim uygulamasıdır. SQLite destekli modern ve şık bir web arayüzü üzerinden her tür dosyayı yüklemenize, düzenlemenize, etiketlemenize ve filtrelemenize olanak tanır — harici bir veritabanı gerekmez.",
-                "image": "/20260305210513749.jpg",
-                "repo": "https://github.com/xkintaro/file-manager",
-                "stack": [
-                    "React",
-                    "TailwindCSS",
-                    "Node.js",
-                    "SQLite"
-                ]
+                "id": "fpv",
+                "title": "FPV DRONE",
+                "category": "HAVA PİLOTLUĞU",
+                "year": "Eğitim",
+                "description": "Özel eğitim tesisimizde FPV uçuş sanatında ustalaşın. Kapalı alan kursları ve profesyonel pilot sertifikasyonu.",
+                "image": "/assets/projects/fpv.jpg"
+            },
+            {
+                "id": "others",
+                "title": "DİĞER OYUNLAR",
+                "category": "ÖZEL KOLEKSİYON",
+                "year": "Devam Ediyor",
+                "description": "En meraklılar için özenle seçilmiş, yüksek teknolojili ve retro oyunlardan oluşan çeşitli bir koleksiyon.",
+                "image": "/assets/projects/others.jpg"
             }
         ]
     },
-    "roadmap": {
-        "title": "Yol Haritası",
-        "description": "Yazılım yolculuğum boyunca edindiğim tecrübeleri ve öğrendiğim teknolojileri paylaştığım bir yol haritası.",
+    "events": {
+        "title": "KUTLAMALAR",
+        "description": "Özel anlarınız için nihai varış noktası. Yüksek oktanlı kurumsal etkinliklerden unutulmaz doğum günlerine kadar - hepsine ev sahipliği yapıyoruz.",
         "items": [
             {
-                "id": "01",
-                "year": "2022",
-                "description": "Yazılıma ilk defa lisede başladım. Nesne tabanlı programlama dersinde, C# kullanarak programlamanın temellerini ve mantığını öğrendim.",
-                "tags": [
-                    "C#"
-                ]
+                "id": "e1",
+                "title": "DOĞUM GÜNÜ PARTİLERİ",
+                "tagline": "Özel Gününüzü Seviyelendirin",
+                "description": "Sürükleyici VR meydan okumaları, F1 yarış turnuvaları ve size özel bir parti bölgesi ile doğum gününüzü efsanevi hale getirin.",
+                "image": "/POSTERS/1.png"
             },
             {
-                "id": "02",
-                "year": "2023",
-                "description": "HTML, CSS ve ASP.NET öğrenerek statik ve dinamik web siteleri yapmaya başladım. Ayrıca projelerimde veritabanı kullanmayı da öğrendim.",
-                "tags": [
-                    "HTML",
-                    "CSS",
-                    "ASP.NET",
-                    "MySQL"
-                ]
+                "id": "e2",
+                "title": "KURUMSAL ETKİNLİKLER",
+                "tagline": "İnovasyon & Ekip Çalışması",
+                "description": "Sıkıcı toplantı odalarından kurtulun. İletişimi ve stratejiyi zorlayan FPV drone yarışmaları ve VR kaçış odaları ile ekip ruhunu besleyin.",
+                "image": "/POSTERS/2.png"
             },
             {
-                "id": "03",
-                "year": "2024",
-                "description": "Lisedeki son yılımdı. CSS ile arayüz kodlama konusunda kendimi tamamen geliştirdim ve staj yaptığım yerde ASP.NET yazmaya devam ediyordum.",
-                "tags": [
-                    "HTML",
-                    "CSS",
-                    "ASP.NET",
-                    "MySQL"
-                ]
+                "id": "e3",
+                "title": "KİTTY PARTİLERİ",
+                "tagline": "Modern Eğlence Yeniden Tanımlandı",
+                "description": "Nihai sosyal toplantı. Yüksek teknolojili eğlencenin ardından premium lounge hizmetlerinin ve özelleştirilmiş yemek deneyimlerinin keyfini çıkarın.",
+                "image": "/POSTERS/3.png"
             },
             {
-                "id": "04",
-                "year": "2025",
-                "description": "Lise bittikten sonra React, Node.js, Tailwind CSS ve MongoDB gibi teknolojilere yöneldim. Öğrenme sürecimde birçok web sitesi ve uygulama geliştirdim. Ek olarak, Python ile kendi kullanımım için basit araçlar da yazmaya başladım.",
-                "tags": [
-                    "React",
-                    "Node.js",
-                    "TailwindCSS",
-                    "MongoDB"
-                ]
-            },
-            {
-                "id": "05",
-                "year": "2026",
-                "description": "Şu an PostAjans adında bir yerde staj yapıyorum. Burada Laravel üzerine yoğunlaştım. Ek olarak, boş zamanlarımda Next.js ile web siteleri geliştiriyor; yapay zekânın da yardımıyla, bir dili tamamen bilmesem de Rust, Tauri ve FFmpeg gibi çeşitli teknolojilerle projeler üretiyorum.",
-                "tags": [
-                    "Laravel",
-                    "Next.js",
-                    "PostgreSQL"
-                ]
+                "id": "e4",
+                "title": "EKİP OLUŞTURMA",
+                "tagline": "En Üst Düzey Bağ",
+                "description": "Yüksek performanslı ekipler için tasarlanmış yüksek riskli yarış ligleri ve kooperatif VR görevleri aracılığıyla profesyonel bağlarınızı güçlendirin.",
+                "image": "/POSTERS/5.png"
             }
+        ]
+    },
+    "social": {
+        "items": [
+            { "label": "INSTAGRAM", "href": "#" },
+            { "label": "YOUTUBE", "href": "#" },
+            { "label": "TWITTER", "href": "#" }
         ]
     },
     "contact": {
-        "title": "İletişim",
-        "description": "İster bir projeyi hayata geçirmek için yeni bir başlangıç yapalım, ister mevcut bir sistemi daha ileri taşıyalım.",
-        "email": "mustafw42@gmail.com",
-        "phone": "Henüz eklenmedi.",
-        "send_email": "E-posta Gönder",
-        "direct_line": "Telefon Numarası",
-        "all_rights_reserved": "TÜM HAKLARI SAKLIDIR.",
-        "modal_title": "İletişim Bilgilerim",
-        "modal_description": "Bana bir mesaj gönderin, en kısa sürede size geri dönüş yapayım."
-    },
-    "social": {
-        "title": "SOCIAL",
-        "items": [
-            {
-                "label": "GitHub",
-                "href": "https://github.com/xkintaro"
-            },
-            {
-                "label": "Discord",
-                "href": "https://discord.gg/NSQk27Zdkv"
-            }
-        ]
-    },
-    "others": {
-        "about_project": "Proje Hakkında",
-        "technologies": "Teknolojiler",
-        "live_demo": "Canlı Demo",
-        "source_code": "Kaynak Kodları",
-        "project_details": "Proje Detayları",
-        "select_language": "Dil Seçin",
-        "change_the_site_language": "Sitenin dilini değiştirmek için tıklayın."
+        "title": "İLETİŞİME GEÇİN",
+        "subtitle": "Arenaya girmeye hazır mısınız?",
+        "description": "İster profesyonel bir ortaklık arıyor olun, ister sadece bir oturum rezerve etmek isteyin, ekibimiz hazır bekliyor.",
+        "email": "PILOT@PARABOLICA.COM",
+        "phone": "+91 91040 12012",
+        "location": "VOID TERMINAL 01",
+        "form": {
+            "name": "İSİM",
+            "email": "E-POSTA",
+            "message": "MESAJ",
+            "submit": "İLETİM GÖNDER",
+            "success": "MESAJ ALINDI",
+            "error": "İLETİM BAŞARISIZ"
+        }
     }
 }

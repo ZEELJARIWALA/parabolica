@@ -41,12 +41,7 @@ export default function LanguageSwitcher() {
                     </span>
                     <span className="text-xs tracking-widest uppercase">English</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => handleLanguageChange("tr")} className="rounded-xl cursor-pointer my-0.5 focus:bg-secondary">
-                    <span className={cn("mr-2 flex h-3.5 w-3.5 items-center justify-center")}>
-                        {language === "tr" && <Check className="h-3.5 w-3.5" />}
-                    </span>
-                    <span className="text-xs tracking-widest uppercase">Türkçe</span>
-                </DropdownMenuItem>
+
             </DropdownMenuContent>
         </DropdownMenu>
     );

@@ -22,11 +22,11 @@ interface Booking {
     profiles: {
         full_name: string;
         phone_number: string;
-    } | null;
+    } | null | undefined;
     mission_configs: Array<{
         game_type: string;
         config: any;
-    }>;
+    }> | undefined;
 }
 
 export default function TerminalAdmin({ terminal }: { terminal: "SURAT" | "MUMBAI" }) {
@@ -202,7 +202,7 @@ function SimpleMissionRow({ booking, onUpdateStatus }: { booking: Booking, onUpd
                     <div>
                         <span className="text-[9px] font-mono text-white/30 uppercase tracking-widest block mb-1">Mission Loadout</span>
                         <div className="flex gap-2">
-                            {booking.mission_configs.map((mc, i) => (
+                            {(booking.mission_configs || []).map((mc, i) => (
                                 <span key={i} className="px-3 py-1 bg-white/5 border border-white/10 text-[9px] font-black italic uppercase text-white/60">
                                     {mc.game_type === 'VR_ARENA' ? 'VR' : mc.game_type === 'F1_MOTION' ? 'F1' : 'FPV'}
                                 </span>
@@ -210,7 +210,7 @@ function SimpleMissionRow({ booking, onUpdateStatus }: { booking: Booking, onUpd
                         </div>
                     </div>
 
-                    {booking.mission_configs[0]?.config?.time && (
+                    {booking.mission_configs?.[0]?.config?.time && (
                         <div>
                             <span className="text-[9px] font-mono text-white/30 uppercase tracking-widest block mb-1">Deployment Time</span>
                             <div className="flex items-center gap-2">
@@ -241,7 +241,7 @@ function SimpleMissionRow({ booking, onUpdateStatus }: { booking: Booking, onUpd
                                     <Activity className="w-4 h-4" /> Sequential Mission Protocol
                                 </h4>
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                    {booking.mission_configs.map((mc, i) => (
+                                    {(booking.mission_configs || []).map((mc, i) => (
                                         <div key={i} className="bg-white/[0.03] border-2 border-white/5 p-6 space-y-4">
                                             <div className="flex justify-between items-start">
                                                 <span className="text-2xl font-black italic uppercase text-white">{mc.game_type.replace('_', ' ')}</span>

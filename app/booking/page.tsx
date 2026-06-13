@@ -50,6 +50,21 @@ function generateTimeSlots(dateStr: string) {
 type Step = "AUTH" | "LOCATION" | "EXPERIENCES" | "GAME_CONFIG" | "DETAILS" | "CONFIRM" | "INQUIRY" | "SUCCESS";
 
 export default function BookingPage() {
+    return (
+        <Suspense fallback={
+            <div className="fixed inset-0 z-[100] bg-black flex items-center justify-center">
+                <div className="flex flex-col items-center gap-4">
+                    <div className="w-12 h-[2px] bg-[#00ffd2]" />
+                    <span className="text-[10px] font-mono text-[#00ffd2] tracking-[1em] uppercase animate-pulse">Initializing Hub...</span>
+                </div>
+            </div>
+        }>
+            <BookingContent />
+        </Suspense>
+    );
+}
+
+function BookingContent() {
     const { content } = useLanguage();
     const searchParams = useSearchParams();
     const router = useRouter();
