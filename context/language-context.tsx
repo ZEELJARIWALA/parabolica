@@ -2,7 +2,6 @@
 
 import React, { createContext, useContext, useState, useEffect, useMemo } from "react";
 import en from "@/content/en.json";
-import tr from "@/content/tr.json";
 import { STORAGE_KEYS, LOCALE_CONFIG } from "@/lib/constants";
 
 type Content = typeof en;
@@ -16,7 +15,7 @@ interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-const dictionaries: Record<Language, Content> = { en, tr };
+const dictionaries: Record<Language, Content> = { en };
 
 const parseContentWithHtml = (data: any): any => {
     if (typeof data === "string") {

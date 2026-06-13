@@ -10,5 +10,5 @@ export const STORAGE_KEYS = {
 
 export const LOCALE_CONFIG = {
     DEFAULT: "en",
-    SUPPORTED: ["en", "tr"] as const,
+    SUPPORTED: ["en"] as const,
 } as const;
