@@ -192,6 +192,8 @@ export function IntroSequence() {
   useEffect(() => {
     if (introPlayed) {
       setShouldRender(false);
+      // Remove guard if intro is already played (though context handles it now)
+      document.getElementById('hydration-guard')?.remove();
     }
   }, [introPlayed]);
 
@@ -206,16 +208,30 @@ export function IntroSequence() {
   }, [shouldRender]);
 
   const triggerFinalReveal = () => {
+    // Normal auto-progression reveal (keep it pretty)
     setShowFinalReveal(true);
-    // Letter reveal takes about 2-3 seconds
     setTimeout(() => {
       setIsExiting(true);
       setTimeout(() => {
         document.body.style.overflow = "";
         setIntroPlayed(true);
         setShouldRender(false);
-      }, 800);
-    }, 2500);
+      }, 500);
+    }, 2000);
+  };
+
+  const skipToContent = () => {
+    // Instant jump for the "Skip Intro" button
+    document.body.style.overflow = "";
+    setIntroPlayed(true);
+    setShouldRender(false);
+    
+    // Immediate visual reveal
+    const guard = document.getElementById('hydration-guard');
+    if (guard) {
+      guard.style.opacity = '0';
+      setTimeout(() => guard.remove(), 100);
+    }
   };
 
   // Zone timer
@@ -234,7 +250,7 @@ export function IntroSequence() {
     return () => clearTimeout(timer);
   }, [zoneIndex, isExiting, shouldRender, introPlayed, setIntroPlayed, showFinalReveal]);
 
-  if (!shouldRender || introPlayed || isFirstMount) return null;
+  if (!shouldRender || introPlayed) return null;
 
   const letters = "PARABOLICA".split("");
 
@@ -310,7 +326,7 @@ export function IntroSequence() {
           {/* Skip Button */}
           {!showFinalReveal && (
             <motion.button
-              onClick={triggerFinalReveal}
+              onClick={skipToContent}
               className="absolute bottom-10 right-10 z-[100] px-8 py-3 rounded-full border border-white/10 bg-black/40 backdrop-blur-xl text-[10px] tracking-[0.4em] uppercase text-white font-mono hover:bg-primary hover:text-black hover:border-primary transition-all group"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}

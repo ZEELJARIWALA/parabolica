@@ -9,7 +9,8 @@ import { useIntro } from "@/context/intro-context";
 
 export default function LandingHero() {
     const { introPlayed } = useIntro();
-    const baseDelay = introPlayed ? 0.05 : 8.2;
+    // If intro was played (or skipped), there should be NO delay for the content appearance.
+    const baseDelay = introPlayed ? 0 : 0.1;
 
     return (
         <section
@@ -63,14 +64,14 @@ export default function LandingHero() {
                     className="h-px bg-gradient-to-r from-transparent via-foreground/40 to-transparent w-32 sm:w-48"
                     initial={{ width: 0, opacity: 0 }}
                     animate={{ width: "auto", opacity: 1 }}
-                    transition={{ delay: baseDelay + 0.7, duration: 0.6, ease: "easeOut" }}
+                    transition={{ delay: introPlayed ? 0 : baseDelay + 0.7, duration: 0.6, ease: "easeOut" }}
                 />
 
                 {/* Tagline with enhanced styling */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: baseDelay + 0.9, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                    transition={{ delay: introPlayed ? 0 : baseDelay + 0.9, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
                     className="flex flex-col sm:flex-row items-center gap-3 sm:gap-5"
                 >
                     <div className="h-px w-10 sm:w-16 bg-foreground/30 hidden sm:block" />
@@ -84,7 +85,7 @@ export default function LandingHero() {
                 <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: baseDelay + 1.3, duration: 0.8 }}
+                    transition={{ delay: introPlayed ? 0 : baseDelay + 1.3, duration: 0.8 }}
                     className="mt-8 sm:mt-12 flex flex-col items-center gap-3"
                 >
                     <span className="text-[10px] tracking-[0.4em] uppercase text-foreground/70 font-bold">

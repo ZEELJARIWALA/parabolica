@@ -15,19 +15,13 @@ export function IntroProvider({ children }: { children: React.ReactNode }) {
   const [isFirstMount, setIsFirstMount] = useState(true);
 
   useEffect(() => {
-    const played = sessionStorage.getItem("intro_played") === "true";
-    if (played) {
-      setIntroPlayedState(true);
-    }
+    // Removed sessionStorage to allow intro on every reload
     setIsFirstMount(false);
   }, []);
 
   const value = React.useMemo(() => ({
     introPlayed,
     setIntroPlayed: (val: boolean) => {
-      if (val) {
-        sessionStorage.setItem("intro_played", "true");
-      }
       setIntroPlayedState(val);
     },
     isFirstMount

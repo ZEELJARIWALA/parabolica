@@ -9,6 +9,7 @@ import ThemeSwitcher from "./settings/theme-switcher";
 import { useLanguage } from "@/context/language-context";
 import { useLenis } from "@/components/smooth-scroll";
 import Image from "next/image";
+import { useIntro } from "@/context/intro-context";
 
 // Custom 2-line Menu Icon (Lando Style)
 const MenuIcon = ({ isOpen }: { isOpen: boolean }) => (
@@ -26,6 +27,7 @@ const MenuIcon = ({ isOpen }: { isOpen: boolean }) => (
 
 export default function Navbar() {
   const { content } = useLanguage();
+  const { introPlayed } = useIntro();
   const lenis = useLenis();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [screenWidth, setScreenWidth] = useState(1920);
@@ -163,9 +165,13 @@ export default function Navbar() {
   return (
     <>
       <motion.header
+        initial={{ opacity: 0 }}
+        animate={{ opacity: introPlayed ? 1 : 0 }}
+        transition={{ duration: 0.5 }}
         style={{
           paddingTop: py,
           paddingBottom: py,
+          pointerEvents: introPlayed ? "auto" : "none"
         }}
         className="fixed top-0 left-0 right-0 z-[100] transition-colors duration-300"
       >
