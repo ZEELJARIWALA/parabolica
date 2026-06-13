@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   title: APP_CONFIG.NAME,
   description: APP_CONFIG.DESC,
   icons: {
-    icon: "/logo_final.png",
+    icon: "data:image/x-icon;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=",
   },
 };
 
