@@ -10,6 +10,7 @@ import LandingHero from "@/components/sections/landing-hero";
 import { IntroSequence } from "@/components/intro-sequence";
 import ShopShowcase from "@/components/sections/shop-showcase";
 
+// CI/CD Pipeline Verification Trigger
 export default function Home() {
   return (
     <>
@@ -19,6 +20,8 @@ export default function Home() {
         <div className="relative z-10 w-full">
           {/* Simple PARABOLICA hero — no F1 cars/drivers */}
           <LandingHero />
+
+          <ManifestoFlow items={["IT IS REAL", "IT IS IMMERSIVE", "IT IS SOCIAL"]} />
 
           <div className="relative z-10 bg-background/80 backdrop-blur-sm border-t border-border">
             <section id="about">
