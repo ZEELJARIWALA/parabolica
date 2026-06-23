@@ -8,6 +8,7 @@ import Footer from "@/components/footer";
 import ScrollProgress from "@/components/scroll-progress";
 import LandingHero from "@/components/sections/landing-hero";
 import { IntroSequence } from "@/components/intro-sequence";
+import ShopShowcase from "@/components/sections/shop-showcase";
 
 export default function Home() {
   return (
@@ -39,6 +40,12 @@ export default function Home() {
             </section>
 
             <ManifestoFlow reverse />
+
+            <section id="shop-showcase">
+              <ShopShowcase />
+            </section>
+
+            <ManifestoFlow />
 
             <Booking />
           </div>

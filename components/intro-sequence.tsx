@@ -187,6 +187,12 @@ export function IntroSequence() {
   const [isExiting, setIsExiting] = useState(false);
   const [shouldRender, setShouldRender] = useState(true);
   const [showFinalReveal, setShowFinalReveal] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  // Set mounted true on client
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   // Initial Visibility Check
   useEffect(() => {
@@ -197,13 +203,13 @@ export function IntroSequence() {
 
   // Handle Body Scroll Locking
   useEffect(() => {
-    if (shouldRender) {
+    if (shouldRender && mounted) {
       document.body.style.overflow = "hidden";
     }
     return () => {
       document.body.style.overflow = "";
     };
-  }, [shouldRender]);
+  }, [shouldRender, mounted]);
 
   const triggerFinalReveal = () => {
     // Normal auto-progression reveal (keep it pretty)
@@ -227,7 +233,7 @@ export function IntroSequence() {
 
   // Zone timer
   useEffect(() => {
-    if (isExiting || !shouldRender || introPlayed || showFinalReveal) return;
+    if (isExiting || !shouldRender || introPlayed || showFinalReveal || !mounted) return;
 
     const zone = ZONES[zoneIndex];
     const timer = setTimeout(() => {
@@ -239,9 +245,9 @@ export function IntroSequence() {
     }, zone.duration);
 
     return () => clearTimeout(timer);
-  }, [zoneIndex, isExiting, shouldRender, introPlayed, setIntroPlayed, showFinalReveal]);
+  }, [zoneIndex, isExiting, shouldRender, introPlayed, setIntroPlayed, showFinalReveal, mounted]);
 
-  if (!shouldRender || introPlayed) return null;
+  if (!mounted || !shouldRender || introPlayed) return null;
 
   const letters = "PARABOLICA".split("");
 

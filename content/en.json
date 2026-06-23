@@ -6,6 +6,7 @@
         "events": "EVENTS",
         "booking": "BOOKING",
         "blog": "BLOG",
+        "shop": "SHOP",
         "contact": "CONTACT"
     },
     "hero": {

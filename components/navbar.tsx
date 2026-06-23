@@ -10,23 +10,26 @@ import { useLanguage } from "@/context/language-context";
 import { useLenis } from "@/components/smooth-scroll";
 import Image from "next/image";
 import { useIntro } from "@/context/intro-context";
+import { usePathname } from "next/navigation";
 
 // Custom 2-line Menu Icon (Lando Style)
-const MenuIcon = ({ isOpen }: { isOpen: boolean }) => (
+const MenuIcon = ({ isOpen, isShopPage }: { isOpen: boolean; isShopPage: boolean }) => (
   <div className="relative w-8 h-8 flex flex-col justify-center items-end gap-1.5 p-1">
     <motion.div
       animate={isOpen ? { rotate: 45, y: 4, width: "100%" } : { rotate: 0, y: 0, width: "100%" }}
-      className="h-[2px] bg-foreground rounded-full"
+      className={`h-[2px] rounded-full transition-colors duration-300 ${isOpen ? "bg-white" : isShopPage ? "bg-slate-900" : "bg-foreground"}`}
     />
     <motion.div
       animate={isOpen ? { rotate: -45, y: -4, width: "100%" } : { rotate: 0, y: 0, width: "60%" }}
-      className="h-[2px] bg-foreground rounded-full"
+      className={`h-[2px] rounded-full transition-colors duration-300 ${isOpen ? "bg-white" : isShopPage ? "bg-slate-900" : "bg-foreground"}`}
     />
   </div>
 );
 
 export default function Navbar() {
   const { content } = useLanguage();
+  const pathname = usePathname();
+  const isShopPage = pathname === "/shop";
   const { introPlayed } = useIntro();
   const lenis = useLenis();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -60,7 +63,8 @@ export default function Navbar() {
     { name: content.nav.projects, href: "/#projects", id: "projects" },
     { name: content.nav.events, href: "/#events", id: "events" },
     { name: content.nav.booking, href: "/#booking", id: "booking" },
-    { name: content.nav.blog, href: "/blog", id: "blog" },
+    { name: content.nav.blog, href: "/blogs", id: "blog" },
+    { name: content.nav.shop || "SHOP", href: "/shop", id: "shop" },
   ];
 
   // Active Section Detection (Scroll-based)
@@ -70,6 +74,17 @@ export default function Navbar() {
       const now = Date.now();
       if (now - lastScrollTime < 100) return;
       lastScrollTime = now;
+
+      // Handle active routes for static pages
+      const path = window.location.pathname;
+      if (path === "/shop") {
+        setActiveSection("shop");
+        return;
+      }
+      if (path.startsWith("/blogs") || path.startsWith("/blogs/")) {
+        setActiveSection("blog");
+        return;
+      }
 
       const sectionIds = ["home", "about", "projects", "events", "booking", "contact"];
       const scrollPos = window.scrollY;
@@ -138,6 +153,10 @@ export default function Navbar() {
   }, [isMenuOpen, lenis]);
 
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (!href.startsWith("/#") && href !== "/") {
+      setIsMenuOpen(false);
+      return;
+    }
     const isHomePage = typeof window !== "undefined" && window.location.pathname === "/";
     const isAnchor = href.startsWith("/#") || href.startsWith("#");
     const targetId = isAnchor ? href.split("#")[1] : null;
@@ -202,17 +221,17 @@ export default function Navbar() {
             <img
               src="/logo_final.png?v=2"
               alt="Parabolica"
-              className="logo-branding"
+              className={`logo-branding ${isShopPage && !isMenuOpen ? "invert opacity-90" : ""}`}
             />
           </Link>
 
           <div className="flex items-center gap-4">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="relative z-[110] p-1 text-foreground focus:outline-none transition-transform hover:scale-110"
+              className={`relative z-[110] p-1 focus:outline-none transition-transform hover:scale-110 ${isShopPage && !isMenuOpen ? "text-slate-900" : "text-foreground"}`}
               aria-label="Toggle Menu"
             >
-              <MenuIcon isOpen={isMenuOpen} />
+              <MenuIcon isOpen={isMenuOpen} isShopPage={isShopPage} />
             </button>
           </div>
         </motion.nav>
@@ -268,8 +287,8 @@ export default function Navbar() {
             </div>
 
             {/* Right Side: Links */}
-            <div className="w-full md:w-1/2 flex flex-col justify-center px-8 sm:px-16 md:px-24 pt-32 pb-12 relative z-10">
-              <nav className="flex flex-col gap-4 sm:gap-6 lg:gap-8">
+            <div className="w-full md:w-1/2 flex flex-col justify-center px-6 sm:px-16 md:px-24 pt-20 md:pt-32 pb-12 relative z-10 overflow-y-auto max-h-screen">
+              <nav className="flex flex-col gap-2 sm:gap-4 md:gap-6 lg:gap-8">
                 {navLinks.map((link, i) => (
                   <motion.div
                     key={link.id}
@@ -280,16 +299,16 @@ export default function Navbar() {
                     <Link
                       href={link.href}
                       onClick={(e) => scrollToSection(e, link.href)}
-                      className={`group flex items-center gap-4 text-4xl sm:text-6xl lg:text-8xl font-black uppercase tracking-tighter transition-colors duration-300 ${activeSection === link.id ? "text-[#00ffd2]" : "text-white hover:text-[#00ffd2]"}`}
+                      className={`group flex items-center gap-3 text-2xl sm:text-5xl lg:text-7xl xl:text-8xl font-black uppercase tracking-tighter transition-colors duration-300 ${activeSection === link.id ? "text-[#00ffd2]" : "text-white hover:text-[#00ffd2]"}`}
                     >
-                      <span className={`text-xl sm:text-2xl font-light transition-colors ${activeSection === link.id ? "text-[#00ffd2]/50" : "text-white/30 group-hover:text-[#00ffd2]/50"}`}>
+                      <span className={`text-xs sm:text-lg md:text-2xl font-light transition-colors ${activeSection === link.id ? "text-[#00ffd2]/50" : "text-white/30 group-hover:text-[#00ffd2]/50"}`}>
                         0{i + 1}
                       </span>
                       {link.name}
                       {activeSection === link.id && (
                         <motion.div 
                           layoutId="activeCircle"
-                          className="w-3 h-3 rounded-full bg-[#00ffd2] ml-4 hidden sm:block shadow-[0_0_15px_rgba(0,255,210,0.8)]"
+                          className="w-2 h-2 rounded-full bg-[#00ffd2] ml-4 hidden sm:block shadow-[0_0_15px_rgba(0,255,210,0.8)]"
                         />
                       )}
                     </Link>
