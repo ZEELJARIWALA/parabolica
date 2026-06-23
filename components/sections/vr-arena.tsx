@@ -3,13 +3,14 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { BlurReveal } from "../blur-reveal";
-import { Users, MapPin, Clock, Shield } from "lucide-react";
+import { Users, MapPin, Clock, Shield, Gamepad2 } from "lucide-react";
 
 const STATS = [
-    { icon: Users,   value: "8",        label: "Players per Session" },
-    { icon: MapPin,  value: "1200 sqft", label: "Arena Floor Area" },
-    { icon: Clock,   value: "45 min",   label: "Average Session" },
-    { icon: Shield,  value: "100%",     label: "Safety Certified" },
+    { icon: Gamepad2, value: "3",         label: "Arenas" },
+    { icon: Users,    value: "5",         label: "Players per Arena" },
+    { icon: MapPin,   value: "1500 sqft", label: "Arena Floor Area" },
+    { icon: Clock,    value: "30 min",    label: "Average Session" },
+    { icon: Shield,   value: "100%",      label: "Safety Certified" },
 ];
 
 export default function VRArena() {
@@ -84,12 +85,14 @@ export default function VRArena() {
                 </motion.div>
 
                 {/* Stats row */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-white/[0.05]">
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-px bg-white/[0.05]">
                     {STATS.map((stat, i) => (
                         <motion.div
                             key={stat.label}
                             whileHover={{ backgroundColor: "rgba(0, 255, 149, 0.05)" }}
-                            className="flex flex-col items-center justify-center p-8 bg-black text-center group transition-all duration-500 cursor-default border-r last:border-r-0 border-white/[0.05]"
+                            className={`flex flex-col items-center justify-center p-8 bg-black text-center group transition-all duration-500 cursor-default border-r last:border-r-0 border-white/[0.05] ${
+                                i === 4 ? "col-span-2 md:col-span-1" : ""
+                            }`}
                         >
                             <stat.icon className="w-5 h-5 text-primary mb-3" />
                             <div className="text-3xl md:text-5xl font-black italic text-white tracking-tight mb-1">{stat.value}</div>
