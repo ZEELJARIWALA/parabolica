@@ -76,6 +76,7 @@ export default function DeckExplorer() {
                 src={`/${deck.folder}/${deck.images[0]}`}
                 alt={deck.title}
                 fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
                 className="object-cover opacity-30 group-hover:opacity-70 transition-all duration-1000 grayscale group-hover:grayscale-0 scale-110 group-hover:scale-100"
               />
               <div className="absolute inset-0 bg-black/60 group-hover:bg-black/20 transition-colors duration-1000" />

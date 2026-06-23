@@ -92,22 +92,6 @@ function HeroSlide({ pair, i, progress }: { pair: typeof PAIRS[0], i: number, pr
           className="w-full h-full object-contain"
         />
       </div>
-      
-      {/* BRANDING TEXT - NOW HARDCODED INTO THE REDBULL SLIDE */}
-      {pair.showText && (
-        <motion.div 
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="absolute left-1/2 -translate-x-1/2 bottom-[-40%] sm:bottom-auto sm:left-[-100%] sm:top-1/2 sm:-translate-y-1/2 sm:translate-x-0 w-[95vw] sm:w-[200%] pointer-events-none mix-blend-difference text-center sm:text-left h-fit"
-        >
-            <h1 className="text-5xl xs:text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[140px] font-black tracking-tighter leading-[0.85] text-white uppercase">
-                PARA<br />BOLICA
-            </h1>
-            <p className="mt-4 sm:mt-8 text-[10px] xs:text-xs sm:text-lg text-white/60 font-light max-w-[280px] xs:max-w-xs sm:max-w-md uppercase tracking-widest leading-relaxed mx-auto sm:mx-0">
-                Experience the next generation of F1 simulation and virtual reality.
-            </p>
-        </motion.div>
-      )}
     </motion.div>
   );
 }
@@ -172,6 +156,26 @@ export function HeroScrollSlider() {
             <HeroSlide key={`hero-${i}`} pair={pair} i={i} progress={smoothProgress} />
           ))}
         </div>
+
+        {/* Global Branding Overlay (Responsive Positioning) */}
+        <motion.div 
+          style={{ 
+            opacity: useTransform(smoothProgress, [0.75, 0.85], [0, 1]),
+            pointerEvents: "none"
+          }}
+          className="absolute inset-0 z-30 flex flex-col md:flex-row items-center justify-end md:justify-start 
+                     pb-20 md:pb-0 px-6 md:pl-[20%] md:pr-[30%] mix-blend-difference"
+        >
+          <h1 className="text-4xl xs:text-5xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[120px] font-black tracking-[-0.05em] leading-none text-white uppercase flex flex-row items-center justify-center w-full">
+              <span>P</span>
+              <span className="italic -skew-x-12 inline-block -ml-[0.02em]">A</span>
+              <span>R</span>
+              <span className="italic -skew-x-12 inline-block -ml-[0.02em]">A</span>
+              <span>BOLI</span>
+              <span className="text-[#E84040]">C</span>
+              <span className="italic -skew-x-12 inline-block -ml-[0.02em]">A</span>
+          </h1>
+        </motion.div>
       </div>
     </div>
   );

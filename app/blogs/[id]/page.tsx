@@ -33,7 +33,7 @@ const fallbackBlogs = [
         <p>With high-definition digital video links running on high-gain antennae, the video stream is delivered to goggles with near-zero latency, allowing immediate reflex corrections at 80km/h.</p>`,
         category: "FPV Drones",
         author: "Flight Control",
-        image_url: "/vr_arena_hero.png",
+        image_url: "/vr_arena_hero.jpg",
         tags: "Drones, FPV, Training, Neon Gate",
         seo_keywords: "FPV Drones, Drone Racing, Pilot Academy, Parabolica, Flight Control",
         seo_meta_desc: "Explore the thrills, digital video links, and racing course designs of the indoor FPV drone piloting setup.",
@@ -203,6 +203,7 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ id:
                         src={blog.image_url || "/f1 red.png"}
                         alt={blog.title}
                         fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 80vw"
                         className="object-cover opacity-80"
                         priority
                     />

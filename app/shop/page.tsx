@@ -520,6 +520,7 @@ STATUS: PLACED
                                             src={prod.image}
                                             alt={prod.title}
                                             fill
+                                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                             className="object-cover group-hover:scale-103 transition-transform duration-700 opacity-90 group-hover:opacity-100"
                                         />
                                         
@@ -607,6 +608,7 @@ STATUS: PLACED
                                     src={selectedProduct.image}
                                     alt={selectedProduct.title}
                                     fill
+                                    sizes="(max-width: 768px) 100vw, 50vw"
                                     className="object-cover"
                                     priority
                                 />

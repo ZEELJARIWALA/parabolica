@@ -115,7 +115,7 @@ export default function VRController() {
                     >
                         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(0,255,149,0.12)_0%,transparent_70%)] blur-2xl" />
                         <img
-                            src="/vr_controller_hero.jpg"
+                            src="/vr_controller_hero.png"
                             alt="VR Controller"
                             className="relative z-10 w-full max-w-md mx-auto drop-shadow-[0_0_80px_rgba(0,255,149,0.25)]"
                         />

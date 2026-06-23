@@ -41,7 +41,7 @@ export default function VRHeadset() {
                     >
                         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,107,0,0.15)_0%,transparent_70%)] blur-2xl" />
                         <img
-                            src="/vr_headset_hero.JPG"
+                            src="/vr_headset_hero.png"
                             alt="VR Headset"
                             className="relative z-10 w-full max-w-lg mx-auto drop-shadow-[0_0_80px_rgba(255,107,0,0.3)]"
                         />

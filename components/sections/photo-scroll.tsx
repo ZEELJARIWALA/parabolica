@@ -8,7 +8,7 @@ import { useState } from "react";
 import { ProjectModal } from "@/components/project-modal";
 
 const photos = [
-  { id: 2, src: "https://images.unsplash.com/photo-1622325075902-7eaccd5a882a?q=80&w=2070&auto=format&fit=crop", title: "VR ARENA", category: "Virtual Reality", year: "2026", description: "Our next-gen VR arena features full-body tracking and haptic feedback for the most immersive digital experiences on the planet." },
+  { id: 2, src: "https://images.unsplash.com/photo-1592478411213-6153e4ebc07d?q=80&w=2070&auto=format&fit=crop", title: "VR ARENA", category: "Virtual Reality", year: "2026", description: "Our next-gen VR arena features full-body tracking and haptic feedback for the most immersive digital experiences on the planet." },
   { id: 3, src: "https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=2070&auto=format&fit=crop", title: "FPV DRONE", category: "Drone Tech", year: "2026", description: "Train with professional-grade FPV drones in our custom-built flight zone, designed for both beginners and elite pilots." },
   { id: 4, src: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2070&auto=format&fit=crop", title: "NEXT-GEN TECH", category: "Hardware", year: "2026", description: "We utilize the latest in computing and display technology to power our high-fidelity simulations." },
   { id: 5, src: "https://images.unsplash.com/photo-1593305841991-05c297ba4575?q=80&w=2070&auto=format&fit=crop", title: "IMMERSIVE WORLDS", category: "Experience", year: "2026", description: "Step into limitless digital landscapes crafted with cinematic detail and interactive complexity." },
@@ -43,7 +43,7 @@ export default function PhotoScroll() {
   const backgroundColor = useTransform(
     scrollYProgress,
     [0, 0.4, 0.8, 1.0],
-    ["var(--background)", "#262626", "#d4d4d4", "var(--background)"]
+    ["#020202", "#1a1a1a", "#d4d4d4", "#020202"]
   );
 
   // Text color transition for the sticky title to ensure it is BOLD and VISIBLE
@@ -111,6 +111,7 @@ export default function PhotoScroll() {
                     src={photo.src}
                     alt={photo.title}
                     fill
+                    sizes="(max-width: 768px) 70vw, (max-width: 1200px) 50vw, 33vw"
                     className="object-cover transition-transform duration-1000 group-hover:scale-105"
                 />
                 

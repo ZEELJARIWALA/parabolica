@@ -45,7 +45,7 @@ const fallbackBlogs = [
         summary: "FPV drone flight is defining modern electronic sports. Learn about our certification path and courses.",
         category: "FPV Drones",
         author: "Flight Control",
-        image_url: "/vr_arena_hero.png",
+        image_url: "/vr_arena_hero.jpg",
         created_at: "2026-06-21 14:30:00"
     },
     {
@@ -126,6 +126,7 @@ export default async function BlogsPage() {
                                     src={featuredBlog.image_url || "/f1 red.png"}
                                     alt={featuredBlog.title}
                                     fill
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 75vw, 66vw"
                                     className="object-cover opacity-60 group-hover:opacity-75 transition-opacity"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
@@ -210,6 +211,7 @@ export default async function BlogsPage() {
                                         src={blog.image_url || "/f1 red.png"}
                                         alt={blog.title}
                                         fill
+                                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                                         className="object-cover group-hover:scale-105 transition-transform duration-700"
                                     />
                                     <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md px-2.5 py-1 border border-white/10 rounded-md text-[9px] font-mono text-white tracking-widest uppercase">
