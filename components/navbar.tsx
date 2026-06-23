@@ -88,7 +88,7 @@ export default function Navbar() {
 
       const sectionIds = ["home", "about", "projects", "events", "booking", "contact"];
       const scrollPos = window.scrollY;
-      
+
       // Default to home if at the very top
       if (scrollPos < 100) {
         setActiveSection("home");
@@ -103,7 +103,7 @@ export default function Navbar() {
         if (el) {
           const rect = el.getBoundingClientRect();
           const visibleHeight = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
-          
+
           if (visibleHeight > maxVisibility) {
             maxVisibility = visibleHeight;
             currentSection = id;
@@ -171,11 +171,11 @@ export default function Navbar() {
     if (isHomePage && targetId) {
       e.preventDefault();
       setIsMenuOpen(false);
-      
+
       if (lenis) {
         lenis.start();
         const elem = targetId === "home" ? null : document.getElementById(targetId);
-        
+
         lenis.scrollTo(targetId === "home" ? 0 : (elem || 0), {
           offset: targetId === "home" ? 0 : -80,
           duration: 1.5,
@@ -306,7 +306,7 @@ export default function Navbar() {
                       </span>
                       {link.name}
                       {activeSection === link.id && (
-                        <motion.div 
+                        <motion.div
                           layoutId="activeCircle"
                           className="w-2 h-2 rounded-full bg-[#00ffd2] ml-4 hidden sm:block shadow-[0_0_15px_rgba(0,255,210,0.8)]"
                         />

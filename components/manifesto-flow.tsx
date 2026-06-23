@@ -2,10 +2,17 @@
 
 import { useLanguage } from "@/context/language-context";
 
-export default function ManifestoFlow({ reverse = false }: { reverse?: boolean }) {
+export default function ManifestoFlow({ reverse = false, items }: { reverse?: boolean; items?: string[] }) {
   const { content } = useLanguage();
 
-  const manifestoItems = content?.manifesto?.items;
+  const manifestoItems = items || content?.manifesto?.items || [];
+
+  if (!manifestoItems || manifestoItems.length === 0) return null;
+
+  // Calculate total characters to keep linear scroll speed constant
+  const totalChars = manifestoItems.reduce((acc: number, item: string) => acc + item.length, 0);
+  // Reference: 92 characters takes 60 seconds (approx 1.5s per character)
+  const duration = (totalChars / 92) * 60;
 
   const Separator = () => (
     <div className="aspect-square h-3 w-3 rounded-full bg-foreground/10 sm:h-4 sm:w-4 md:h-5 md:w-5 xl:h-6 xl:w-6" />
@@ -20,7 +27,10 @@ export default function ManifestoFlow({ reverse = false }: { reverse?: boolean }
 
       <div className="flex w-full overflow-hidden marquee-track pointer-events-auto">
 
-        <div className={`animate-scroll flex min-w-full shrink-0 items-center justify-around gap-8 pr-8 xl:gap-16 xl:pr-16 ${reverse ? 'direction-reverse' : ''}`}>
+        <div 
+          style={{ animationDuration: `${duration}s` }}
+          className={`animate-scroll flex min-w-full shrink-0 items-center justify-around gap-8 pr-8 xl:gap-16 xl:pr-16 ${reverse ? 'direction-reverse' : ''}`}
+        >
           {manifestoItems.map((item: string, index: number) => (
             <div key={`t1-${index}`} className="flex items-center gap-8 xl:gap-16">
               <span
@@ -33,7 +43,10 @@ export default function ManifestoFlow({ reverse = false }: { reverse?: boolean }
           ))}
         </div>
 
-        <div className={`animate-scroll flex min-w-full shrink-0 items-center justify-around gap-8 pr-8 xl:gap-16 xl:pr-16 ${reverse ? 'direction-reverse' : ''}`}>
+        <div 
+          style={{ animationDuration: `${duration}s` }}
+          className={`animate-scroll flex min-w-full shrink-0 items-center justify-around gap-8 pr-8 xl:gap-16 xl:pr-16 ${reverse ? 'direction-reverse' : ''}`}
+        >
           {manifestoItems.map((item: string, index: number) => (
             <div key={`t2-${index}`} className="flex items-center gap-8 xl:gap-16">
               <span
