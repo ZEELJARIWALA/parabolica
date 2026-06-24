@@ -78,7 +78,7 @@ export default function Footer() {
             <nav className={`flex flex-col gap-4 text-sm font-light ${isShopPage ? "text-slate-600" : "text-white/60"}`}>
               <Link href="/#home" onClick={(e) => handleScroll(e, "home")} className={`transition-colors ${isShopPage ? "hover:text-slate-950" : "hover:text-white"}`}>HOME</Link>
               <Link href="/#about" onClick={(e) => handleScroll(e, "about")} className={`transition-colors ${isShopPage ? "hover:text-slate-950" : "hover:text-white"}`}>ABOUT</Link>
-              <Link href="/#other-game" onClick={(e) => handleScroll(e, "other-game")} className={`transition-colors ${isShopPage ? "hover:text-slate-950" : "hover:text-white"}`}>OTHER GAMES</Link>
+              <Link href="/#other-game" onClick={(e) => handleScroll(e, "other-game")} className={`transition-colors ${isShopPage ? "hover:text-slate-950" : "hover:text-white"}`}>EXPERIENCES</Link>
               <Link href="/#events" onClick={(e) => handleScroll(e, "events")} className={`transition-colors ${isShopPage ? "hover:text-slate-950" : "hover:text-white"}`}>EVENTS</Link>
               <Link href="/booking" className={`transition-colors ${isShopPage ? "hover:text-slate-950" : "hover:text-white"}`}>BOOKING</Link>
               <Link href="/blogs" className={`transition-colors ${isShopPage ? "hover:text-slate-950" : "hover:text-white"}`}>BLOG</Link>

@@ -52,7 +52,7 @@ export default function Navbar() {
     { name: content.nav.home, href: "/#home", id: "home" },
     { name: content.nav.about, href: "/#about", id: "about" },
     { name: content.nav.offers || "OFFERS", href: "/#offers", id: "offers" },
-    { name: "OTHER GAMES", href: "/#other-game", id: "other-game" },
+    { name: "EXPERIENCES", href: "/#other-game", id: "other-game" },
     { name: content.nav.events, href: "/#events", id: "events" },
     { name: content.nav.booking, href: "/#booking", id: "booking" },
     { name: content.nav.blog, href: "/blogs", id: "blog" },

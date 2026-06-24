@@ -2,7 +2,7 @@
     "nav": {
         "home": "HOME",
         "about": "ABOUT",
-        "projects": "OTHER GAMES",
+        "projects": "EXPERIENCES",
         "events": "EVENTS",
         "booking": "BOOKING",
         "blog": "BLOG",
@@ -86,7 +86,7 @@
         ]
     },
     "projects": {
-        "title": "OTHER GAMES",
+        "title": "EXPERIENCES",
         "intro": "Step into our <span class='highlight-text-primary'>immersive zones</span>. Click to explore the <span class='highlight-text-secondary'>next generation</span> of local entertainment.",
         "scroll_text": "SCROLL TO EXPLORE",
         "end_text": "END",
@@ -117,7 +117,7 @@
             },
             {
                 "id": "others",
-                "title": "OTHER GAMES",
+                "title": "EXPERIENCES",
                 "category": "CURATED COLLECTION",
                 "year": "Ongoing",
                 "description": "A diverse collection of high-tech and retro games, carefully selected for the ultimate enthusiast experience.",
