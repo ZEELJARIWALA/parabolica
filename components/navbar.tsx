@@ -33,10 +33,7 @@ export default function Navbar() {
   const { introPlayed } = useIntro();
   const lenis = useLenis();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [screenWidth, setScreenWidth] = useState(1920);
-  const [containerWidth, setContainerWidth] = useState(1280);
   const [scrollHeight, setScrollHeight] = useState(800);
-  const dummyRef = useRef<HTMLDivElement>(null);
 
   const { scrollY } = useScroll();
 
@@ -49,17 +46,12 @@ export default function Navbar() {
     return 24 - ratio * 12;
   });
 
-  const startWidth = Math.max(screenWidth, containerWidth);
-  const navMaxWidth = useTransform(scrollY, (val) => {
-    const ratio = Math.min(val / scrollHeight, 1);
-    return startWidth - ratio * (startWidth - containerWidth);
-  });
-
   const [activeSection, setActiveSection] = useState("home");
 
   const navLinks = [
     { name: content.nav.home, href: "/#home", id: "home" },
     { name: content.nav.about, href: "/#about", id: "about" },
+    { name: content.nav.offers || "OFFERS", href: "/#offers", id: "offers" },
     { name: content.nav.projects, href: "/#projects", id: "projects" },
     { name: content.nav.events, href: "/#events", id: "events" },
     { name: content.nav.booking, href: "/#booking", id: "booking" },
@@ -86,7 +78,7 @@ export default function Navbar() {
         return;
       }
 
-      const sectionIds = ["home", "about", "projects", "events", "booking", "contact"];
+      const sectionIds = ["home", "about", "offers", "projects", "events", "booking", "contact"];
       const scrollPos = window.scrollY;
 
       // Default to home if at the very top
@@ -125,15 +117,10 @@ export default function Navbar() {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setScreenWidth(window.innerWidth);
       setScrollHeight(window.innerHeight);
 
       const updateDimensions = () => {
-        setScreenWidth(window.innerWidth);
         setScrollHeight(window.innerHeight);
-        if (dummyRef.current) {
-          setContainerWidth(dummyRef.current.getBoundingClientRect().width);
-        }
       };
 
       updateDimensions();
@@ -201,16 +188,11 @@ export default function Navbar() {
         }}
         className="fixed top-0 left-0 right-0 z-[100] transition-colors duration-300"
       >
-        <div ref={dummyRef} className="container invisible absolute pointer-events-none -z-50" />
-
         <motion.div
           className="absolute inset-0 bg-transparent -z-10 pointer-events-none"
         />
 
         <motion.nav
-          style={{
-            maxWidth: navMaxWidth,
-          }}
           className="mx-auto px-container flex items-center justify-between w-full"
         >
           <Link
@@ -256,39 +238,21 @@ export default function Navbar() {
               </svg>
             </div>
 
-            {/* Left Side: Image Grid */}
-            <div className="hidden md:grid md:w-1/2 grid-cols-2 gap-4 p-12 lg:p-24 h-full relative z-10">
+            {/* Left Side: Single Large F1 Image */}
+            <div className="hidden md:block md:w-1/2 p-12 lg:p-24 h-full relative z-10">
               <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
+                initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.3 }}
                 className="relative h-full w-full rounded-2xl overflow-hidden shadow-2xl grayscale hover:grayscale-0 transition-all duration-700"
               >
                 <Image src="/assets/menu/f1.png" alt="F1 Racing" fill className="object-cover" />
               </motion.div>
-              <div className="flex flex-col gap-4 h-full">
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.4 }}
-                  className="relative flex-1 rounded-2xl overflow-hidden shadow-2xl grayscale hover:grayscale-0 transition-all duration-700"
-                >
-                  <Image src="/assets/menu/vr.png" alt="VR Experience" fill className="object-cover" />
-                </motion.div>
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: 0.5 }}
-                  className="relative flex-1 rounded-2xl overflow-hidden shadow-2xl grayscale hover:grayscale-0 transition-all duration-700"
-                >
-                  <Image src="/assets/menu/fpv.png" alt="FPV RACING" fill className="object-cover" />
-                </motion.div>
-              </div>
             </div>
 
-            {/* Right Side: Links */}
-            <div className="w-full md:w-1/2 flex flex-col justify-center px-6 sm:px-16 md:px-24 pt-20 md:pt-32 pb-12 relative z-10 overflow-y-auto max-h-screen">
-              <nav className="flex flex-col gap-2 sm:gap-4 md:gap-6 lg:gap-8">
+            {/* Right Side: Asymmetric 2-Column Links (Spaced vertically to fill screen height, optimized for mobile responsiveness) */}
+            <div className="w-full md:w-1/2 h-full min-h-screen md:min-h-0 flex flex-col justify-between md:justify-center px-6 sm:px-10 md:px-12 lg:px-16 pt-24 md:pt-32 pb-8 md:pb-12 relative z-10 overflow-y-auto">
+              <nav className="grid grid-cols-[1.3fr_0.7fr] gap-x-8 sm:gap-x-12 md:gap-x-16 gap-y-8 sm:gap-y-12 md:gap-y-16 lg:gap-y-20 xl:gap-y-24">
                 {navLinks.map((link, i) => (
                   <motion.div
                     key={link.id}
@@ -299,16 +263,16 @@ export default function Navbar() {
                     <Link
                       href={link.href}
                       onClick={(e) => scrollToSection(e, link.href)}
-                      className={`group flex items-center gap-3 text-2xl sm:text-5xl lg:text-7xl xl:text-8xl font-black uppercase tracking-tighter transition-colors duration-300 ${activeSection === link.id ? "text-[#00ffd2]" : "text-white hover:text-[#00ffd2]"}`}
+                      className={`group flex items-center gap-3 text-xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black uppercase tracking-tighter transition-colors duration-300 ${activeSection === link.id ? "text-[#00ffd2]" : "text-white hover:text-[#00ffd2]"}`}
                     >
-                      <span className={`text-xs sm:text-lg md:text-2xl font-light transition-colors ${activeSection === link.id ? "text-[#00ffd2]/50" : "text-white/30 group-hover:text-[#00ffd2]/50"}`}>
+                      <span className={`font-mono text-xs sm:text-sm md:text-base lg:text-lg font-bold transition-colors ${activeSection === link.id ? "text-[#00ffd2]" : "text-white/40 group-hover:text-[#00ffd2]"}`}>
                         0{i + 1}
                       </span>
-                      {link.name}
+                      <span>{link.name}</span>
                       {activeSection === link.id && (
                         <motion.div
                           layoutId="activeCircle"
-                          className="w-2 h-2 rounded-full bg-[#00ffd2] ml-4 hidden sm:block shadow-[0_0_15px_rgba(0,255,210,0.8)]"
+                          className="w-1.5 h-1.5 rounded-full bg-[#00ffd2] ml-1.5 hidden sm:block shadow-[0_0_15px_rgba(0,255,210,0.8)]"
                         />
                       )}
                     </Link>
@@ -316,14 +280,18 @@ export default function Navbar() {
                 ))}
               </nav>
 
-              <div className="mt-auto pt-12 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-8 border-t border-white/10">
+              <div className="mt-auto pt-12 flex flex-col sm:flex-row justify-between items-start sm:items-end gap-8 border-t border-white/10 w-full">
                 <div className="flex flex-col gap-2">
                   <span className="text-[10px] tracking-[0.4em] uppercase text-white/40">Business Inquiries</span>
-                  <a href="mailto:hello@parabolica.com" className="text-sm border-b border-white hover:border-[#ffd700] hover:text-[#ffd700] transition-all">hello@parabolica.com</a>
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                    <a href="mailto:hello@parabolica.com" className="text-sm border-b border-white hover:border-[#00ffd2] hover:text-[#00ffd2] transition-all">hello@parabolica.com</a>
+                    <span className="hidden sm:inline text-white/20">|</span>
+                    <a href="tel:7383756561" className="text-sm border-b border-white hover:border-[#00ffd2] hover:text-[#00ffd2] transition-all font-mono">7383756561</a>
+                  </div>
                 </div>
                 <div className="flex gap-6">
                   {['INSTAGRAM', 'YOUTUBE', 'TWITTER'].map((social) => (
-                    <a key={social} href="#" className="text-[10px] tracking-[0.2em] font-bold hover:text-[#ffd700] transition-colors">{social}</a>
+                    <a key={social} href="#" className="text-[10px] tracking-[0.2em] font-bold hover:text-[#00ffd2] transition-colors">{social}</a>
                   ))}
                 </div>
               </div>
