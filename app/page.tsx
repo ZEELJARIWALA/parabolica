@@ -32,7 +32,7 @@ export default function Home() {
 
             <ManifestoFlow reverse />
 
-            <section id="projects">
+            <section id="other-game">
               <Projects />
             </section>
 

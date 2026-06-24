@@ -2,7 +2,7 @@
     "nav": {
         "home": "HOME",
         "about": "ABOUT",
-        "projects": "EXPERIENCES",
+        "projects": "OTHER GAMES",
         "events": "EVENTS",
         "booking": "BOOKING",
         "blog": "BLOG",
@@ -68,7 +68,7 @@
         ]
     },
     "projects": {
-        "title": "EXPERIENCES",
+        "title": "OTHER GAMES",
         "intro": "Step into our <span class='highlight-text-primary'>immersive zones</span>. Click to explore the <span class='highlight-text-secondary'>next generation</span> of local entertainment.",
         "scroll_text": "SCROLL TO EXPLORE",
         "end_text": "END",

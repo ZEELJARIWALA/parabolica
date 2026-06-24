@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import ScrollProgress from "@/components/scroll-progress";
 import Footer from "@/components/footer";
 import { useLenis } from "@/components/smooth-scroll";
+import { useRouter } from "next/navigation";
 
 // We'll create these next
 import FPVHero from "@/components/sections/fpv-hero";
@@ -15,13 +16,17 @@ import FPVBookingCTA from "@/components/sections/fpv-booking-cta";
 export default function FPVRacingPage() {
     const [isPreFlight, setIsPreFlight] = useState(true);
     const lenis = useLenis();
+    const router = useRouter();
 
     useEffect(() => {
-        // Pre-flight check timer
+        // Redirection logic
+        router.replace("/coming-soon");
+        
+        // Pre-flight check timer (preserved logic)
         const timer = setTimeout(() => setIsPreFlight(false), 3500);
         if (lenis) lenis.scrollTo(0, { immediate: true });
         return () => clearTimeout(timer);
-    }, [lenis]);
+    }, [lenis, router]);
 
     return (
         <main className="bg-black min-h-screen text-white overflow-hidden font-sans">
