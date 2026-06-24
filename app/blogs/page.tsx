@@ -6,7 +6,9 @@ import Footer from "@/components/footer";
 import PitwallRadioChat from "@/components/pitwall-radio-chat";
 import LiveTicker from "@/components/live-ticker";
 import StandingsWidget from "@/components/standings-widget";
-import { Terminal, Flame, BookOpen, Clock, Tag, User } from "lucide-react";
+import NewsSlider from "@/components/news-slider";
+import F1Chatbot from "@/components/f1-chatbot";
+import { Terminal, Flame, BookOpen, Clock, Tag, User, Radio, Activity, Send } from "lucide-react";
 
 export const metadata: Metadata = {
     title: "F1 Live News Feed & Telemetry Blogs | Parabolica",
@@ -74,196 +76,110 @@ async function fetchBlogs() {
 
 export default async function BlogsPage() {
     const personalBlogs = await fetchBlogs();
-    const featuredBlog = personalBlogs[0] || fallbackBlogs[0];
 
     return (
         <div className="min-h-screen bg-black text-white font-sans selection:bg-[#00ffd2] selection:text-black relative overflow-hidden">
             <Navbar />
 
-            {/* Custom Smokey theme backdrops */}
-            <div className="absolute inset-0 z-0 pointer-events-none opacity-30">
-                {/* Smoke particle nodes */}
-                <div className="absolute top-[10%] left-[20%] w-[500px] h-[500px] rounded-full bg-gradient-to-tr from-zinc-800 to-zinc-900 blur-[130px] animate-smoke" />
-                <div className="absolute bottom-[30%] right-[10%] w-[600px] h-[600px] rounded-full bg-gradient-to-br from-zinc-700 to-zinc-900 blur-[150px] animate-smoke-slow" />
-                {/* Cyber grid */}
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:30px_30px]" />
+            {/* Aesthetic Backgrounds */}
+            <div className="absolute inset-0 z-0 pointer-events-none opacity-40">
+                <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-[#00ffd2]/10 blur-[150px]" />
+                <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[#ff006e]/5 blur-[130px]" />
             </div>
 
-            {/* Main Content Area */}
-            <div className="container mx-auto px-4 sm:px-6 pt-32 pb-24 relative z-10">
+            <div className="container mx-auto px-container pt-32 pb-24 relative z-10 space-y-16">
                 
-                {/* Telemetry Status Line */}
-                <div className="flex flex-wrap items-center justify-between border-b border-white/10 pb-6 mb-12 gap-4">
-                    <div className="space-y-1">
-                        <div className="flex items-center gap-2">
-                            <span className="w-2 h-2 rounded-full bg-[#00ffd2] animate-ping" />
-                            <span className="font-mono text-[10px] text-[#00ffd2] uppercase tracking-[0.3em]">MISSION CONTROL // BROADCAST OVERLAY</span>
-                        </div>
-                        <h1 className="text-4xl md:text-6xl font-black italic uppercase tracking-tighter">F1 NEWS & PILOT PORTAL</h1>
-                    </div>
-                    <div className="flex gap-4 font-mono text-[10px] text-white/40 uppercase tracking-wider bg-white/5 border border-white/10 px-4 py-2 rounded-xl">
-                        <span>NEXT GRAND PRIX: AUSTRIA (SPIELBERG)</span>
-                        <span className="text-[#ff006e]">LIVE TIMING CONNECTED</span>
-                    </div>
+                {/* 0. MINIMALIST TOP HEADING */}
+                <div className="flex items-center gap-4 border-b border-white/10 pb-6 mb-12">
+                     <span className="h-px w-12 bg-[#00ffd2]" />
+                     <h1 className="text-sm font-light uppercase tracking-[1em] text-white/40">Pilot Logs // Blog</h1>
                 </div>
 
-                {/* Hero Layout (GPBlog style) */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16">
-                    {/* Main Featured Block (Left / 8 cols) */}
-                    <div className="lg:col-span-8 flex flex-col gap-6">
-                        <div className="font-mono text-xs text-white/50 uppercase tracking-widest flex items-center gap-2">
-                            <Flame className="w-4 h-4 text-[#ff006e] animate-pulse" />
-                            <span>FEATURED REPORT // LATENCY STABLE</span>
-                        </div>
-
-                        <Link
-                            href={`/blogs/${featuredBlog.id}`}
-                            className="group relative h-[320px] sm:h-[480px] bg-black/40 border border-white/10 rounded-2xl overflow-hidden flex flex-col justify-end p-6 sm:p-10 hover:border-[#00ffd2]/40 transition-all duration-700 shadow-2xl"
-                        >
-                            {/* Background Image with Overlay */}
-                            <div className="absolute inset-0 z-0 scale-100 group-hover:scale-105 transition-all duration-1000">
-                                <Image
-                                    src={featuredBlog.image_url || "/f1 red.png"}
-                                    alt={featuredBlog.title}
-                                    fill
-                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 75vw, 66vw"
-                                    className="object-cover opacity-60 group-hover:opacity-75 transition-opacity"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent" />
-                            </div>
-
-                            {/* Content */}
-                            <div className="relative z-10 space-y-4">
-                                <span className="px-3 py-1 bg-[#00ffd2] text-black text-[9px] font-black italic uppercase tracking-wider rounded-md">
-                                    {featuredBlog.category}
-                                </span>
-                                <h2 className="text-2xl sm:text-4xl font-black italic uppercase tracking-tight leading-tight group-hover:text-[#00ffd2] transition-colors">
-                                    {featuredBlog.title}
-                                </h2>
-                                <p className="text-sm text-white/70 font-light leading-relaxed max-w-2xl line-clamp-2">
-                                    {featuredBlog.summary}
-                                </p>
-                                <div className="flex items-center gap-4 text-[10px] font-mono text-white/40 uppercase pt-2">
-                                    <span className="flex items-center gap-1">
-                                        <BookOpen className="w-3.5 h-3.5 text-white/30" />
-                                        BY {featuredBlog.author}
-                                    </span>
-                                    <span>//</span>
-                                    <span className="flex items-center gap-1">
-                                        <Clock className="w-3.5 h-3.5 text-white/30" />
-                                        {new Date(featuredBlog.created_at).toLocaleDateString([], { month: 'short', day: 'numeric', year: 'numeric' })}
-                                    </span>
-                                </div>
-                            </div>
-                        </Link>
+                {/* 1. NEWS SLIDER SECTION */}
+                <section className="space-y-6">
+                    <div className="flex items-center gap-3">
+                        <Flame className="w-5 h-5 text-[#ff006e] animate-pulse" />
+                        <h2 className="text-sm font-black italic uppercase tracking-[0.4em] text-white/60">Global Broadcast // Headlines</h2>
                     </div>
+                    <NewsSlider />
+                </section>
 
-                    {/* F1 Standings Sidebar (Right / 4 cols) */}
-                    <div className="lg:col-span-4 flex flex-col gap-6">
-                        <div className="font-mono text-xs text-white/50 uppercase tracking-widest flex items-center gap-2">
-                            <Terminal className="w-4 h-4 text-[#00ffd2]" />
-                            <span>TELEMETRY STANDINGS</span>
+                {/* 2. DUAL TELEMETRY HUB */}
+                <section className="grid grid-cols-1 lg:grid-cols-2 gap-10 relative z-20" style={{ pointerEvents: "auto" }}>
+                    <div className="space-y-6 relative z-30">
+                        <div className="flex items-center gap-3 px-2">
+                            <Activity className="w-5 h-5 text-[#00ffd2]" />
+                            <h2 className="text-sm font-black italic uppercase tracking-[0.4em] text-white/60">Static Live Feed</h2>
+                        </div>
+                        <div className="relative">
+                            <LiveTicker />
+                        </div>
+                    </div>
+                    <div className="space-y-6">
+                        <div className="flex items-center gap-3 px-2">
+                            <Terminal className="w-5 h-5 text-[#ff006e]" />
+                            <h2 className="text-sm font-black italic uppercase tracking-[0.4em] text-white/60">GP Leaderboard</h2>
                         </div>
                         <StandingsWidget />
                     </div>
-                </div>
+                </section>
 
-                {/* Sub Hero Live Feeds */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16">
-                    {/* RSS Live Ticker (Left / 4 cols) */}
-                    <div className="lg:col-span-4 flex flex-col gap-6">
-                        <div className="font-mono text-xs text-white/50 uppercase tracking-widest flex items-center gap-2">
-                            <Terminal className="w-4 h-4 text-[#00ffd2]" />
-                            <span>SATELLITE RSS NEWS FEED</span>
-                        </div>
-                        <LiveTicker />
+                {/* 3. PITWALL AI CHATBOT */}
+                <section className="space-y-6 max-w-5xl mx-auto w-full">
+                    <div className="flex items-center gap-3 justify-center">
+                        <Radio className="w-5 h-5 text-[#00ffd2]" />
+                        <h2 className="text-sm font-black italic uppercase tracking-[0.4em] text-white/60">F1 Uplink</h2>
+                    </div>
+                    <F1Chatbot />
+                </section>
+
+                {/* 4. PARABOLICA BLOG MARQUEE */}
+                <section className="space-y-12">
+                    <div className="text-center space-y-2">
+                        <h3 className="text-4xl md:text-6xl font-black italic uppercase tracking-tighter">WHAT&apos;S NEW AT <span className="text-[#00ffd2]">P</span>ARABOLICA</h3>
+                        <p className="font-mono text-[10px] text-white/40 uppercase tracking-[0.5em]">LATEST DISPATCHES & OPERATIONS</p>
                     </div>
 
-                    {/* Pitwall Radio chat (Right / 8 cols) */}
-                    <div className="lg:col-span-8 flex flex-col gap-6">
-                        <div className="font-mono text-xs text-white/50 uppercase tracking-widest flex items-center gap-2">
-                            <Terminal className="w-4 h-4 text-[#00ffd2]" />
-                            <span>ENCRYPTED PILOT FREQUENCY</span>
-                        </div>
-                        <PitwallRadioChat />
-                    </div>
-                </div>
-
-                {/* Personal Blogs grid */}
-                <div className="space-y-8">
-                    <div className="border-b border-white/10 pb-4">
-                        <h2 className="text-3xl font-black italic uppercase tracking-wider flex items-center gap-3">
-                            <BookOpen className="w-6 h-6 text-[#ff006e]" />
-                            <span>PERSONAL PILOT LOGS</span>
-                        </h2>
-                        <p className="text-xs font-mono text-white/40 uppercase tracking-widest mt-1">Telemetry analysis from Parabolica engineers</p>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {personalBlogs.map((blog: any) => (
-                            <Link
-                                key={blog.id}
-                                href={`/blogs/${blog.id}`}
-                                className="group bg-white/[0.02] border border-white/10 hover:border-[#00ffd2]/30 rounded-2xl overflow-hidden flex flex-col hover:bg-white/[0.04] transition-all duration-500 shadow-xl"
-                            >
-                                <div className="relative h-48 w-full bg-zinc-900">
-                                    <Image
-                                        src={blog.image_url || "/f1 red.png"}
-                                        alt={blog.title}
-                                        fill
-                                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                        className="object-cover group-hover:scale-105 transition-transform duration-700"
-                                    />
-                                    <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-md px-2.5 py-1 border border-white/10 rounded-md text-[9px] font-mono text-white tracking-widest uppercase">
-                                        {blog.category}
+                    <div className="relative flex overflow-hidden group">
+                        <div className="flex gap-8 animate-scroll hover:pause-animation">
+                            {[...personalBlogs, ...personalBlogs].map((blog: any, i: number) => (
+                                <Link
+                                    key={`${blog.id}-${i}`}
+                                    href={`/blogs/${blog.id}`}
+                                    className="w-[350px] shrink-0 group/card bg-white/[0.03] border border-white/10 rounded-3xl overflow-hidden hover:border-[#00ffd2]/40 transition-all p-6 space-y-4"
+                                >
+                                    <div className="relative h-48 w-full rounded-2xl overflow-hidden mb-4">
+                                        <Image
+                                            src={blog.image_url || "/f1 red.png"}
+                                            alt={blog.title}
+                                            fill
+                                            className="object-cover group-hover/card:scale-110 transition-transform duration-700 opacity-80"
+                                        />
                                     </div>
-                                </div>
-                                <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
                                     <div className="space-y-2">
-                                        <h3 className="text-lg font-black italic uppercase text-white group-hover:text-[#00ffd2] transition-colors leading-snug">
-                                            {blog.title}
-                                        </h3>
-                                        <p className="text-xs text-white/60 font-light leading-relaxed line-clamp-2">
-                                            {blog.summary}
-                                        </p>
+                                        <span className="text-[10px] font-mono text-[#00ffd2] font-black uppercase italic tracking-widest">{blog.category}</span>
+                                        <h4 className="text-xl font-bold italic uppercase leading-none group-hover/card:text-[#00ffd2] transition-colors">{blog.title}</h4>
+                                        <p className="text-xs text-white/50 line-clamp-2 font-light">{blog.summary}</p>
                                     </div>
-                                    <div className="flex items-center justify-between text-[9px] font-mono text-white/30 uppercase pt-4 border-t border-white/5">
-                                        <span className="flex items-center gap-1">
-                                            <User className="w-3 h-3" />
-                                            {blog.author}
-                                        </span>
-                                        <span className="flex items-center gap-1">
-                                            <Tag className="w-3 h-3" />
-                                            {new Date(blog.created_at).toLocaleDateString([], { month: 'short', day: 'numeric' })}
-                                        </span>
-                                    </div>
-                                </div>
-                            </Link>
-                        ))}
+                                </Link>
+                            ))}
+                        </div>
                     </div>
-                </div>
-
+                </section>
             </div>
 
             <Footer />
 
-            {/* Local animation style keyframes */}
             <style dangerouslySetInnerHTML={{ __html: `
-                @keyframes smoke {
-                    0% { transform: scale(1) translate(0, 0) rotate(0deg); opacity: 0.25; }
-                    50% { transform: scale(1.1) translate(3%, 4%) rotate(180deg); opacity: 0.35; }
-                    100% { transform: scale(1) translate(0, 0) rotate(360deg); opacity: 0.25; }
+                @keyframes scroll {
+                    0% { transform: translateX(0); }
+                    100% { transform: translateX(calc(-350px * ${personalBlogs.length} - 2rem * ${personalBlogs.length})); }
                 }
-                @keyframes smoke-slow {
-                    0% { transform: scale(1) translate(0, 0) rotate(0deg); opacity: 0.2; }
-                    50% { transform: scale(1.15) translate(-4%, 2%) rotate(-180deg); opacity: 0.3; }
-                    100% { transform: scale(1) translate(0, 0) rotate(-360deg); opacity: 0.2; }
+                .animate-scroll {
+                    animation: scroll 40s linear infinite;
                 }
-                .animate-smoke {
-                    animation: smoke 25s infinite ease-in-out;
-                }
-                .animate-smoke-slow {
-                    animation: smoke-slow 35s infinite ease-in-out;
+                .pause-animation:hover {
+                    animation-play-state: paused;
                 }
             ` }} />
         </div>

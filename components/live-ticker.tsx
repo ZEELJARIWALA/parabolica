@@ -103,7 +103,10 @@ export default function LiveTicker() {
                     <p className="font-mono text-[10px] text-white/20 uppercase tracking-[0.3em]">Decrypting Satellite Feeds...</p>
                 </div>
             ) : (
-                <div className="space-y-4 max-h-[360px] overflow-y-auto custom-scrollbar pr-2 relative z-10">
+                <div 
+                    className="space-y-4 max-h-[360px] overflow-y-auto custom-scrollbar pr-2 relative z-30" 
+                    style={{ pointerEvents: "auto" }}
+                >
                     {news.slice(0, 10).map((item, idx) => (
                         <div
                             key={idx}

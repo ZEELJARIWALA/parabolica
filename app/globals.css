@@ -175,33 +175,34 @@
   /* Allow custom-scrollbar to exceed the global hide rule */
   .custom-scrollbar::-webkit-scrollbar {
     display: block !important;
-    width: 3px !important;
+    width: 4px !important;
   }
   .custom-scrollbar::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.02);
+    background: rgba(255, 255, 255, 0.05);
   }
   .custom-scrollbar::-webkit-scrollbar-thumb {
     background: #00ffd2;
     border-radius: 10px;
   }
 
+  /* Only hide default scrollbars on main elements, keep them active for accessibility */
   html,
-  body,
-  * {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
+  body {
+    scrollbar-width: auto;
+    -ms-overflow-style: auto;
   }
   
   .custom-scrollbar {
     scrollbar-width: thin !important;
-    scrollbar-color: #00ffd2 rgba(255, 255, 255, 0.02) !important;
+    scrollbar-color: #00ffd2 rgba(255, 255, 255, 0.05) !important;
+    touch-action: pan-y; /* Crucial for mobile scroll */
   }
 
   html,
   body {
     @apply w-full max-w-[100vw];
     overflow-x: clip;
-    overscroll-behavior-y: none;
+    /* Removed restrictive overscroll-behavior */
   }
 
   body {
