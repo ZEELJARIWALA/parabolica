@@ -1,6 +1,6 @@
 import Projects from "@/components/sections/projects";
 import ManifestoFlow from "@/components/manifesto-flow";
-import PhotoScroll from "@/components/sections/photo-scroll";
+import OffersScroll from "@/components/sections/offers-scroll";
 import DeckExplorer from "@/components/sections/deck-explorer";
 import About from "@/components/sections/about";
 import Booking from "@/components/sections/booking";
@@ -27,12 +27,12 @@ export default function Home() {
             <section id="about">
               <About />
               <ManifestoFlow />
-              <PhotoScroll />
+              <OffersScroll />
             </section>
 
             <ManifestoFlow reverse />
 
-            <section id="projects">
+            <section id="other-game">
               <Projects />
             </section>
 

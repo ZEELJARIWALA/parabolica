@@ -200,7 +200,7 @@ const ProjectCard = React.memo(({ project }: { project: ProjectItem }) => {
     return (
         <BlurReveal>
             <Link
-                href={`/${project.id === 'others' ? 'projects' : project.id}`}
+                href={`/${project.id === 'others' ? 'other-game' : project.id}`}
                 className="group relative w-full xl:w-[45vw] aspect-[4/5] md:aspect-video lg:aspect-[16/10] shrink-0 xl:mx-[calc(var(--container-spacing)/2)] perspective-1000 cursor-pointer block"
             >
                 <div className="relative w-full h-full overflow-hidden bg-muted border border-border/50 transition-all duration-700 ease-out group-hover:border-foreground/20 rounded-2xl shadow-2xl">

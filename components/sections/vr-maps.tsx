@@ -36,8 +36,8 @@ export default function VRMaps() {
           </BlurReveal>
           <BlurReveal>
             <h2 className="text-4xl md:text-8xl font-black italic uppercase tracking-tighter leading-[0.9] mb-8">
-              WHERE WILL YOU<br />
-              <span className="text-white/40">FIGHT TODAY?</span>
+              CHOOSE YOUR<br />
+              <span className="text-white/40">BATTLE-FIELD</span>
             </h2>
           </BlurReveal>
           <BlurReveal>
@@ -55,11 +55,11 @@ export default function VRMaps() {
               initial={{ opacity: 0, y: 50, scale: 0.95 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true, margin: "-100px" }}
-              transition={{ 
+              transition={{
                 type: "spring",
                 stiffness: 100,
                 damping: 20,
-                delay: i * 0.05 
+                delay: i * 0.05
               }}
               className="group relative h-[400px] border border-white/10 bg-[#050505] overflow-hidden"
             >
