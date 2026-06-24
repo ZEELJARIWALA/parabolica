@@ -542,7 +542,7 @@ export default function BookingPage() {
                             <div className="grid grid-cols-1 gap-8 md:gap-12">
                                 <input value={pilot.name} onChange={(e) => setPilot({ ...pilot, name: e.target.value })} className="w-full bg-transparent border-b-2 border-white/10 pb-2 md:pb-4 text-2xl md:text-5xl font-black italic uppercase outline-none focus:border-[#00ffd2] transition-all placeholder:text-white/5" placeholder="FULL NAME" />
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-                                    <input value={pilot.phone} onChange={(e) => setPilot({ ...pilot, phone: e.target.value })} className="w-full bg-transparent border-b-2 border-white/10 pb-2 md:pb-4 text-lg md:text-2xl font-bold uppercase outline-none focus:border-[#00ffd2] transition-all placeholder:text-white/10" placeholder="UPLINK NUMBER" />
+                                    <input value={pilot.phone} onChange={(e) => setPilot({ ...pilot, phone: e.target.value })} className="w-full bg-transparent border-b-2 border-white/10 pb-2 md:pb-4 text-lg md:text-2xl font-bold uppercase outline-none focus:border-[#00ffd2] transition-all placeholder:text-white/10" placeholder="PHONE NUMBER" />
                                     <input value={pilot.email} onChange={(e) => setPilot({ ...pilot, email: e.target.value })} className="w-full bg-transparent border-b-2 border-white/10 pb-2 md:pb-4 text-lg md:text-2xl font-bold uppercase outline-none focus:border-[#00ffd2] transition-all placeholder:text-white/10" placeholder="EMAIL IDENTITY" />
                                 </div>
                             </div>
@@ -555,7 +555,7 @@ export default function BookingPage() {
                     {step === "SUCCESS" && (
                         <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} className="max-w-3xl mx-auto text-center space-y-8 md:space-y-12 py-12 md:py-24 px-4">
                             <div className="flex justify-center"><div className="w-16 h-16 md:w-24 md:h-24 rounded-full border-2 md:border-4 border-[#00ffd2] flex items-center justify-center"><CheckCircle2 className="w-8 h-8 md:w-12 md:h-12 text-[#00ffd2]" /></div></div>
-                            <div className="space-y-4 md:space-y-6"><h1 className="text-4xl md:text-6xl font-black italic uppercase leading-none">MISSION <br />TRANSMITTED.</h1><p className="text-white/40 font-mono text-[10px] md:text-xs tracking-widest uppercase leading-relaxed max-w-md mx-auto">System scan complete. Our operations tactical team will establish a neural uplink with you shortly to finalize deployment.</p></div>
+                            <div className="space-y-4 md:space-y-6"><h1 className="text-4xl md:text-6xl font-black italic uppercase leading-none">MISSION <br />TRANSMITTED.</h1><p className="text-white/40 font-mono text-[10px] md:text-xs tracking-widest uppercase leading-relaxed max-w-md mx-auto">System scan complete. Our operations tactical team will establish a neural  with you shortly to finalize deployment.</p></div>
                             <button onClick={() => {
                                 handleLogout(); // Force logout and return to start
                                 router.push("/");
@@ -616,7 +616,7 @@ function AuthScreen({ onAuthenticated }: { onAuthenticated: () => void }) {
                     if (data.session) {
                         onAuthenticated();
                     } else {
-                        alert("ID REGISTERED. Please check your email for a verification link to activate your uplink.");
+                        alert("ID REGISTERED. Please check your email for a verification link to activate your .");
                         setMode("LOGIN");
                     }
                 }
@@ -635,7 +635,7 @@ function AuthScreen({ onAuthenticated }: { onAuthenticated: () => void }) {
             if (err.message === "Failed to fetch") {
                 setError("NETWORK BLOCKED: Could not reach Mission Control. Check your internet or Supabase URL.");
             } else {
-                setError(err.message || "Uplink failed.");
+                setError(err.message || " failed.");
             }
         } finally {
             setLoading(false);
@@ -924,7 +924,7 @@ function PrecisionVRModule({ config, onChange, onComplete, branch }: any) {
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="grid grid-cols-1 gap-8 md:gap-12 border border-white/10 bg-white/[0.02] p-8 md:p-24 relative overflow-hidden">
             <div className="space-y-6 md:space-y-12 relative z-10 pt-8 md:pt-12 border-b border-white/5 pb-12"><h4 className="text-2xl md:text-5xl font-black italic uppercase text-[#00ffd2]">Mission Date</h4><input type="date" min={today} value={config.date} onChange={(e) => onChange({ date: e.target.value })} className="bg-white/[0.03] border-2 border-white/10 p-4 md:p-6 font-mono text-lg md:text-2xl uppercase outline-none focus:border-[#00ffd2] transition-all w-full md:w-auto [color-scheme:dark]" /></div>
             
-            {config.date && (<motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-12 md:space-y-24"><div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24 relative z-10"><div className="space-y-6 md:space-y-12"><h4 className="text-2xl md:text-5xl font-black italic uppercase text-white/40">Squad Count</h4><div className="flex flex-wrap gap-2 md:gap-3">{[1, 2, 4, 6].map(n => (<button key={n} onClick={() => onChange({ players: n })} className={`w-14 h-14 md:w-20 md:h-20 border-2 font-black text-xl md:text-2xl transition-all ${config.players === n ? "bg-[#00ffd2] text-black border-[#00ffd2]" : "border-white/5"}`}>{n}P</button>))}</div></div><div className="space-y-6 md:space-y-12"><h4 className="text-2xl md:text-5xl font-black italic uppercase text-white/40">Deployment</h4><div className="flex gap-2 md:gap-4">{[30, 45].map(d => (<button key={d} onClick={() => onChange({ duration: d })} className={`flex-1 p-4 md:p-8 border-2 text-left transition-all ${config.duration === d ? "bg-[#00ffd2] text-black border-[#00ffd2]" : "border-white/5"}`}><span className="text-2xl md:text-4xl font-black italic block uppercase">{d} MIN</span></button>))}</div></div></div><div className="space-y-6 md:space-y-12 relative z-10 pt-8 md:pt-12 border-t border-white/5"><h4 className="text-2xl md:text-5xl font-black italic uppercase text-white/40">Secure Uplink Slot</h4><div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">{["11:00", "12:30", "14:00", "15:30", "17:00", "18:30", "20:00", "21:30"].map(s => {
+            {config.date && (<motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-12 md:space-y-24"><div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24 relative z-10"><div className="space-y-6 md:space-y-12"><h4 className="text-2xl md:text-5xl font-black italic uppercase text-white/40">Squad Count</h4><div className="flex flex-wrap gap-2 md:gap-3">{[1, 2, 4, 6].map(n => (<button key={n} onClick={() => onChange({ players: n })} className={`w-14 h-14 md:w-20 md:h-20 border-2 font-black text-xl md:text-2xl transition-all ${config.players === n ? "bg-[#00ffd2] text-black border-[#00ffd2]" : "border-white/5"}`}>{n}P</button>))}</div></div><div className="space-y-6 md:space-y-12"><h4 className="text-2xl md:text-5xl font-black italic uppercase text-white/40">Deployment</h4><div className="flex gap-2 md:gap-4">{[30, 45].map(d => (<button key={d} onClick={() => onChange({ duration: d })} className={`flex-1 p-4 md:p-8 border-2 text-left transition-all ${config.duration === d ? "bg-[#00ffd2] text-black border-[#00ffd2]" : "border-white/5"}`}><span className="text-2xl md:text-4xl font-black italic block uppercase">{d} MIN</span></button>))}</div></div></div><div className="space-y-6 md:space-y-12 relative z-10 pt-8 md:pt-12 border-t border-white/5"><h4 className="text-2xl md:text-5xl font-black italic uppercase text-white/40">Secure  Slot</h4><div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">{["11:00", "12:30", "14:00", "15:30", "17:00", "18:30", "20:00", "21:30"].map(s => {
                 const isBooked = bookedSlots.includes(s);
                 return (<button key={s} disabled={isBooked} onClick={() => onChange({ time: s })} className={`py-4 md:py-6 border-2 font-mono text-[10px] md:text-sm transition-all ${isBooked ? "opacity-20 bg-red-900/10 border-red-900/30 cursor-not-allowed" : config.time === s ? "bg-[#00ffd2] text-black border-[#00ffd2]" : "border-white/5"}`}>{isBooked ? "OCCUPIED" : s}</button>);
             })}</div></div></motion.div>)}
@@ -1639,7 +1639,7 @@ const DECK_DATA: Record<string, any> = {
     folder: "Corporate Deck",
     images: ["17.png", "18.png", "19.png", "20.png", "21.png", "22.png", "23.png"],
     accent: "#4DFFFF",
-    description: "Ditch the boring boardrooms. Foster team spirit with FPV drone competitions and VR escape rooms that challenge communication and strategy. Designed for high-performing teams, our corporate experiences push the boundaries of collaboration."
+    description: "Ditch the boring boardrooms. Foster team spirit with FPV RACING competitions and VR escape rooms that challenge communication and strategy. Designed for high-performing teams, our corporate experiences push the boundaries of collaboration."
   },
   "walkthrough": {
     title: "PARABOLICA WALKTHROUGH",
@@ -3635,7 +3635,7 @@ function SimpleMissionRow({ booking, onUpdateStatus }: { booking: Booking, onUpd
                     <div>
                         <span className="text-[9px] font-mono text-white/30 uppercase tracking-widest block mb-1">Pilot Identity</span>
                         <h3 className="text-xl font-black italic uppercase text-white group-hover:text-[#00ffd2] transition-colors line-clamp-1">{booking.profiles?.full_name || 'Anonymous Pilot'}</h3>
-                        <p className="text-[10px] font-mono text-white/40 uppercase tracking-tighter">{booking.profiles?.phone_number || 'No Uplink'}</p>
+                        <p className="text-[10px] font-mono text-white/40 uppercase tracking-tighter">{booking.profiles?.phone_number || 'No '}</p>
                     </div>
 
                     <div>
@@ -5265,7 +5265,7 @@ export default function Navbar() {
                   transition={{ delay: 0.5 }}
                   className="relative flex-1 rounded-2xl overflow-hidden shadow-2xl grayscale hover:grayscale-0 transition-all duration-700"
                 >
-                  <Image src="/assets/menu/fpv.png" alt="FPV Drone" fill className="object-cover" />
+                  <Image src="/assets/menu/fpv.png" alt="FPV RACING" fill className="object-cover" />
                 </motion.div>
               </div>
             </div>
@@ -7524,7 +7524,7 @@ import { ProjectModal } from "@/components/project-modal";
 
 const photos = [
   { id: 2, src: "https://images.unsplash.com/photo-1622325075902-7eaccd5a882a?q=80&w=2070&auto=format&fit=crop", title: "VR ARENA", category: "Virtual Reality", year: "2026", description: "Our next-gen VR arena features full-body tracking and haptic feedback for the most immersive digital experiences on the planet." },
-  { id: 3, src: "https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=2070&auto=format&fit=crop", title: "FPV DRONE", category: "Drone Tech", year: "2026", description: "Train with professional-grade FPV drones in our custom-built flight zone, designed for both beginners and elite pilots." },
+  { id: 3, src: "https://images.unsplash.com/photo-1614850523459-c2f4c699c52e?q=80&w=2070&auto=format&fit=crop", title: "FPV RACING", category: "Drone Tech", year: "2026", description: "Train with professional-grade FPV RACINGs in our custom-built flight zone, designed for both beginners and elite pilots." },
   { id: 4, src: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2070&auto=format&fit=crop", title: "NEXT-GEN TECH", category: "Hardware", year: "2026", description: "We utilize the latest in computing and display technology to power our high-fidelity simulations." },
   { id: 5, src: "https://images.unsplash.com/photo-1593305841991-05c297ba4575?q=80&w=2070&auto=format&fit=crop", title: "IMMERSIVE WORLDS", category: "Experience", year: "2026", description: "Step into limitless digital landscapes crafted with cinematic detail and interactive complexity." },
   { id: 6, src: "https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=2070&auto=format&fit=crop", title: "ELITE RACING", category: "F1 Simulation", year: "2026", description: "Professional-grade motion simulators with custom direct-drive wheelbases and precise pedal telemetry." },
@@ -7548,7 +7548,7 @@ export default function PhotoScroll() {
         year: photo.year,
         description: photo.description,
         image: photo.src,
-        stack: ["F1 Simulator", "VR Arena", "FPV Drone"]
+        stack: ["F1 Simulator", "VR Arena", "FPV RACING"]
     });
     setIsModalOpen(true);
   };
@@ -9306,7 +9306,7 @@ FILE: content\en.json
         "items": [
             "VR TRAINING",
             "F1 SIMULATION",
-            "FPV DRONE",
+            "FPV RACING",
             "PARABOLICA",
             "ULTIMATE SPEED",
             "BEYOND REALITY",
@@ -9318,7 +9318,7 @@ FILE: content\en.json
         "intro_heading": "REDEFINING",
         "intro_sub": "THE DIGITAL FRONTIER",
         "description_part1": "At <span class='important-word color-1'>Parabolica</span>, we don’t just build experiences; we architect <span class='important-word color-2'>alternate realities</span>. Our philosophy is rooted in the fusion of <span class='important-word color-3'>precision engineering</span> and unbridled imagination.",
-        "description_part2": "Whether it's the high-octane pressure of <span class='important-word color-4'>F1 Racing</span>, the limitless horizons of <span class='important-word color-5'>VR Arena</span>, or the tactical mastery of <span class='important-word color-1'>FPV Drones</span>, we deliver the future, today.",
+        "description_part2": "Whether it's the high-octane pressure of <span class='important-word color-4'>F1 Racing</span>, the limitless horizons of <span class='important-word color-5'>VR Arena</span>, or the tactical mastery of <span class='important-word color-1'>FPV RACINGs</span>, we deliver the future, today.",
         "philosophy": "Our mission is to create a singular destination where every click is a journey, and every journey is an evolution.",
         "stack_title": "THE STACK",
         "stats": {
@@ -9377,7 +9377,7 @@ FILE: content\en.json
             },
             {
                 "id": "fpv",
-                "title": "FPV DRONE",
+                "title": "FPV RACING",
                 "category": "AERIAL PILOTING",
                 "year": "Training",
                 "description": "Master the art of FPV flight in our specialized training facility. Indoor courses and professional pilot certification.",
@@ -9408,7 +9408,7 @@ FILE: content\en.json
                 "id": "e2",
                 "title": "CORPORATE EVENTS",
                 "tagline": "Innovation & Team Building",
-                "description": "Ditch the boring boardrooms. Foster team spirit with FPV drone competitions and VR escape rooms that challenge communication and strategy.",
+                "description": "Ditch the boring boardrooms. Foster team spirit with FPV RACING competitions and VR escape rooms that challenge communication and strategy.",
                 "image": "/POSTERS/2.png"
             },
             {

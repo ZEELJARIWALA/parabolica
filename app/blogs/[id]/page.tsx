@@ -26,17 +26,17 @@ const fallbackBlogs = [
     },
     {
         id: "p2",
-        title: "FPV Drone Academy: Master The Art of High-Speed Flight",
-        summary: "FPV drone flight is defining modern electronic sports. Learn about our certification path and courses.",
-        content: `<p>FPV drone flight has officially transformed from a hobbyist pass-time into a high-stakes aerial motorsport. Here at Parabolica, we've built a custom training stadium equipped with responsive neon gates and tracking rigs.</p>
+        title: "FPV RACING Academy: Master The Art of High-Speed Flight",
+        summary: "FPV RACING flight is defining modern electronic sports. Learn about our certification path and courses.",
+        content: `<p>FPV RACING flight has officially transformed from a hobbyist pass-time into a high-stakes aerial motorsport. Here at Parabolica, we've built a custom training stadium equipped with responsive neon gates and tracking rigs.</p>
         <p>Our curriculum is structured to support both newcomers learning hover mechanics in our software simulators, and experienced pilots seeking tactical certifications on the custom micro-quads.</p>
         <p>With high-definition digital video links running on high-gain antennae, the video stream is delivered to goggles with near-zero latency, allowing immediate reflex corrections at 80km/h.</p>`,
-        category: "FPV Drones",
+        category: "FPV RACINGs",
         author: "Flight Control",
         image_url: "/vr_arena_hero.png",
         tags: "Drones, FPV, Training, Neon Gate",
-        seo_keywords: "FPV Drones, Drone Racing, Pilot Academy, Parabolica, Flight Control",
-        seo_meta_desc: "Explore the thrills, digital video links, and racing course designs of the indoor FPV drone piloting setup.",
+        seo_keywords: "FPV RACINGs, Drone Racing, Pilot Academy, Parabolica, Flight Control",
+        seo_meta_desc: "Explore the thrills, digital video links, and racing course designs of the indoor FPV RACING piloting setup.",
         created_at: "2026-06-21 14:30:00"
     },
     {
@@ -148,7 +148,7 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ id:
             </div>
 
             <main className="container mx-auto px-4 sm:px-6 pt-32 pb-24 relative z-10">
-                
+
                 {/* Back button & HUD telemetry strip */}
                 <div className="flex items-center justify-between border-b border-white/10 pb-4 mb-8">
                     <Link
@@ -285,7 +285,8 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ id:
 
             <Footer />
 
-            <style dangerouslySetInnerHTML={{ __html: `
+            <style dangerouslySetInnerHTML={{
+                __html: `
                 @keyframes smoke {
                     0% { transform: scale(1) translate(0, 0) rotate(0deg); opacity: 0.15; }
                     50% { transform: scale(1.1) translate(2%, 3%) rotate(180deg); opacity: 0.25; }

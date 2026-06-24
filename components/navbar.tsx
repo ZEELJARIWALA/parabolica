@@ -281,7 +281,7 @@ export default function Navbar() {
                   transition={{ delay: 0.5 }}
                   className="relative flex-1 rounded-2xl overflow-hidden shadow-2xl grayscale hover:grayscale-0 transition-all duration-700"
                 >
-                  <Image src="/assets/menu/fpv.png" alt="FPV Drone" fill className="object-cover" />
+                  <Image src="/assets/menu/fpv.png" alt="FPV RACING" fill className="object-cover" />
                 </motion.div>
               </div>
             </div>

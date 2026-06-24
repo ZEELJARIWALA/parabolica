@@ -32,7 +32,7 @@ function generateTimeSlots(dateStr: string) {
     const month = String(today.getMonth() + 1).padStart(2, '0');
     const day = String(today.getDate()).padStart(2, '0');
     const todayStr = `${year}-${month}-${day}`;
-    
+
     const isToday = dateStr === todayStr;
     const currentMinutes = today.getHours() * 60 + today.getMinutes();
 
@@ -83,14 +83,14 @@ function BookingContent() {
 
 
     const [currentConfigIndex, setCurrentConfigIndex] = useState(0);
-  const [userEmail, setUserEmail] = useState<string | null>(null);
+    const [userEmail, setUserEmail] = useState<string | null>(null);
 
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    setIsAuthenticated(false);
-    setUserEmail(null);
-    setStep("AUTH");
-  };
+    const handleLogout = async () => {
+        await supabase.auth.signOut();
+        setIsAuthenticated(false);
+        setUserEmail(null);
+        setStep("AUTH");
+    };
 
 
     const [refreshKey, setRefreshKey] = useState(0);
@@ -136,10 +136,10 @@ function BookingContent() {
             try {
                 const { data: { session }, error } = await supabase.auth.getSession();
                 if (error) {
-                   if (error.message.includes("Refresh Token Not Found") || error.message.includes("invalid-refresh-token")) {
+                    if (error.message.includes("Refresh Token Not Found") || error.message.includes("invalid-refresh-token")) {
                         await supabase.auth.signOut();
-                   }
-                   throw error;
+                    }
+                    throw error;
                 }
                 if (session) {
                     setIsAuthenticated(true);
@@ -362,7 +362,7 @@ function BookingContent() {
                             <div className="grid grid-cols-1 gap-8 md:gap-12">
                                 <input value={pilot.name} onChange={(e) => setPilot({ ...pilot, name: e.target.value })} className="w-full bg-transparent border-b-2 border-white/10 pb-2 md:pb-4 text-2xl md:text-5xl font-black italic uppercase outline-none focus:border-[#00ffd2] transition-all placeholder:text-white/5" placeholder="FULL NAME" />
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-                                    <input value={pilot.phone} onChange={(e) => setPilot({ ...pilot, phone: e.target.value })} className="w-full bg-transparent border-b-2 border-white/10 pb-2 md:pb-4 text-lg md:text-2xl font-bold uppercase outline-none focus:border-[#00ffd2] transition-all placeholder:text-white/10" placeholder="UPLINK NUMBER" />
+                                    <input value={pilot.phone} onChange={(e) => setPilot({ ...pilot, phone: e.target.value })} className="w-full bg-transparent border-b-2 border-white/10 pb-2 md:pb-4 text-lg md:text-2xl font-bold uppercase outline-none focus:border-[#00ffd2] transition-all placeholder:text-white/10" placeholder="PHONE NUMBER" />
                                     <input value={pilot.email} onChange={(e) => setPilot({ ...pilot, email: e.target.value })} className="w-full bg-transparent border-b-2 border-white/10 pb-2 md:pb-4 text-lg md:text-2xl font-bold uppercase outline-none focus:border-[#00ffd2] transition-all placeholder:text-white/10" placeholder="EMAIL IDENTITY" />
                                 </div>
                             </div>
@@ -667,8 +667,8 @@ function FPVConfigModule({ config, onChange, onComplete, branch, refreshKey }: a
                 <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-16 pt-8 md:pt-12 border-t border-white/5">
                     <div className="space-y-6 md:space-y-8">
                         <h4 className="text-lg md:text-xl font-black italic uppercase tracking-widest text-white/40">Driver Squadron</h4>
-                        <TacticalDropdown 
-                            value={config.players} 
+                        <TacticalDropdown
+                            value={config.players}
                             onChange={(v) => onChange({ players: v })}
                             options={[1, 2, 3, 4, 5, 6, 7, 8, 9]}
                             label="PILOTS"
@@ -703,14 +703,14 @@ function F1ConfigModule({ config, onChange, onComplete, branch, refreshKey }: an
     }, [config.date, branch, refreshKey]);
 
     const tiers = [
-        { id: "FULL", label: "MOTION + VR", sub: "PEAK SENSORY", icon: Eye }, 
-        { id: "MOTION", label: "MOTION ONLY", sub: "G-FORCE SIM", icon: Activity }, 
+        { id: "FULL", label: "MOTION + VR", sub: "PEAK SENSORY", icon: Eye },
+        { id: "MOTION", label: "MOTION ONLY", sub: "G-FORCE SIM", icon: Activity },
         { id: "STATIC", label: "STATIC COCKPIT", sub: "TECHNICAL FOCUS", icon: Monitor }
     ];
 
     // ✅ Mumbai Restriction: Only Motion Only is allowed
-    const filteredTiers = branch === "MUMBAI" 
-        ? tiers.filter(t => t.id === "MOTION") 
+    const filteredTiers = branch === "MUMBAI"
+        ? tiers.filter(t => t.id === "MOTION")
         : tiers;
 
     return (
@@ -749,8 +749,8 @@ function F1ConfigModule({ config, onChange, onComplete, branch, refreshKey }: an
                             {config.mode === "RACE" && (
                                 <motion.div initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -10 }} className="space-y-4 md:space-y-6 mt-6">
                                     <h4 className="text-lg md:text-xl font-black italic uppercase tracking-widest text-white/40">Number of Pilots</h4>
-                                    <TacticalDropdown 
-                                        value={config.players} 
+                                    <TacticalDropdown
+                                        value={config.players}
                                         onChange={(v) => onChange({ players: v })}
                                         options={[1, 2, 3, 4, 5, 6, 7, 8, 9]}
                                         label="PILOTS"
@@ -810,14 +810,14 @@ function PrecisionVRModule({ config, onChange, onComplete, branch, refreshKey }:
     return (
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="grid grid-cols-1 gap-8 md:gap-12 border border-white/10 bg-white/[0.02] p-8 md:p-24 relative overflow-hidden">
             <div className="space-y-6 md:space-y-12 relative z-10 pt-8 md:pt-12 border-b border-white/5 pb-12"><h4 className="text-2xl md:text-5xl font-black italic uppercase text-[#00ffd2]">Mission Date</h4><input type="date" min={today} value={config.date} onChange={(e) => onChange({ date: e.target.value })} className="bg-white/[0.03] border-2 border-white/10 p-4 md:p-6 font-mono text-lg md:text-2xl uppercase outline-none focus:border-[#00ffd2] transition-all w-full md:w-auto [color-scheme:dark]" /></div>
-            
+
             {config.date && (
                 <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-12 md:space-y-24">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24 relative z-10">
                         <div className="space-y-6 md:space-y-12">
                             <h4 className="text-2xl md:text-5xl font-black italic uppercase text-white/40">Squad Count</h4>
-                            <TacticalDropdown 
-                                value={config.players} 
+                            <TacticalDropdown
+                                value={config.players}
                                 onChange={(v) => onChange({ players: v })}
                                 options={[1, 2, 3, 4, 5, 6, 7, 8, 9]}
                                 label="PILOTS"
@@ -871,15 +871,13 @@ function TacticalDropdown({ value, onChange, options, label, large }: { value: n
         <div ref={containerRef} className="relative inline-block w-full">
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className={`w-full bg-black border-2 transition-all flex items-center justify-between group active:scale-[0.98] ${
-                    isOpen ? "border-[#00ffd2]" : "border-white/10 hover:border-white/20"
-                } ${large ? "p-6 md:p-8" : "p-4"}`}
+                className={`w-full bg-black border-2 transition-all flex items-center justify-between group active:scale-[0.98] ${isOpen ? "border-[#00ffd2]" : "border-white/10 hover:border-white/20"
+                    } ${large ? "p-6 md:p-8" : "p-4"}`}
             >
                 <div className="flex items-center gap-4">
                     <Users className={`w-4 h-4 md:w-6 md:h-6 ${isOpen ? "text-[#00ffd2]" : "text-white/40 group-hover:text-[#00ffd2]"}`} />
-                    <span className={`font-black italic uppercase transition-all ${
-                        large ? "text-2xl md:text-5xl" : "text-xl"
-                    }`}>
+                    <span className={`font-black italic uppercase transition-all ${large ? "text-2xl md:text-5xl" : "text-xl"
+                        }`}>
                         {value} <span className="text-white/20 ml-2">{label}</span>
                     </span>
                 </div>
@@ -902,16 +900,15 @@ function TacticalDropdown({ value, onChange, options, label, large }: { value: n
                                         onChange(opt);
                                         setIsOpen(false);
                                     }}
-                                    className={`py-4 md:py-6 font-black italic text-lg md:text-2xl transition-all relative overflow-hidden ${
-                                        value === opt 
-                                            ? "bg-[#00ffd2] text-black" 
+                                    className={`py-4 md:py-6 font-black italic text-lg md:text-2xl transition-all relative overflow-hidden ${value === opt
+                                            ? "bg-[#00ffd2] text-black"
                                             : "bg-white/[0.03] text-white/40 hover:bg-white/10 hover:text-white"
-                                    }`}
+                                        }`}
                                 >
                                     {opt}P
                                     {value === opt && (
-                                        <motion.div 
-                                            layoutId="active-bg" 
+                                        <motion.div
+                                            layoutId="active-bg"
                                             className="absolute inset-0 bg-[#00ffd2] -z-10"
                                         />
                                     )}
@@ -944,37 +941,37 @@ function PlexusBackground() {
 
     useFrame(() => {
         if (!mesh.current || !linesRef.current) return;
-        
+
         const pos = mesh.current.geometry.attributes.position.array as Float32Array;
         const linePos = linesRef.current.geometry.attributes.position.array as Float32Array;
         let lineIdx = 0;
-        
+
         for (let i = 0; i < count; i++) {
             const i3 = i * 3;
             pos[i3] += vels.current[i3];
             pos[i3 + 1] += vels.current[i3 + 1];
             if (Math.abs(pos[i3]) > 10) vels.current[i3] *= -1;
             if (Math.abs(pos[i3 + 1]) > 10) vels.current[i3 + 1] *= -1;
-            
+
             for (let j = i + 1; j < count; j++) {
                 const j3 = j * 3;
                 const dx = pos[i3] - pos[j3];
                 const dy = pos[i3 + 1] - pos[j3 + 1];
                 const distance = Math.sqrt(dx * dx + dy * dy);
-                
+
                 if (distance < 3.5) {
                     const lIdx = lineIdx * 6;
                     linePos[lIdx] = pos[i3];
-                    linePos[lIdx+1] = pos[i3+1];
-                    linePos[lIdx+2] = pos[i3+2];
-                    linePos[lIdx+3] = pos[j3];
-                    linePos[lIdx+4] = pos[j3+1];
-                    linePos[lIdx+5] = pos[j3+2];
+                    linePos[lIdx + 1] = pos[i3 + 1];
+                    linePos[lIdx + 2] = pos[i3 + 2];
+                    linePos[lIdx + 3] = pos[j3];
+                    linePos[lIdx + 4] = pos[j3 + 1];
+                    linePos[lIdx + 5] = pos[j3 + 2];
                     lineIdx++;
                 }
             }
         }
-        
+
         mesh.current.geometry.attributes.position.needsUpdate = true;
         if (linesRef.current.geometry.attributes.position) {
             linesRef.current.geometry.attributes.position.needsUpdate = true;
@@ -986,24 +983,24 @@ function PlexusBackground() {
         <group>
             <points ref={mesh}>
                 <bufferGeometry>
-                    <bufferAttribute 
-                      attach="attributes-position" 
-                      count={count} 
-                      array={positions.current} 
-                      itemSize={3} 
-                      args={[positions.current, 3]}
+                    <bufferAttribute
+                        attach="attributes-position"
+                        count={count}
+                        array={positions.current}
+                        itemSize={3}
+                        args={[positions.current, 3]}
                     />
                 </bufferGeometry>
                 <pointsMaterial size={0.1} color="#00ffd2" transparent opacity={0.2} />
             </points>
             <lineSegments ref={linesRef}>
                 <bufferGeometry>
-                    <bufferAttribute 
-                      attach="attributes-position" 
-                      count={maxLines * 2} 
-                      array={linePositions.current} 
-                      itemSize={3} 
-                      args={[linePositions.current, 3]}
+                    <bufferAttribute
+                        attach="attributes-position"
+                        count={maxLines * 2}
+                        array={linePositions.current}
+                        itemSize={3}
+                        args={[linePositions.current, 3]}
                     />
                 </bufferGeometry>
                 <lineBasicMaterial color="#00ffd2" transparent opacity={0.05} />

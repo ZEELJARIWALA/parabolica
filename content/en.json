@@ -20,7 +20,7 @@
         "items": [
             "VR TRAINING",
             "F1 SIMULATION",
-            "FPV DRONE",
+            "FPV RACING",
             "PARABOLICA",
             "ULTIMATE SPEED",
             "BEYOND REALITY",
@@ -32,7 +32,7 @@
         "intro_heading": "REDEFINING",
         "intro_sub": "THE DIGITAL FRONTIER",
         "description_part1": "At <span class='important-word color-1'>Parabolica</span>, we don’t just build experiences; we architect <span class='important-word color-2'>alternate realities</span>. Our philosophy is rooted in the fusion of <span class='important-word color-3'>precision engineering</span> and unbridled imagination.",
-        "description_part2": "Whether it's the high-octane pressure of <span class='important-word color-4'>F1 Racing</span>, the limitless horizons of <span class='important-word color-5'>VR Arena</span>, or the tactical mastery of <span class='important-word color-1'>FPV Drones</span>, we deliver the future, today.",
+        "description_part2": "Whether it's the high-octane pressure of <span class='important-word color-4'>F1 Racing</span>, the limitless horizons of <span class='important-word color-5'>VR Arena</span>, or the tactical mastery of <span class='important-word color-1'>FPV RACINGs</span>, we deliver the future, today.",
         "philosophy": "Our mission is to create a singular destination where every click is a journey, and every journey is an evolution.",
         "stack_title": "THE STACK",
         "stats": {
@@ -52,17 +52,35 @@
             {
                 "title": "MOTION & VR",
                 "items": [
-                    { "name": "Motion Engines", "level": "Expert" },
-                    { "name": "Haptic Systems", "level": "Master" },
-                    { "name": "3D Tracking", "level": "Expert" }
+                    {
+                        "name": "Motion Engines",
+                        "level": "Expert"
+                    },
+                    {
+                        "name": "Haptic Systems",
+                        "level": "Master"
+                    },
+                    {
+                        "name": "3D Tracking",
+                        "level": "Expert"
+                    }
                 ]
             },
             {
                 "title": "ENGINEERING",
                 "items": [
-                    { "name": "Simulation Physics", "level": "Advanced" },
-                    { "name": "Latency Control", "level": "Master" },
-                    { "name": "Spatial Audio", "level": "Advanced" }
+                    {
+                        "name": "Simulation Physics",
+                        "level": "Advanced"
+                    },
+                    {
+                        "name": "Latency Control",
+                        "level": "Master"
+                    },
+                    {
+                        "name": "Spatial Audio",
+                        "level": "Advanced"
+                    }
                 ]
             }
         ]
@@ -91,7 +109,7 @@
             },
             {
                 "id": "fpv",
-                "title": "FPV DRONE",
+                "title": "FPV RACING",
                 "category": "AERIAL PILOTING",
                 "year": "Training",
                 "description": "Master the art of FPV flight in our specialized training facility. Indoor courses and professional pilot certification.",
@@ -122,7 +140,7 @@
                 "id": "e2",
                 "title": "CORPORATE EVENTS",
                 "tagline": "Innovation & Team Building",
-                "description": "Ditch the boring boardrooms. Foster team spirit with FPV drone competitions and VR escape rooms that challenge communication and strategy.",
+                "description": "Ditch the boring boardrooms. Foster team spirit with FPV RACING competitions and VR escape rooms that challenge communication and strategy.",
                 "image": "/POSTERS/2.png"
             },
             {
@@ -143,9 +161,18 @@
     },
     "social": {
         "items": [
-            { "label": "INSTAGRAM", "href": "#" },
-            { "label": "YOUTUBE", "href": "#" },
-            { "label": "TWITTER", "href": "#" }
+            {
+                "label": "INSTAGRAM",
+                "href": "#"
+            },
+            {
+                "label": "YOUTUBE",
+                "href": "#"
+            },
+            {
+                "label": "TWITTER",
+                "href": "#"
+            }
         ]
     },
     "contact": {
