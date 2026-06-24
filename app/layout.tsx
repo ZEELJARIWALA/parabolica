@@ -10,6 +10,7 @@ import Navbar from "@/components/navbar";
 import { APP_CONFIG } from "@/lib/constants";
 import { IntroProvider } from "@/context/intro-context";
 import { HydrationGuard } from "@/components/hydration-guard";
+import { WhatsAppButton } from "@/components/whatsapp-button";
 
 const syne = Syne({ subsets: ["latin"], variable: "--font-syne" });
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
@@ -34,6 +35,7 @@ export default function RootLayout({
           <IntroProvider>
             <ThemeProvider>
               <CustomCursor />
+              <WhatsAppButton />
               
               <HydrationGuard />
               

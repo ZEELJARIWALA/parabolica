@@ -177,6 +177,7 @@ export default function ShopShowcase() {
                     src={team.image}
                     alt={team.title}
                     fill
+                    sizes="(max-width: 768px) 50vw, 25vw"
                     className="object-cover opacity-80 group-hover:opacity-100 transition-all duration-700"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
