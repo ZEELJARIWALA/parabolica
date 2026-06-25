@@ -63,7 +63,7 @@ export default function OffersScroll() {
     return (
         <section
             id="offers"
-            className="relative w-full py-20 md:py-32 bg-[#030303] overflow-hidden"
+            className="relative w-full py-20 md:py-32 bg-background overflow-hidden"
         >
             {/* Ambient Animated Cyber-Smoke Background */}
             <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none opacity-50">
