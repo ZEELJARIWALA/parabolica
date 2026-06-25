@@ -38,7 +38,7 @@ const offers = [
         title: "VR GAMING",
         category: "IMMERSIVE VIRTUALITY",
         discount: "25% OFF",
-        suratOnly: false,
+        suratOnly: true,
         rates: [
             { label: "15 Min", price: "₹799", originalPrice: "₹999" },
             { label: "30 Min", price: "₹999", originalPrice: "₹1,249" },
@@ -147,7 +147,7 @@ export default function OffersScroll() {
 
                             {/* Card Body - Sleek Cyberpunk Glassmorphism */}
                             <div className="relative flex flex-col justify-between h-full p-5 sm:p-6 lg:p-7 rounded-[2rem] ring-1 ring-white/10 shadow-2xl bg-gradient-to-br from-white/[0.04] to-black/98 backdrop-blur-xl border border-white/5 group-hover:border-[#00ffd2]/40 group-hover:shadow-[0_0_40px_rgba(0,255,210,0.1)] transition-all duration-500 min-h-[480px] overflow-hidden">
-                                
+
                                 {/* Holographic Tactical HUD Grid Background */}
                                 <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(rgba(255,255,255,0.2)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.2)_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none transition-opacity duration-500 group-hover:opacity-[0.06]" />
 
@@ -189,7 +189,7 @@ export default function OffersScroll() {
                                             <span className="text-[9px] font-mono tracking-[0.4em] text-[#00ffd2] uppercase block">
                                                 CONTACT INFO
                                             </span>
-                                            <a 
+                                            <a
                                                 href="tel:7383756561"
                                                 className="block w-full py-3 bg-[#00ffd2]/10 hover:bg-[#00ffd2] border border-[#00ffd2]/30 hover:border-transparent text-[#00ffd2] hover:text-black font-black font-mono tracking-wider rounded-xl transition-all duration-300 text-center text-sm sm:text-base cursor-pointer pointer-events-auto relative z-20"
                                             >
@@ -203,13 +203,13 @@ export default function OffersScroll() {
                                         <span className="text-[9px] font-mono tracking-[0.4em] text-white/30 uppercase mb-3 block">
                                             LAUNCH RATES
                                         </span>
-                                        
+
                                         {/* Pricing List with Styled High-Contrast Blocks */}
                                         <div className="space-y-3 w-full">
                                             {offer.rates.map((rate, rIdx) => {
                                                 return (
-                                                    <div 
-                                                        key={rIdx} 
+                                                    <div
+                                                        key={rIdx}
                                                         className="flex justify-between items-center px-3.5 sm:px-4 py-3 bg-white/[0.02] border border-white/10 rounded-xl group-hover:border-[#00ffd2]/30 group-hover:bg-white/[0.04] transition-all duration-300"
                                                     >
                                                         <span className="text-xs sm:text-sm font-black text-white uppercase tracking-wide flex-shrink-0">
@@ -240,7 +240,7 @@ export default function OffersScroll() {
                                             {offer.title}
                                         </h3>
                                     </div>
-                                    
+
                                     {/* Status HUD Tag */}
                                     <div className="flex items-center gap-2 pt-1 text-white/20 text-[9px] font-mono tracking-widest uppercase transition-colors group-hover:text-white/40">
                                         <span className="w-1.5 h-1.5 rounded-full bg-white/10 group-hover:bg-[#00ffd2]/50 animate-pulse" />
