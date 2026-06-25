@@ -10,11 +10,12 @@ const offers = [
         title: "F1 STATIC RACING",
         category: "TECH SIMULATOR",
         discount: "25% OFF",
+        suratOnly: true,
         rates: [
-            { label: "6 Laps", price: "₹399", originalPrice: "₹499" },
-            { label: "15 Min (10 Laps)", price: "₹599", originalPrice: "₹749" },
-            { label: "30 Min (15 Laps)", price: "₹799", originalPrice: "₹999" },
-            { label: "45 Min (20 Laps)", price: "₹999", originalPrice: "₹1,249" }
+            { label: "6 Laps — 15 Min", price: "₹399", originalPrice: "₹499" },
+            { label: "10 Laps — 20 Min", price: "₹599", originalPrice: "₹749" },
+            { label: "15 Laps — 30 Min", price: "₹799", originalPrice: "₹999" },
+            { label: "20 Laps — 45 Min", price: "₹999", originalPrice: "₹1,249" }
         ],
         status: "READY FOR DEPLOYMENT"
     },
@@ -23,11 +24,12 @@ const offers = [
         title: "F1 MOTION RACING",
         category: "SIMULATOR RACING",
         discount: "25% OFF",
+        suratOnly: true,
         rates: [
-            { label: "6 Laps", price: "₹599", originalPrice: "₹749" },
-            { label: "15 Min (10 Laps)", price: "₹699", originalPrice: "₹899" },
-            { label: "30 Min (15 Laps)", price: "₹899", originalPrice: "₹1,149" },
-            { label: "45 Min (20 Laps)", price: "₹1,099", originalPrice: "₹1,399" }
+            { label: "6 Laps — 15 Min", price: "₹599", originalPrice: "₹749" },
+            { label: "10 Laps — 20 Min", price: "₹699", originalPrice: "₹899" },
+            { label: "15 Laps — 30 Min", price: "₹899", originalPrice: "₹1,149" },
+            { label: "20 Laps — 45 Min", price: "₹1,099", originalPrice: "₹1,399" }
         ],
         status: "READY FOR DEPLOYMENT"
     },
@@ -36,6 +38,7 @@ const offers = [
         title: "VR GAMING",
         category: "IMMERSIVE VIRTUALITY",
         discount: "25% OFF",
+        suratOnly: false,
         rates: [
             { label: "15 Min", price: "₹799", originalPrice: "₹999" },
             { label: "30 Min", price: "₹999", originalPrice: "₹1,249" },
@@ -48,6 +51,7 @@ const offers = [
         title: "CUSTOM COMBO",
         category: "TAILORED EXPERIENCE",
         discount: "BEST VALUE",
+        suratOnly: false,
         rates: [
             { label: "CONTACT INFO", price: "7383756561", originalPrice: "" }
         ],
@@ -109,9 +113,14 @@ export default function OffersScroll() {
 
             {/* Static Section Header */}
             <div className="relative z-20 max-w-7xl mx-auto px-6 md:px-8 mb-16 md:mb-20 text-center flex flex-col items-center gap-2">
-                <span className="text-[#00ffd2] font-mono text-xs sm:text-sm tracking-[0.4em] uppercase font-black">
-                    PARABOLICA - LAUNCH SPECIAL
-                </span>
+                <div className="flex items-center gap-3 flex-wrap justify-center">
+                    <span className="bg-red-500 text-white font-black italic px-3 py-1 text-[10px] uppercase tracking-widest animate-pulse">
+                        ⚡ LIMITED TIME OFFER
+                    </span>
+                    <span className="text-[#00ffd2] font-mono text-xs sm:text-sm tracking-[0.4em] uppercase font-black">
+                        PARABOLICA - LAUNCH SPECIAL
+                    </span>
+                </div>
                 <h2 className="text-5xl sm:text-7xl md:text-8xl lg:text-[8rem] font-black uppercase tracking-tighter italic leading-none text-white drop-shadow-[0_0_30px_rgba(255,255,255,0.03)]">
                     25% OFF
                 </h2>
@@ -149,13 +158,21 @@ export default function OffersScroll() {
                                 <div className="absolute bottom-6 right-6 w-3 h-3 border-b border-r border-[#00ffd2]/20 group-hover:border-[#00ffd2]/60 transition-all duration-500 rounded-br-sm pointer-events-none" />
 
                                 {/* Top Row: Discount Tag & Index */}
-                                <div className="flex justify-between items-center w-full relative z-10">
-                                    <div className="bg-[#00ffd2]/10 border border-[#00ffd2]/30 text-[#00ffd2] font-black italic px-2.5 py-1 text-[9px] sm:text-[10px] uppercase tracking-wider rounded-md">
-                                        {offer.discount}
+                                <div className="flex flex-col gap-2 w-full relative z-10">
+                                    <div className="flex justify-between items-center">
+                                        <div className="bg-[#00ffd2]/10 border border-[#00ffd2]/30 text-[#00ffd2] font-black italic px-2.5 py-1 text-[9px] sm:text-[10px] uppercase tracking-wider rounded-md">
+                                            {offer.discount}
+                                        </div>
+                                        <span className="text-white/20 font-mono text-[9px] sm:text-[10px] font-bold tracking-widest">
+                                            [ RATE CARD 0{index + 1} ]
+                                        </span>
                                     </div>
-                                    <span className="text-white/20 font-mono text-[9px] sm:text-[10px] font-bold tracking-widest">
-                                        [ RATE CARD 0{index + 1} ]
-                                    </span>
+                                    {offer.suratOnly && (
+                                        <div className="flex items-center gap-1.5 px-2.5 py-1 bg-orange-500/10 border border-orange-500/30 rounded-md w-fit">
+                                            <span className="w-1.5 h-1.5 rounded-full bg-orange-400 animate-pulse" />
+                                            <span className="text-orange-400 font-black text-[8px] uppercase tracking-widest">Surat Terminal Only</span>
+                                        </div>
+                                    )}
                                 </div>
 
                                 {/* Middle Row: Content (Specialized for Custom Combo Event/Contact Card) */}
