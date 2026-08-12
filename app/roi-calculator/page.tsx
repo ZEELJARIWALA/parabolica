@@ -5,51 +5,78 @@ import Footer from "@/components/footer";
 
 export default function ROICalculatorPage() {
   const iframeRef = useRef<HTMLIFrameElement>(null);
-  const [iframeHeight, setIframeHeight] = useState("100vh");
+  const [iframeHeight, setIframeHeight] = useState("1200px");
 
   useEffect(() => {
-    const handleMessage = (event: MessageEvent) => {
-      if (event.data?.type === "resize" && event.data?.height) {
-        setIframeHeight(`${event.data.height}px`);
-      }
-    };
-    window.addEventListener("message", handleMessage);
+    const iframe = iframeRef.current;
+    if (!iframe) return;
 
-    // Fallback: poll iframe content height
-    const interval = setInterval(() => {
+    let resizeObserver: ResizeObserver | null = null;
+
+    const measureHeight = () => {
       try {
-        const iframe = iframeRef.current;
-        if (iframe?.contentDocument?.body) {
-          const height = iframe.contentDocument.body.scrollHeight;
+        const doc = iframe.contentDocument || iframe.contentWindow?.document;
+        if (!doc) return;
+        const pageWrap = doc.querySelector(".page-wrap") as HTMLElement;
+        if (pageWrap) {
+          const height = pageWrap.getBoundingClientRect().height || pageWrap.offsetHeight;
           if (height > 100) {
-            setIframeHeight(`${height + 40}px`);
+            setIframeHeight(`${Math.ceil(height) + 10}px`);
           }
         }
       } catch {
-        // Cross-origin — will use default height
+        // Cross-origin fallback
       }
-    }, 500);
+    };
+
+    const handleLoad = () => {
+      measureHeight();
+
+      try {
+        const doc = iframe.contentDocument || iframe.contentWindow?.document;
+        if (doc) {
+          const pageWrap = doc.querySelector(".page-wrap");
+          if (pageWrap && typeof window !== "undefined" && window.ResizeObserver) {
+            resizeObserver = new ResizeObserver(() => {
+              measureHeight();
+            });
+            resizeObserver.observe(pageWrap);
+          }
+        }
+      } catch {
+        // fallback
+      }
+    };
+
+    iframe.addEventListener("load", handleLoad);
+    if (iframe.contentDocument?.readyState === "complete") {
+      handleLoad();
+    }
+
+    window.addEventListener("resize", measureHeight);
 
     return () => {
-      window.removeEventListener("message", handleMessage);
-      clearInterval(interval);
+      iframe.removeEventListener("load", handleLoad);
+      window.removeEventListener("resize", measureHeight);
+      if (resizeObserver) {
+        resizeObserver.disconnect();
+      }
     };
   }, []);
 
   return (
     <>
-      <main className="relative min-h-screen bg-[#0a0a0f]">
+      <main className="relative min-h-screen bg-[#0a0a0f] pt-20">
         <iframe
           ref={iframeRef}
           src="/roi-calculator.html"
           title="Parabolica ROI Calculator"
-          className="w-full border-0"
+          className="w-full border-0 block"
           style={{
             height: iframeHeight,
-            minHeight: "100vh",
             colorScheme: "dark",
           }}
-          allowFullScreen
+          scrolling="no"
         />
       </main>
       <Footer />
