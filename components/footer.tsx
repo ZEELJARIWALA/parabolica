@@ -42,29 +42,29 @@ export default function Footer() {
               THE ARCHITECTURE OF IMMERSION. REDEFINING THE BOUNDARIES OF VR GAMING AND HIGH-PERFORMANCE SIMULATION.
             </p>
             <div className="flex gap-4">
-              <a 
-                href="https://www.instagram.com/parabolica.space?igsh=YXhlZTN6aWl5NWxr" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all ${isShopPage ? "border-slate-200 text-slate-700 hover:bg-slate-950 hover:text-white" : "border-white/10 hover:bg-[#00ffd2] hover:text-black hover:border-[#00ffd2]"}`} 
+              <a
+                href="https://www.instagram.com/parabolica.space?igsh=YXhlZTN6aWl5NWxr"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all ${isShopPage ? "border-slate-200 text-slate-700 hover:bg-slate-950 hover:text-white" : "border-white/10 hover:bg-[#00ffd2] hover:text-black hover:border-[#00ffd2]"}`}
                 title="Instagram (Main)"
               >
                 <Instagram size={18} />
               </a>
-              <a 
-                href="https://youtube.com/@parabolica.mumbai?si=iE4pk3mzroDVwxMS" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all ${isShopPage ? "border-slate-200 text-slate-700 hover:bg-slate-950 hover:text-white" : "border-white/10 hover:bg-[#00ffd2] hover:text-black hover:border-[#00ffd2]"}`} 
+              <a
+                href="https://youtube.com/@parabolica.mumbai?si=iE4pk3mzroDVwxMS"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all ${isShopPage ? "border-slate-200 text-slate-700 hover:bg-slate-950 hover:text-white" : "border-white/10 hover:bg-[#00ffd2] hover:text-black hover:border-[#00ffd2]"}`}
                 title="YouTube"
               >
                 <Youtube size={18} />
               </a>
-              <a 
-                href="https://www.linkedin.com/company/parabolica-entertainment-india-private-limited/" 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all ${isShopPage ? "border-slate-200 text-slate-700 hover:bg-slate-950 hover:text-white" : "border-white/10 hover:bg-[#00ffd2] hover:text-black hover:border-[#00ffd2]"}`} 
+              <a
+                href="https://www.linkedin.com/company/parabolica-entertainment-india-private-limited/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all ${isShopPage ? "border-slate-200 text-slate-700 hover:bg-slate-950 hover:text-white" : "border-white/10 hover:bg-[#00ffd2] hover:text-black hover:border-[#00ffd2]"}`}
                 title="LinkedIn"
               >
                 <Linkedin size={18} />
@@ -83,6 +83,7 @@ export default function Footer() {
               <Link href="/booking" className={`transition-colors ${isShopPage ? "hover:text-slate-950" : "hover:text-white"}`}>BOOKING</Link>
               <Link href="/blogs" className={`transition-colors ${isShopPage ? "hover:text-slate-950" : "hover:text-white"}`}>BLOG</Link>
               <Link href="/shop" className={`transition-colors ${isShopPage ? "hover:text-slate-950" : "hover:text-white"}`}>SHOP</Link>
+              <Link href="/roi-calculator" className={`transition-colors ${isShopPage ? "hover:text-slate-950" : "hover:text-white"}`}>ROI Calculator</Link>
             </nav>
           </div>
 
@@ -90,45 +91,45 @@ export default function Footer() {
           <div className="flex flex-col gap-8 col-span-1 md:col-span-2 lg:col-span-2">
             <h4 className={`text-xs font-mono tracking-[0.4em] uppercase ${isShopPage ? "text-slate-950 font-bold" : "text-[#00ffd2]"}`}>Terminals & Locations</h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {/* Mumbai */}
-                <div className="flex flex-col gap-4">
-                    <span className={`text-[10px] font-mono tracking-widest uppercase ${isShopPage ? "text-slate-400 font-bold" : "text-white/30"}`}>Mumbai Terminal</span>
-                    <p className={`text-sm font-light leading-relaxed ${isShopPage ? "text-slate-600" : "text-white/60"}`}>
-                      NEW LINK ROAD, OPP. CITI MALL, <br />
-                      ANDHERI WEST, MUMBAI
-                    </p>
-                    <div className="flex flex-col gap-2">
-                        <a href="tel:+919702437855" className={`flex items-center gap-2 text-xs hover:underline ${isShopPage ? "text-slate-950 font-bold" : "text-[#00ffd2]"}`}>
-                          <Phone size={12} /> +91 97024 37855
-                        </a>
-                        <a href="tel:+918369990344" className={`flex items-center gap-2 text-xs hover:underline ${isShopPage ? "text-slate-950 font-bold" : "text-[#00ffd2]"}`}>
-                          <Phone size={12} /> +91 83699 90344
-                        </a>
-                        <a href="mailto:mumbai.parabolica@co.in" className={`flex items-center gap-2 text-xs hover:underline ${isShopPage ? "text-slate-950 font-bold" : "text-[#00ffd2]"}`}>
-                          <Mail size={12} /> mumbai.parabolica@co.in
-                        </a>
-                    </div>
+              {/* Mumbai */}
+              <div className="flex flex-col gap-4">
+                <span className={`text-[10px] font-mono tracking-widest uppercase ${isShopPage ? "text-slate-400 font-bold" : "text-white/30"}`}>Mumbai Terminal</span>
+                <p className={`text-sm font-light leading-relaxed ${isShopPage ? "text-slate-600" : "text-white/60"}`}>
+                  NEW LINK ROAD, OPP. CITI MALL, <br />
+                  ANDHERI WEST, MUMBAI
+                </p>
+                <div className="flex flex-col gap-2">
+                  <a href="tel:+919702437855" className={`flex items-center gap-2 text-xs hover:underline ${isShopPage ? "text-slate-950 font-bold" : "text-[#00ffd2]"}`}>
+                    <Phone size={12} /> +91 97024 37855
+                  </a>
+                  <a href="tel:+918369990344" className={`flex items-center gap-2 text-xs hover:underline ${isShopPage ? "text-slate-950 font-bold" : "text-[#00ffd2]"}`}>
+                    <Phone size={12} /> +91 83699 90344
+                  </a>
+                  <a href="mailto:mumbai.parabolica@co.in" className={`flex items-center gap-2 text-xs hover:underline ${isShopPage ? "text-slate-950 font-bold" : "text-[#00ffd2]"}`}>
+                    <Mail size={12} /> mumbai.parabolica@co.in
+                  </a>
                 </div>
+              </div>
 
-                {/* Surat */}
-                <div className="flex flex-col gap-4">
-                    <span className={`text-[10px] font-mono tracking-widest uppercase ${isShopPage ? "text-slate-400 font-bold" : "text-white/30"}`}>Surat Terminal</span>
-                    <p className={`text-sm font-light leading-relaxed ${isShopPage ? "text-slate-600" : "text-white/60"}`}>
-                      OPP. CB PATEL CLUB, 3RD FLOOR <br />
-                      BESIDE OF NINIS KITCHEN, VESU SURAT
-                    </p>
-                    <div className="flex flex-col gap-2">
-                        <a href="tel:+919702437855" className={`flex items-center gap-2 text-xs hover:underline ${isShopPage ? "text-slate-950 font-bold" : "text-[#00ffd2]"}`}>
-                          <Phone size={12} /> +91 97024 37855
-                        </a>
-                        <a href="tel:+918369990344" className={`flex items-center gap-2 text-xs hover:underline ${isShopPage ? "text-slate-950 font-bold" : "text-[#00ffd2]"}`}>
-                          <Phone size={12} /> +91 83699 90344
-                        </a>
-                        <a href="mailto:surat.parabolica@co.in" className={`flex items-center gap-2 text-xs hover:underline ${isShopPage ? "text-slate-950 font-bold" : "text-[#00ffd2]"}`}>
-                          <Mail size={12} /> surat.parabolica@co.in
-                        </a>
-                    </div>
+              {/* Surat */}
+              <div className="flex flex-col gap-4">
+                <span className={`text-[10px] font-mono tracking-widest uppercase ${isShopPage ? "text-slate-400 font-bold" : "text-white/30"}`}>Surat Terminal</span>
+                <p className={`text-sm font-light leading-relaxed ${isShopPage ? "text-slate-600" : "text-white/60"}`}>
+                  OPP. CB PATEL CLUB, 3RD FLOOR <br />
+                  BESIDE OF NINIS KITCHEN, VESU SURAT
+                </p>
+                <div className="flex flex-col gap-2">
+                  <a href="tel:+919702437855" className={`flex items-center gap-2 text-xs hover:underline ${isShopPage ? "text-slate-950 font-bold" : "text-[#00ffd2]"}`}>
+                    <Phone size={12} /> +91 97024 37855
+                  </a>
+                  <a href="tel:+918369990344" className={`flex items-center gap-2 text-xs hover:underline ${isShopPage ? "text-slate-950 font-bold" : "text-[#00ffd2]"}`}>
+                    <Phone size={12} /> +91 83699 90344
+                  </a>
+                  <a href="mailto:surat.parabolica@co.in" className={`flex items-center gap-2 text-xs hover:underline ${isShopPage ? "text-slate-950 font-bold" : "text-[#00ffd2]"}`}>
+                    <Mail size={12} /> surat.parabolica@co.in
+                  </a>
                 </div>
+              </div>
             </div>
           </div>
 

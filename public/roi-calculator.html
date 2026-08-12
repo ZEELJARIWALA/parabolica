@@ -1,0 +1,1789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parabolica Experience ROI Calculator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0a0a0f;
+    --bg2: #111118;
+    --bg3: #18181f;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.13);
+    --text: #f0f0f5;
+    --text2: #8888a0;
+    --text3: #55556a;
+    --accent: #5b7fff;
+    --accent2: #7c5bff;
+    --green: #1dd99a;
+    --amber: #ffb84d;
+    --coral: #ff6b4a;
+    --std: #1dd99a;
+    --pro: #5b7fff;
+    --champ: #c47aff;
+    --vr: #22d3ee;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(91,127,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(91,127,255,0.03) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .page-wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 5rem;
+  }
+
+  header { margin-bottom: 2rem; }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+  }
+
+  .eyebrow-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.7); }
+  }
+
+  h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    margin-bottom: 0.75rem;
+  }
+
+  h1 span { color: var(--accent); }
+
+  .header-sub {
+    font-size: 15px;
+    color: var(--text2);
+    max-width: 520px;
+  }
+
+  /* ── tab switcher ── */
+  .tab-nav {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 1.75rem;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 6px;
+  }
+
+  .tab-btn {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    color: var(--text2);
+    background: transparent;
+    border: none;
+    border-radius: 10px;
+    padding: 0.7rem 0.5rem;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    text-align: center;
+  }
+
+  .tab-btn:hover { color: var(--text); }
+
+  .tab-btn.active {
+    background: var(--bg3);
+    color: var(--text);
+    box-shadow: inset 0 0 0 1px var(--border2);
+  }
+
+  .tab-btn.active[data-tab="sim"] { color: var(--pro); }
+  .tab-btn.active[data-tab="fpv"] { color: var(--coral); }
+  .tab-btn.active[data-tab="vr"] { color: var(--vr); }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; animation: fadein 0.25s ease; }
+
+  @keyframes fadein { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── sections ── */
+  .section {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 1.75rem;
+    margin-bottom: 1.25rem;
+    transition: border-color 0.2s;
+  }
+
+  .section:first-of-type { margin-top: 2rem; }
+
+  .section:hover { border-color: var(--border2); }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-icon {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+  }
+
+  .section-icon.blue { background: rgba(91,127,255,0.15); }
+  .section-icon.green { background: rgba(29,217,154,0.12); }
+  .section-icon.amber { background: rgba(255,184,77,0.12); }
+  .section-icon.purple { background: rgba(196,122,255,0.12); }
+  .section-icon.cyan { background: rgba(34,211,238,0.14); }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+
+  /* ── tier / venue cards ── */
+  .tier-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 1.5rem;
+  }
+
+  .tier-grid.four-col { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+  .tier-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s, transform 0.15s;
+    user-select: none;
+  }
+
+  .tier-card:hover { border-color: var(--border2); transform: translateY(-1px); }
+
+  .tier-card.selected-std { border-color: var(--std); background: rgba(29,217,154,0.05); }
+  .tier-card.selected-pro { border-color: var(--pro); background: rgba(91,127,255,0.05); }
+  .tier-card.selected-champ { border-color: var(--champ); background: rgba(196,122,255,0.05); }
+  .tier-card.selected-vr { border-color: var(--vr); background: rgba(34,211,238,0.06); }
+
+  .tier-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+  }
+
+  .badge-std { background: rgba(29,217,154,0.15); color: var(--std); }
+  .badge-pro { background: rgba(91,127,255,0.15); color: var(--pro); }
+  .badge-champ { background: rgba(196,122,255,0.15); color: var(--champ); }
+  .badge-vr { background: rgba(34,211,238,0.15); color: var(--vr); }
+
+  .tier-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 2px;
+  }
+
+  .tier-cost { font-size: 12px; color: var(--text2); margin-bottom: 4px; }
+  .tier-desc { font-size: 11px; color: var(--text3); }
+
+  /* ── sliders ── */
+  .slider-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 1rem;
+  }
+
+  .slider-label {
+    font-size: 13px;
+    color: var(--text2);
+    min-width: 170px;
+  }
+
+  input[type=range] {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--border2);
+    outline: none;
+    cursor: pointer;
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+    box-shadow: 0 0 0 3px rgba(91,127,255,0.2);
+    transition: box-shadow 0.15s;
+  }
+
+  input[type=range]:hover::-webkit-slider-thumb {
+    box-shadow: 0 0 0 5px rgba(91,127,255,0.25);
+  }
+
+  input[type=range]::-moz-range-thumb {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: var(--accent);
+    border: 2px solid var(--bg);
+    cursor: pointer;
+  }
+
+  .slider-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    min-width: 84px;
+    text-align: right;
+  }
+
+  /* ── fleet cost pill ── */
+  .fleet-pill {
+    background: rgba(91,127,255,0.08);
+    border: 1px solid rgba(91,127,255,0.2);
+    border-radius: 10px;
+    padding: 0.875rem 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.5rem;
+  }
+
+  .fleet-pill-label { font-size: 12px; color: var(--text2); }
+  .fleet-pill-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--accent);
+  }
+
+  /* ── qty stepper on tier cards ── */
+  .qty-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+  }
+
+  .qty-row-label { font-size: 10px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.06em; }
+
+  .qty-control { display: flex; align-items: center; gap: 8px; }
+
+  .qty-btn {
+    width: 24px; height: 24px;
+    border-radius: 6px;
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.15s, color 0.15s;
+  }
+
+  .qty-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .qty-btn:active { transform: translateY(1px); }
+
+  .qty-val {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 15px;
+    color: var(--text);
+    min-width: 18px;
+    text-align: center;
+  }
+
+  .fleet-breakdown {
+    font-size: 11px;
+    color: var(--text3);
+    margin-top: 8px;
+    padding-left: 2px;
+  }
+
+  /* ── pricing cards ── */
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .pricing-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.875rem 1rem;
+  }
+
+  .pricing-card .plabel { font-size: 11px; color: var(--text3); margin-bottom: 4px; }
+  .pricing-card .pval {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px; font-weight: 700; color: var(--text);
+  }
+  .pricing-card .psub { font-size: 11px; color: var(--text2); margin-top: 2px; }
+
+  .pval-input {
+    font-family: 'Syne', sans-serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border2);
+    width: 100%;
+    padding: 2px 0 4px;
+    outline: none;
+  }
+
+  .pval-input:focus { border-bottom-color: var(--accent); }
+
+  .tier-pricing-block { margin-bottom: 1.25rem; }
+  .tier-pricing-block:last-child { margin-bottom: 1.5rem; }
+
+  .tp-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 0.75rem;
+  }
+
+  .tp-rig-count { font-size: 11px; color: var(--text3); }
+
+  /* ── mix sliders ── */
+  .mix-title { font-size: 12px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.875rem; }
+
+  .mix-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 0.75rem;
+  }
+
+  .mix-row input[type=range]::-webkit-slider-thumb { background: var(--amber); box-shadow: 0 0 0 3px rgba(255,184,77,0.2); }
+  .mix-row input[type=range]:hover::-webkit-slider-thumb { box-shadow: 0 0 0 5px rgba(255,184,77,0.25); }
+
+  .mix-label { font-size: 13px; color: var(--text2); min-width: 130px; }
+  .mix-pct {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px; font-weight: 700; color: var(--amber);
+    min-width: 38px; text-align: right;
+  }
+
+  .mix-note { font-size: 11px; color: var(--text3); margin-top: 4px; }
+
+  /* ── results ── */
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-bottom: 1.25rem;
+  }
+
+  .metric-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.125rem 1.25rem;
+  }
+
+  .metric-label { font-size: 11px; color: var(--text3); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 6px; }
+
+  .metric-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text);
+    line-height: 1.1;
+  }
+
+  .metric-val.green { color: var(--green); }
+  .metric-val.blue { color: var(--accent); }
+  .metric-val.amber { color: var(--amber); }
+  .metric-val.cyan { color: var(--vr); }
+
+  .metric-sub { font-size: 11px; color: var(--text3); margin-top: 4px; }
+
+  /* ── ROI bar ── */
+  .roi-bar-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .roi-bar-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+
+  .roi-bar-label { font-size: 13px; color: var(--text2); }
+  .roi-bar-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 15px; font-weight: 700; color: var(--green);
+  }
+
+  .bar-track {
+    background: var(--border);
+    border-radius: 4px;
+    height: 6px;
+    width: 100%;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+
+  .bar-fill {
+    height: 6px;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--accent), var(--green));
+    transition: width 0.5s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  .roi-milestones {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .milestone {
+    flex: 1;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.625rem 0.75rem;
+    text-align: center;
+  }
+
+  .milestone-label { font-size: 10px; color: var(--text3); margin-bottom: 3px; }
+  .milestone-val {
+    font-family: 'Syne', sans-serif;
+    font-size: 14px; font-weight: 700; color: var(--text);
+  }
+
+  /* ── chart ── */
+  .chart-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .chart-card-title {
+    font-size: 11px;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 1rem;
+  }
+
+  .chart-wrap { position: relative; height: 220px; }
+
+  /* ── disclaimer ── */
+  .disclaimer {
+    font-size: 11px;
+    color: var(--text3);
+    line-height: 1.6;
+    padding: 1.25rem;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-top: 1.25rem;
+  }
+
+  /* ── footer ── */
+  footer {
+    margin-top: 3rem;
+    text-align: center;
+    font-size: 12px;
+    color: var(--text3);
+  }
+
+  @media (max-width: 600px) {
+    .tier-grid { grid-template-columns: 1fr; }
+    .tier-grid.four-col { grid-template-columns: 1fr 1fr; }
+    .pricing-grid { grid-template-columns: 1fr; }
+    .results-grid { grid-template-columns: 1fr; }
+    .roi-milestones { flex-direction: column; }
+    .slider-label { min-width: 120px; font-size: 12px; }
+    .mix-label { min-width: 100px; }
+    h1 { font-size: 1.8rem; }
+    .tab-nav { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="page-wrap">
+
+  <header>
+    <div class="eyebrow">
+      <div class="eyebrow-dot"></div>
+      <span id="eyebrowText">F1 Motion Racing Simulator Experience</span>
+    </div>
+    <h1>Calculate your <span>ROI</span></h1>
+    <p class="header-sub" id="headerSub">Mix and match rig tiers, set investment recovery and returns from Parabolica's Motion Racing Simulator Setups within your FECs.</p>
+
+    <div class="tab-nav">
+      <button type="button" class="tab-btn active" data-tab="sim" onclick="switchTab('sim')">Motion Simulators</button>
+      <button type="button" class="tab-btn" data-tab="fpv" onclick="switchTab('fpv')">FPV Racing</button>
+      <button type="button" class="tab-btn" data-tab="vr" onclick="switchTab('vr')">VR Arena</button>
+    </div>
+  </header>
+
+  <!-- ══════════════════════════ MOTION SIMULATORS TAB ══════════════════════════ -->
+  <div class="tab-panel active" id="panel-sim">
+
+    <!-- Fleet Setup -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon blue">&#9673;</div>
+        <div class="section-title">Fleet setup</div>
+      </div>
+
+      <div class="tier-grid">
+        <div class="tier-card selected-std" id="sim-card-standard">
+          <div class="tier-badge badge-std">Standard</div>
+          <div class="tier-name">Standard Static F1 Rig</div>
+          <div class="tier-cost">&#8377;5,50,000 / rig</div>
+          <div class="tier-desc">F1 Static Experience</div>
+          <div class="qty-row">
+            <span class="qty-row-label">Rigs</span>
+            <div class="qty-control">
+              <button type="button" class="qty-btn" onclick="setQtySim('standard',-1)" aria-label="Decrease Standard rigs">&#8722;</button>
+              <span class="qty-val" id="sim-qty-standard-val">2</span>
+              <button type="button" class="qty-btn" onclick="setQtySim('standard',1)" aria-label="Increase Standard rigs">&#43;</button>
+            </div>
+          </div>
+        </div>
+        <div class="tier-card" id="sim-card-pro">
+          <div class="tier-badge badge-pro">Pro</div>
+          <div class="tier-name">Pro Motion Rig</div>
+          <div class="tier-cost">&#8377;11,50,000 / rig</div>
+          <div class="tier-desc">F1 Motion Experience with Enhanced Visuals &amp; Hardware</div>
+          <div class="qty-row">
+            <span class="qty-row-label">Rigs</span>
+            <div class="qty-control">
+              <button type="button" class="qty-btn" onclick="setQtySim('pro',-1)" aria-label="Decrease Pro rigs">&#8722;</button>
+              <span class="qty-val" id="sim-qty-pro-val">1</span>
+              <button type="button" class="qty-btn" onclick="setQtySim('pro',1)" aria-label="Increase Pro rigs">&#43;</button>
+            </div>
+          </div>
+        </div>
+        <div class="tier-card" id="sim-card-championship">
+          <div class="tier-badge badge-champ">Championship</div>
+          <div class="tier-name">Championship Rig</div>
+          <div class="tier-cost">&#8377;14,50,000 / rig</div>
+          <div class="tier-desc">Full Racing Motion Simulation with Three-Screen Setup and VR</div>
+          <div class="qty-row">
+            <span class="qty-row-label">Rigs</span>
+            <div class="qty-control">
+              <button type="button" class="qty-btn" onclick="setQtySim('championship',-1)" aria-label="Decrease Championship rigs">&#8722;</button>
+              <span class="qty-val" id="sim-qty-championship-val">0</span>
+              <button type="button" class="qty-btn" onclick="setQtySim('championship',1)" aria-label="Increase Championship rigs">&#43;</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="fleet-pill">
+        <span class="fleet-pill-label">Total fleet investment</span>
+        <span class="fleet-pill-val" id="sim-fleetCost">&#8377;27,00,000</span>
+      </div>
+      <div class="fleet-breakdown" id="sim-fleetBreakdown">2 Standard &middot; 1 Pro</div>
+    </div>
+
+    <!-- Operations -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon green">&#9711;</div>
+        <div class="section-title">Track operations</div>
+      </div>
+
+      <div class="slider-row">
+        <span class="slider-label">Weekday hours / week</span>
+        <input type="range" min="5" max="70" step="1" value="50" id="sim-wdHrs" oninput="calcSim()">
+        <span class="slider-val" id="sim-wdHrsVal">50 hrs</span>
+      </div>
+      <div class="slider-row">
+        <span class="slider-label">Weekend hours / week</span>
+        <input type="range" min="5" max="50" step="1" value="24" id="sim-weHrs" oninput="calcSim()">
+        <span class="slider-val" id="sim-weHrsVal">24 hrs</span>
+      </div>
+      <div class="slider-row">
+        <span class="slider-label">Weekday occupancy</span>
+        <input type="range" min="10" max="100" step="5" value="30" id="sim-wdOcc" oninput="calcSim()">
+        <span class="slider-val" id="sim-wdOccVal">30%</span>
+      </div>
+      <div class="slider-row">
+        <span class="slider-label">Weekend occupancy</span>
+        <input type="range" min="10" max="100" step="5" value="70" id="sim-weOcc" oninput="calcSim()">
+        <span class="slider-val" id="sim-weOccVal">70%</span>
+      </div>
+      <div class="slider-row">
+        <span class="slider-label">Session length</span>
+        <input type="range" min="5" max="30" step="1" value="10" id="sim-sessLen" oninput="calcSim()">
+        <span class="slider-val" id="sim-sessLenVal">10 min</span>
+      </div>
+      <div class="slider-row">
+        <span class="slider-label">Monthly operating cost</span>
+        <input type="range" min="50000" max="1500000" step="10000" value="250000" id="sim-opex" oninput="calcSim()">
+        <span class="slider-val" id="sim-opexVal">&#8377;2,50,000</span>
+      </div>
+    </div>
+
+    <!-- Pricing -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon amber">&#9670;</div>
+        <div class="section-title">Pricing &amp; revenue mix</div>
+      </div>
+
+      <div class="tier-pricing-block">
+        <div class="tp-header">
+          <span class="tier-badge badge-std">Standard</span>
+          <span class="tp-rig-count" id="sim-tp-count-standard">2 rigs selected</span>
+        </div>
+        <div class="pricing-grid">
+          <div class="pricing-card">
+            <div class="plabel">Walk-in session</div>
+            <div class="pval">&#8377;<input type="number" class="pval-input" id="sim-price-standard-walkin" value="199" min="0" step="1" oninput="calcSim()"></div>
+            <div class="psub">per session</div>
+          </div>
+          <div class="pricing-card">
+            <div class="plabel">3-session pack</div>
+            <div class="pval">&#8377;<input type="number" class="pval-input" id="sim-price-standard-p3" value="499" min="0" step="1" oninput="calcSim()"></div>
+            <div class="psub" id="sim-psub-standard-p3">&#8377;166 / session</div>
+          </div>
+          <div class="pricing-card">
+            <div class="plabel">5-session pack</div>
+            <div class="pval">&#8377;<input type="number" class="pval-input" id="sim-price-standard-p5" value="749" min="0" step="1" oninput="calcSim()"></div>
+            <div class="psub" id="sim-psub-standard-p5">&#8377;149 / session</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tier-pricing-block">
+        <div class="tp-header">
+          <span class="tier-badge badge-pro">Pro</span>
+          <span class="tp-rig-count" id="sim-tp-count-pro">1 rig selected</span>
+        </div>
+        <div class="pricing-grid">
+          <div class="pricing-card">
+            <div class="plabel">Walk-in session</div>
+            <div class="pval">&#8377;<input type="number" class="pval-input" id="sim-price-pro-walkin" value="399" min="0" step="1" oninput="calcSim()"></div>
+            <div class="psub">per session</div>
+          </div>
+          <div class="pricing-card">
+            <div class="plabel">3-session pack</div>
+            <div class="pval">&#8377;<input type="number" class="pval-input" id="sim-price-pro-p3" value="1049" min="0" step="1" oninput="calcSim()"></div>
+            <div class="psub" id="sim-psub-pro-p3">&#8377;349 / session</div>
+          </div>
+          <div class="pricing-card">
+            <div class="plabel">5-session pack</div>
+            <div class="pval">&#8377;<input type="number" class="pval-input" id="sim-price-pro-p5" value="1499" min="0" step="1" oninput="calcSim()"></div>
+            <div class="psub" id="sim-psub-pro-p5">&#8377;299 / session</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tier-pricing-block">
+        <div class="tp-header">
+          <span class="tier-badge badge-champ">Championship</span>
+          <span class="tp-rig-count" id="sim-tp-count-championship">0 rigs selected</span>
+        </div>
+        <div class="pricing-grid">
+          <div class="pricing-card">
+            <div class="plabel">Walk-in session</div>
+            <div class="pval">&#8377;<input type="number" class="pval-input" id="sim-price-championship-walkin" value="549" min="0" step="1" oninput="calcSim()"></div>
+            <div class="psub">per session</div>
+          </div>
+          <div class="pricing-card">
+            <div class="plabel">3-session pack</div>
+            <div class="pval">&#8377;<input type="number" class="pval-input" id="sim-price-championship-p3" value="1499" min="0" step="1" oninput="calcSim()"></div>
+            <div class="psub" id="sim-psub-championship-p3">&#8377;499 / session</div>
+          </div>
+          <div class="pricing-card">
+            <div class="plabel">5-session pack</div>
+            <div class="pval">&#8377;<input type="number" class="pval-input" id="sim-price-championship-p5" value="2199" min="0" step="1" oninput="calcSim()"></div>
+            <div class="psub" id="sim-psub-championship-p5">&#8377;440 / session</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mix-title">Revenue mix</div>
+      <div class="mix-row">
+        <span class="mix-label">Walk-in</span>
+        <input type="range" min="0" max="100" step="5" value="80" id="sim-mixWalkin" oninput="calcSim()">
+        <span class="mix-pct" id="sim-mixWalkinVal">80%</span>
+      </div>
+      <div class="mix-row">
+        <span class="mix-label">3-session pack</span>
+        <input type="range" min="0" max="100" step="5" value="10" id="sim-mix3pack" oninput="calcSim()">
+        <span class="mix-pct" id="sim-mix3packVal">10%</span>
+      </div>
+      <div class="mix-row">
+        <span class="mix-label">5-session pack</span>
+        <input type="range" min="0" max="100" step="5" value="10" id="sim-mix5pack" oninput="calcSim()">
+        <span class="mix-pct" id="sim-mix5packVal">10%</span>
+      </div>
+      <div class="mix-note" id="sim-mixNote"></div>
+    </div>
+
+    <!-- Results -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon purple">&#9650;</div>
+        <div class="section-title">ROI summary</div>
+      </div>
+
+      <div class="results-grid">
+        <div class="metric-card">
+          <div class="metric-label">Daily revenue</div>
+          <div class="metric-val" id="sim-dailyRev">—</div>
+          <div class="metric-sub">averaged across the week</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Weekly revenue</div>
+          <div class="metric-val" id="sim-weeklyRev">—</div>
+          <div class="metric-sub" id="sim-weeklySessionsSub">—</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Monthly revenue</div>
+          <div class="metric-val green" id="sim-monthlyRev">—</div>
+          <div class="metric-sub">effective rate: <span id="sim-effectiveRate">—</span></div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Annual revenue</div>
+          <div class="metric-val green" id="sim-annualRev">—</div>
+          <div class="metric-sub">projected, steady state</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Revenue / rig / month</div>
+          <div class="metric-val blue" id="sim-revPerRigMonth">—</div>
+          <div class="metric-sub">across fleet</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Sessions / hour (fleet)</div>
+          <div class="metric-val blue" id="sim-sessionsPerHour">—</div>
+          <div class="metric-sub">avg. across operating hours</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Monthly profit (after opex)</div>
+          <div class="metric-val" id="sim-monthlyProfit">—</div>
+          <div class="metric-sub">opex: <span id="sim-opexSub">—</span> / month</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Payback period</div>
+          <div class="metric-val amber" id="sim-payback">—</div>
+          <div class="metric-sub">months to recover investment</div>
+        </div>
+      </div>
+
+      <div class="roi-bar-card">
+        <div class="roi-bar-row">
+          <span class="roi-bar-label">ROI at 12 months</span>
+          <span class="roi-bar-val" id="sim-roi12">—</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" id="sim-roiBar" style="width:0%"></div></div>
+        <div class="roi-milestones">
+          <div class="milestone">
+            <div class="milestone-label">12 months</div>
+            <div class="milestone-val" id="sim-m12">—</div>
+          </div>
+          <div class="milestone">
+            <div class="milestone-label">24 months</div>
+            <div class="milestone-val" id="sim-m24">—</div>
+          </div>
+          <div class="milestone">
+            <div class="milestone-label">36 months</div>
+            <div class="milestone-val" id="sim-m36">—</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-card-title">Cumulative revenue vs investment — 36 month view</div>
+        <div class="chart-wrap"><canvas id="sim-roiChart"></canvas></div>
+      </div>
+
+      <div class="disclaimer">
+        <strong>Disclaimer:</strong> This ROI calculator provides estimates only. Actual results may vary based on occupancy, local demand, pricing strategy, maintenance costs, and operational conditions. This tool is intended for planning purposes only and does not constitute financial advice. Copyright - Parabolica 2026.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════ FPV RACING TAB ══════════════════════════ -->
+  <div class="tab-panel" id="panel-fpv">
+
+    <!-- Fleet Setup -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon blue">&#9673;</div>
+        <div class="section-title">Fleet setup</div>
+      </div>
+
+      <div class="tier-grid">
+        <div class="tier-card selected-std" onclick="selectTierFpv(this,'standard')" id="fpv-card-standard">
+          <div class="tier-badge badge-std">Standard</div>
+          <div class="tier-name">Standard rig</div>
+          <div class="tier-cost">&#8377;5,50,000 / rig</div>
+          <div class="tier-desc">Entry-level FPV experience</div>
+        </div>
+        <div class="tier-card" onclick="selectTierFpv(this,'pro')" id="fpv-card-pro">
+          <div class="tier-badge badge-pro">Pro</div>
+          <div class="tier-name">Pro rig</div>
+          <div class="tier-cost">&#8377;7,50,000 / rig</div>
+          <div class="tier-desc">Enhanced visuals &amp; hardware</div>
+        </div>
+        <div class="tier-card" onclick="selectTierFpv(this,'championship')" id="fpv-card-championship">
+          <div class="tier-badge badge-champ">Championship</div>
+          <div class="tier-name">Championship rig</div>
+          <div class="tier-cost">&#8377;10,50,000 / rig</div>
+          <div class="tier-desc">Full racing simulation</div>
+        </div>
+      </div>
+
+      <div class="slider-row">
+        <span class="slider-label">Number of rigs</span>
+        <input type="range" min="1" max="12" step="1" value="6" id="fpv-numRigs" oninput="calcFpv()">
+        <span class="slider-val" id="fpv-numRigsVal">6 rigs</span>
+      </div>
+
+      <div class="fleet-pill">
+        <span class="fleet-pill-label">Total fleet investment</span>
+        <span class="fleet-pill-val" id="fpv-fleetCost">&#8377;33,00,000</span>
+      </div>
+    </div>
+
+    <!-- Operations -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon green">&#9711;</div>
+        <div class="section-title">Track operations</div>
+      </div>
+
+      <div class="slider-row">
+        <span class="slider-label">Weekday hours / week</span>
+        <input type="range" min="5" max="70" step="1" value="30" id="fpv-wdHrs" oninput="calcFpv()">
+        <span class="slider-val" id="fpv-wdHrsVal">30 hrs</span>
+      </div>
+      <div class="slider-row">
+        <span class="slider-label">Weekend hours / week</span>
+        <input type="range" min="5" max="50" step="1" value="35" id="fpv-weHrs" oninput="calcFpv()">
+        <span class="slider-val" id="fpv-weHrsVal">35 hrs</span>
+      </div>
+      <div class="slider-row">
+        <span class="slider-label">Weekday occupancy</span>
+        <input type="range" min="10" max="100" step="5" value="60" id="fpv-wdOcc" oninput="calcFpv()">
+        <span class="slider-val" id="fpv-wdOccVal">60%</span>
+      </div>
+      <div class="slider-row">
+        <span class="slider-label">Weekend occupancy</span>
+        <input type="range" min="10" max="100" step="5" value="100" id="fpv-weOcc" oninput="calcFpv()">
+        <span class="slider-val" id="fpv-weOccVal">100%</span>
+      </div>
+      <div class="slider-row">
+        <span class="slider-label">Session length</span>
+        <input type="range" min="5" max="30" step="1" value="8" id="fpv-sessLen" oninput="calcFpv()">
+        <span class="slider-val" id="fpv-sessLenVal">8 min</span>
+      </div>
+      <div class="slider-row">
+        <span class="slider-label">Monthly operating cost</span>
+        <input type="range" min="50000" max="1500000" step="10000" value="180000" id="fpv-opex" oninput="calcFpv()">
+        <span class="slider-val" id="fpv-opexVal">&#8377;1,80,000</span>
+      </div>
+    </div>
+
+    <!-- Pricing -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon amber">&#9670;</div>
+        <div class="section-title">Pricing &amp; revenue mix</div>
+      </div>
+
+      <div class="tier-pricing-block">
+        <div class="tp-header">
+          <span class="tier-badge badge-std">Standard</span>
+          <span class="tp-rig-count" id="fpv-tp-count-standard">Selected</span>
+        </div>
+        <div class="pricing-grid">
+          <div class="pricing-card">
+            <div class="plabel">Walk-in session</div>
+            <div class="pval">&#8377;<input type="number" class="pval-input" id="fpv-price-standard-walkin" value="399" min="0" step="1" oninput="calcFpv()"></div>
+            <div class="psub">per session</div>
+          </div>
+          <div class="pricing-card">
+            <div class="plabel">3-session pack</div>
+            <div class="pval">&#8377;<input type="number" class="pval-input" id="fpv-price-standard-p3" value="1099" min="0" step="1" oninput="calcFpv()"></div>
+            <div class="psub" id="fpv-psub-standard-p3">&#8377;366 / session</div>
+          </div>
+          <div class="pricing-card">
+            <div class="plabel">5-session pack</div>
+            <div class="pval">&#8377;<input type="number" class="pval-input" id="fpv-price-standard-p5" value="1799" min="0" step="1" oninput="calcFpv()"></div>
+            <div class="psub" id="fpv-psub-standard-p5">&#8377;360 / session</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tier-pricing-block">
+        <div class="tp-header">
+          <span class="tier-badge badge-pro">Pro</span>
+          <span class="tp-rig-count" id="fpv-tp-count-pro">Not selected</span>
+        </div>
+        <div class="pricing-grid">
+          <div class="pricing-card">
+            <div class="plabel">Walk-in session</div>
+            <div class="pval">&#8377;<input type="number" class="pval-input" id="fpv-price-pro-walkin" value="549" min="0" step="1" oninput="calcFpv()"></div>
+            <div class="psub">per session</div>
+          </div>
+          <div class="pricing-card">
+            <div class="plabel">3-session pack</div>
+            <div class="pval">&#8377;<input type="number" class="pval-input" id="fpv-price-pro-p3" value="1499" min="0" step="1" oninput="calcFpv()"></div>
+            <div class="psub" id="fpv-psub-pro-p3">&#8377;500 / session</div>
+          </div>
+          <div class="pricing-card">
+            <div class="plabel">5-session pack</div>
+            <div class="pval">&#8377;<input type="number" class="pval-input" id="fpv-price-pro-p5" value="2499" min="0" step="1" oninput="calcFpv()"></div>
+            <div class="psub" id="fpv-psub-pro-p5">&#8377;500 / session</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tier-pricing-block">
+        <div class="tp-header">
+          <span class="tier-badge badge-champ">Championship</span>
+          <span class="tp-rig-count" id="fpv-tp-count-championship">Not selected</span>
+        </div>
+        <div class="pricing-grid">
+          <div class="pricing-card">
+            <div class="plabel">Walk-in session</div>
+            <div class="pval">&#8377;<input type="number" class="pval-input" id="fpv-price-championship-walkin" value="699" min="0" step="1" oninput="calcFpv()"></div>
+            <div class="psub">per session</div>
+          </div>
+          <div class="pricing-card">
+            <div class="plabel">3-session pack</div>
+            <div class="pval">&#8377;<input type="number" class="pval-input" id="fpv-price-championship-p3" value="1899" min="0" step="1" oninput="calcFpv()"></div>
+            <div class="psub" id="fpv-psub-championship-p3">&#8377;633 / session</div>
+          </div>
+          <div class="pricing-card">
+            <div class="plabel">5-session pack</div>
+            <div class="pval">&#8377;<input type="number" class="pval-input" id="fpv-price-championship-p5" value="3199" min="0" step="1" oninput="calcFpv()"></div>
+            <div class="psub" id="fpv-psub-championship-p5">&#8377;640 / session</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mix-title">Revenue mix</div>
+      <div class="mix-row">
+        <span class="mix-label">Walk-in</span>
+        <input type="range" min="0" max="100" step="5" value="50" id="fpv-mixWalkin" oninput="calcFpv()">
+        <span class="mix-pct" id="fpv-mixWalkinVal">50%</span>
+      </div>
+      <div class="mix-row">
+        <span class="mix-label">3-session pack</span>
+        <input type="range" min="0" max="100" step="5" value="30" id="fpv-mix3pack" oninput="calcFpv()">
+        <span class="mix-pct" id="fpv-mix3packVal">30%</span>
+      </div>
+      <div class="mix-row">
+        <span class="mix-label">5-session pack</span>
+        <input type="range" min="0" max="100" step="5" value="20" id="fpv-mix5pack" oninput="calcFpv()">
+        <span class="mix-pct" id="fpv-mix5packVal">20%</span>
+      </div>
+      <div class="mix-note" id="fpv-mixNote"></div>
+    </div>
+
+    <!-- Results -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon purple">&#9650;</div>
+        <div class="section-title">ROI summary</div>
+      </div>
+
+      <div class="results-grid">
+        <div class="metric-card">
+          <div class="metric-label">Daily revenue</div>
+          <div class="metric-val" id="fpv-dailyRev">—</div>
+          <div class="metric-sub">averaged across the week</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Weekly revenue</div>
+          <div class="metric-val" id="fpv-weeklyRev">—</div>
+          <div class="metric-sub" id="fpv-weeklySessionsSub">—</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Monthly revenue</div>
+          <div class="metric-val green" id="fpv-monthlyRev">—</div>
+          <div class="metric-sub">effective rate: <span id="fpv-effectiveRate">—</span></div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Annual revenue</div>
+          <div class="metric-val green" id="fpv-annualRev">—</div>
+          <div class="metric-sub">projected, steady state</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Revenue / station / month</div>
+          <div class="metric-val blue" id="fpv-revPerStationMonth">—</div>
+          <div class="metric-sub">across fleet</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Sessions / hour (fleet)</div>
+          <div class="metric-val blue" id="fpv-sessionsPerHour">—</div>
+          <div class="metric-sub">avg. across operating hours</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Monthly profit (after opex)</div>
+          <div class="metric-val" id="fpv-monthlyProfit">—</div>
+          <div class="metric-sub">opex: <span id="fpv-opexSub">—</span> / month</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Payback period</div>
+          <div class="metric-val amber" id="fpv-payback">—</div>
+          <div class="metric-sub">months to recover investment</div>
+        </div>
+      </div>
+
+      <div class="roi-bar-card">
+        <div class="roi-bar-row">
+          <span class="roi-bar-label">ROI at 12 months</span>
+          <span class="roi-bar-val" id="fpv-roi12">—</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" id="fpv-roiBar" style="width:0%"></div></div>
+        <div class="roi-milestones">
+          <div class="milestone">
+            <div class="milestone-label">12 months</div>
+            <div class="milestone-val" id="fpv-m12">—</div>
+          </div>
+          <div class="milestone">
+            <div class="milestone-label">24 months</div>
+            <div class="milestone-val" id="fpv-m24">—</div>
+          </div>
+          <div class="milestone">
+            <div class="milestone-label">36 months</div>
+            <div class="milestone-val" id="fpv-m36">—</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-card-title">Cumulative revenue vs investment — 36 month view</div>
+        <div class="chart-wrap"><canvas id="fpv-roiChart"></canvas></div>
+      </div>
+
+      <div class="disclaimer">
+        <strong>Disclaimer:</strong> This ROI calculator provides estimates only. Actual results may vary based on occupancy, local demand, pricing strategy, maintenance costs, and operational conditions. This tool is intended for planning purposes only and does not constitute financial advice. Copyright - Parabolica 2026.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ══════════════════════════ VR ARENA TAB ══════════════════════════ -->
+  <div class="tab-panel" id="panel-vr">
+
+    <!-- Venue Setup -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon cyan">&#9673;</div>
+        <div class="section-title">Venue setup</div>
+      </div>
+
+      <div class="tier-grid four-col">
+        <div class="tier-card" data-venue="kiosk" onclick="selectVenue('kiosk')" id="vr-card-kiosk">
+          <div class="tier-badge badge-vr">Kiosk</div>
+          <div class="tier-name">Mall Kiosk</div>
+          <div class="tier-desc">High footfall, compact fleet</div>
+        </div>
+        <div class="tier-card selected-vr" data-venue="arena" onclick="selectVenue('arena')" id="vr-card-arena">
+          <div class="tier-badge badge-vr">Arena</div>
+          <div class="tier-name">Standalone Arena</div>
+          <div class="tier-desc">Dedicated VR venue</div>
+        </div>
+        <div class="tier-card" data-venue="fec" onclick="selectVenue('fec')" id="vr-card-fec">
+          <div class="tier-badge badge-vr">FEC</div>
+          <div class="tier-name">FEC Add-on</div>
+          <div class="tier-desc">Zone inside a bigger FEC</div>
+        </div>
+        <div class="tier-card" data-venue="corporate" onclick="selectVenue('corporate')" id="vr-card-corporate">
+          <div class="tier-badge badge-vr">Corporate</div>
+          <div class="tier-name">Corporate / Events</div>
+          <div class="tier-desc">Premium, lower volume</div>
+        </div>
+      </div>
+
+      <div class="slider-row">
+        <span class="slider-label">Number of VR stations</span>
+        <input type="range" min="1" max="30" step="1" value="8" id="vr-stations" oninput="calcVr(true)">
+        <span class="slider-val" id="vr-stationsVal">8 stations</span>
+      </div>
+
+      <div class="fleet-pill">
+        <span class="fleet-pill-label">Setup / investment cost</span>
+        <span class="fleet-pill-val" id="vr-fleetCost">&#8377;25,00,000</span>
+      </div>
+      <div class="fleet-breakdown" id="vr-fleetBreakdown">Standalone Arena &middot; 8 stations</div>
+    </div>
+
+    <!-- Operations -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon green">&#9711;</div>
+        <div class="section-title">Arena operations</div>
+      </div>
+
+      <div class="slider-row">
+        <span class="slider-label">Peak hours / day</span>
+        <input type="range" min="4" max="14" step="1" value="8" id="vr-hours" oninput="calcVr(true)">
+        <span class="slider-val" id="vr-hoursVal">8 hrs</span>
+      </div>
+      <div class="slider-row">
+        <span class="slider-label">Days open / week</span>
+        <input type="range" min="3" max="7" step="1" value="7" id="vr-days" oninput="calcVr(true)">
+        <span class="slider-val" id="vr-daysVal">7 days</span>
+      </div>
+      <div class="slider-row">
+        <span class="slider-label">Session length</span>
+        <input type="range" min="6" max="20" step="1" value="12" id="vr-sessionLen" oninput="calcVr(true)">
+        <span class="slider-val" id="vr-sessionLenVal">12 min</span>
+      </div>
+      <div class="slider-row">
+        <span class="slider-label">Monthly operating cost</span>
+        <input type="range" min="50000" max="1500000" step="10000" value="350000" id="vr-opex" oninput="calcVr(true)">
+        <span class="slider-val" id="vr-opexVal">&#8377;3,50,000</span>
+      </div>
+    </div>
+
+    <!-- Pricing -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon amber">&#9670;</div>
+        <div class="section-title">Pricing</div>
+      </div>
+
+      <div class="slider-row">
+        <span class="slider-label">Price per session</span>
+        <input type="range" min="99" max="999" step="10" value="349" id="vr-price" oninput="calcVr(true)">
+        <span class="slider-val" id="vr-priceVal">&#8377;349</span>
+      </div>
+      <div class="slider-row">
+        <span class="slider-label">Setup / investment cost</span>
+        <input type="range" min="200000" max="8000000" step="50000" value="2500000" id="vr-investment" oninput="calcVr(true)">
+        <span class="slider-val" id="vr-investmentVal">&#8377;25,00,000</span>
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div class="section">
+      <div class="section-header">
+        <div class="section-icon purple">&#9650;</div>
+        <div class="section-title">ROI summary</div>
+      </div>
+
+      <div class="results-grid">
+        <div class="metric-card">
+          <div class="metric-label">Daily revenue</div>
+          <div class="metric-val cyan" id="vr-dailyRev">—</div>
+          <div class="metric-sub">averaged across the week</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Weekly revenue</div>
+          <div class="metric-val cyan" id="vr-weeklyRev">—</div>
+          <div class="metric-sub" id="vr-weeklySessionsSub">—</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Monthly revenue</div>
+          <div class="metric-val green" id="vr-monthlyRev">—</div>
+          <div class="metric-sub">rate: <span id="vr-effectiveRate">—</span> / session</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Annual revenue</div>
+          <div class="metric-val green" id="vr-annualRev">—</div>
+          <div class="metric-sub">projected, steady state</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Revenue / headset / month</div>
+          <div class="metric-val cyan" id="vr-revPerHeadsetMonth">—</div>
+          <div class="metric-sub">across fleet</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Sessions / hour (fleet)</div>
+          <div class="metric-val cyan" id="vr-sessionsPerHour">—</div>
+          <div class="metric-sub">avg. across operating hours</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Monthly profit (after opex)</div>
+          <div class="metric-val" id="vr-monthlyProfit">—</div>
+          <div class="metric-sub">opex: <span id="vr-opexSub">—</span> / month</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Payback period</div>
+          <div class="metric-val amber" id="vr-payback">—</div>
+          <div class="metric-sub">months to recover investment</div>
+        </div>
+      </div>
+
+      <div class="roi-bar-card">
+        <div class="roi-bar-row">
+          <span class="roi-bar-label">ROI at 12 months</span>
+          <span class="roi-bar-val" id="vr-roi12">—</span>
+        </div>
+        <div class="bar-track"><div class="bar-fill" id="vr-roiBar" style="width:0%"></div></div>
+        <div class="roi-milestones">
+          <div class="milestone">
+            <div class="milestone-label">12 months</div>
+            <div class="milestone-val" id="vr-m12">—</div>
+          </div>
+          <div class="milestone">
+            <div class="milestone-label">24 months</div>
+            <div class="milestone-val" id="vr-m24">—</div>
+          </div>
+          <div class="milestone">
+            <div class="milestone-label">36 months</div>
+            <div class="milestone-val" id="vr-m36">—</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-card-title">Cumulative profit vs investment — 36 month view</div>
+        <div class="chart-wrap"><canvas id="vr-roiChart"></canvas></div>
+      </div>
+
+      <div class="disclaimer">
+        <strong>Disclaimer:</strong> This ROI calculator provides estimates only. Actual results may vary based on footfall, location, pricing power, utilization and operational conditions. Figures assume steady-state peak-hour bookings and are for planning purposes only — not financial advice. Copyright - Parabolica 2026.
+      </div>
+    </div>
+
+  </div>
+
+  <footer>Parabolica's Experience ROI Calculator &mdash; for planning purposes only</footer>
+
+</div>
+
+<script>
+/* ═══════════════════════════════════════════ SHARED ═══════════════════════════════════════════ */
+function fmt(n) {
+  return '\u20B9' + Math.round(n).toLocaleString('en-IN');
+}
+
+const TAB_META = {
+  sim: {
+    eyebrow: 'F1 Motion Racing Simulator Experience',
+    sub: "Mix and match rig tiers, set investment recovery and returns from Parabolica's Motion Racing Simulator Setups within your FECs."
+  },
+  fpv: {
+    eyebrow: 'FPV Racing Experience',
+    sub: "Estimate your investment recovery and returns from Parabolica's FPV Racing Setup within your FECs."
+  },
+  vr: {
+    eyebrow: 'VR Arena Experience',
+    sub: "Configure your stations, pricing and hours to project revenue, monthly profit and payback period for a VR arena."
+  }
+};
+
+function switchTab(tab) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + tab).classList.add('active');
+  document.getElementById('eyebrowText').textContent = TAB_META[tab].eyebrow;
+  document.getElementById('headerSub').textContent = TAB_META[tab].sub;
+
+  if (tab === 'sim') calcSim();
+  if (tab === 'fpv') calcFpv();
+  if (tab === 'vr') calcVr(true);
+}
+
+/* ═══════════════════════════════════════════ MOTION SIMULATORS ═══════════════════════════════════════════ */
+const SIM_TIERS = ['standard', 'pro', 'championship'];
+const simTierCosts = { standard: 550000, pro: 1150000, championship: 1450000 };
+const simTierLabels = { standard: 'Standard', pro: 'Pro', championship: 'Championship' };
+const simQty = { standard: 2, pro: 1, championship: 0 };
+let simChartInstance = null;
+
+function setQtySim(tier, delta) {
+  simQty[tier] = Math.max(0, Math.min(12, simQty[tier] + delta));
+  document.getElementById('sim-qty-' + tier + '-val').textContent = simQty[tier];
+  calcSim();
+}
+
+function updateSimTierCardStyle(tier) {
+  const c = document.getElementById('sim-card-' + tier);
+  c.classList.toggle('selected-' + tier, simQty[tier] > 0);
+}
+
+function getSimTierPrice(tier) {
+  return {
+    walkin: parseFloat(document.getElementById('sim-price-' + tier + '-walkin').value) || 0,
+    p3: parseFloat(document.getElementById('sim-price-' + tier + '-p3').value) || 0,
+    p5: parseFloat(document.getElementById('sim-price-' + tier + '-p5').value) || 0
+  };
+}
+
+function getSimMix() {
+  const w = parseInt(document.getElementById('sim-mixWalkin').value);
+  const p3 = parseInt(document.getElementById('sim-mix3pack').value);
+  const p5 = parseInt(document.getElementById('sim-mix5pack').value);
+  const total = w + p3 + p5 || 1;
+  document.getElementById('sim-mixWalkinVal').textContent = Math.round(w / total * 100) + '%';
+  document.getElementById('sim-mix3packVal').textContent = Math.round(p3 / total * 100) + '%';
+  document.getElementById('sim-mix5packVal').textContent = Math.round(p5 / total * 100) + '%';
+  document.getElementById('sim-mixNote').textContent = (total !== 100) ? 'Proportions auto-normalised to 100%' : '';
+  return { w: w / total, p3: p3 / total, p5: p5 / total };
+}
+
+function calcSim() {
+  const wdHrs = parseInt(document.getElementById('sim-wdHrs').value);
+  const weHrs = parseInt(document.getElementById('sim-weHrs').value);
+  const wdOcc = parseInt(document.getElementById('sim-wdOcc').value) / 100;
+  const weOcc = parseInt(document.getElementById('sim-weOcc').value) / 100;
+  const sessLen = parseInt(document.getElementById('sim-sessLen').value);
+  const opex = parseInt(document.getElementById('sim-opex').value);
+
+  document.getElementById('sim-wdHrsVal').textContent = wdHrs + ' hrs';
+  document.getElementById('sim-weHrsVal').textContent = weHrs + ' hrs';
+  document.getElementById('sim-wdOccVal').textContent = Math.round(wdOcc * 100) + '%';
+  document.getElementById('sim-weOccVal').textContent = Math.round(weOcc * 100) + '%';
+  document.getElementById('sim-sessLenVal').textContent = sessLen + ' min';
+  document.getElementById('sim-opexVal').textContent = fmt(opex);
+  document.getElementById('sim-opexSub').textContent = fmt(opex);
+
+  const mix = getSimMix();
+  const sessPerHourPerRig = 60 / sessLen;
+
+  let totalInvestment = 0;
+  let totalWeeklySessions = 0;
+  let totalWeeklyRevenue = 0;
+  const breakdownParts = [];
+
+  SIM_TIERS.forEach(t => {
+    updateSimTierCardStyle(t);
+    const n = simQty[t];
+    totalInvestment += simTierCosts[t] * n;
+
+    const price = getSimTierPrice(t);
+    document.getElementById('sim-psub-' + t + '-p3').textContent = fmt(price.p3 / 3) + ' / session';
+    document.getElementById('sim-psub-' + t + '-p5').textContent = fmt(price.p5 / 5) + ' / session';
+    document.getElementById('sim-tp-count-' + t).textContent = n + (n === 1 ? ' rig selected' : ' rigs selected');
+
+    const wdSessions = wdHrs * sessPerHourPerRig * n * wdOcc;
+    const weSessions = weHrs * sessPerHourPerRig * n * weOcc;
+    const weeklySessions = wdSessions + weSessions;
+    const effectiveRate = mix.w * price.walkin + mix.p3 * (price.p3 / 3) + mix.p5 * (price.p5 / 5);
+
+    totalWeeklySessions += weeklySessions;
+    totalWeeklyRevenue += weeklySessions * effectiveRate;
+
+    if (n > 0) breakdownParts.push(n + ' ' + simTierLabels[t]);
+  });
+
+  document.getElementById('sim-fleetCost').textContent = fmt(totalInvestment);
+  document.getElementById('sim-fleetBreakdown').textContent = breakdownParts.length ? breakdownParts.join(' \u00b7 ') : 'No rigs selected yet';
+
+  const totalRigs = SIM_TIERS.reduce((s, t) => s + simQty[t], 0);
+  const weeklySessions = Math.round(totalWeeklySessions);
+  const blendedRate = totalWeeklySessions > 0 ? totalWeeklyRevenue / totalWeeklySessions : 0;
+  const dailyRevenue = totalWeeklyRevenue / 7;
+  const weeklyRevenue = totalWeeklyRevenue;
+  const monthlyRevenue = totalWeeklyRevenue * 4.33;
+  const annualRevenue = monthlyRevenue * 12;
+  const monthlyProfit = monthlyRevenue - opex;
+  const annualProfit = annualRevenue - opex * 12;
+  const revPerRigMonth = totalRigs > 0 ? monthlyRevenue / totalRigs : 0;
+  const totalOpHrsPerWeek = wdHrs + weHrs;
+  const sessionsPerHour = totalOpHrsPerWeek > 0 ? weeklySessions / totalOpHrsPerWeek : 0;
+
+  const hasInvestment = totalInvestment > 0;
+  const paybackMonths = (monthlyProfit > 0 && hasInvestment) ? totalInvestment / monthlyProfit : Infinity;
+  const roi12 = hasInvestment ? ((annualProfit - totalInvestment) / totalInvestment) * 100 : 0;
+  const roi24 = hasInvestment ? ((annualProfit * 2 - totalInvestment) / totalInvestment) * 100 : 0;
+  const roi36 = hasInvestment ? ((annualProfit * 3 - totalInvestment) / totalInvestment) * 100 : 0;
+
+  document.getElementById('sim-weeklySessionsSub').textContent = weeklySessions.toLocaleString('en-IN') + ' sessions / week';
+  document.getElementById('sim-effectiveRate').textContent = fmt(Math.round(blendedRate));
+  document.getElementById('sim-dailyRev').textContent = fmt(dailyRevenue);
+  document.getElementById('sim-weeklyRev').textContent = fmt(weeklyRevenue);
+  document.getElementById('sim-monthlyRev').textContent = fmt(monthlyRevenue);
+  document.getElementById('sim-annualRev').textContent = fmt(annualRevenue);
+  document.getElementById('sim-revPerRigMonth').textContent = totalRigs > 0 ? fmt(revPerRigMonth) : 'N/A';
+  document.getElementById('sim-sessionsPerHour').textContent = sessionsPerHour.toFixed(1);
+  document.getElementById('sim-monthlyProfit').textContent = (monthlyProfit >= 0 ? fmt(monthlyProfit) : '\u2212' + fmt(Math.abs(monthlyProfit)));
+  document.getElementById('sim-monthlyProfit').className = 'metric-val ' + (monthlyProfit >= 0 ? 'green' : '');
+  document.getElementById('sim-payback').textContent = (hasInvestment && isFinite(paybackMonths)) ? paybackMonths.toFixed(1) + ' months' : 'N/A';
+  document.getElementById('sim-roi12').textContent = hasInvestment ? roi12.toFixed(0) + '%' : 'N/A';
+  document.getElementById('sim-m12').textContent = hasInvestment ? roi12.toFixed(0) + '%' : 'N/A';
+  document.getElementById('sim-m24').textContent = hasInvestment ? roi24.toFixed(0) + '%' : 'N/A';
+  document.getElementById('sim-m36').textContent = hasInvestment ? roi36.toFixed(0) + '%' : 'N/A';
+
+  const barPct = Math.min(Math.max(roi12, 0), 200);
+  document.getElementById('sim-roiBar').style.width = (hasInvestment ? (barPct / 2) : 0) + '%';
+
+  simChartInstance = updateLineChart('sim-roiChart', simChartInstance, totalInvestment, monthlyProfit, 'Cumulative profit', 'Total investment');
+}
+
+/* ═══════════════════════════════════════════ FPV RACING ═══════════════════════════════════════════ */
+const fpvTierCosts = { standard: 550000, pro: 750000, championship: 1050000 };
+let fpvSelectedTier = 'standard';
+let fpvChartInstance = null;
+
+function selectTierFpv(el, tier) {
+  ['standard', 'pro', 'championship'].forEach(t => {
+    const c = document.getElementById('fpv-card-' + t);
+    c.className = 'tier-card';
+  });
+  el.classList.add('selected-' + tier);
+  fpvSelectedTier = tier;
+  calcFpv();
+}
+
+function getFpvTierPrice(tier) {
+  return {
+    walkin: parseFloat(document.getElementById('fpv-price-' + tier + '-walkin').value) || 0,
+    p3: parseFloat(document.getElementById('fpv-price-' + tier + '-p3').value) || 0,
+    p5: parseFloat(document.getElementById('fpv-price-' + tier + '-p5').value) || 0
+  };
+}
+
+function getFpvMix() {
+  const w = parseInt(document.getElementById('fpv-mixWalkin').value);
+  const p3 = parseInt(document.getElementById('fpv-mix3pack').value);
+  const p5 = parseInt(document.getElementById('fpv-mix5pack').value);
+  const total = w + p3 + p5 || 1;
+  document.getElementById('fpv-mixWalkinVal').textContent = Math.round(w / total * 100) + '%';
+  document.getElementById('fpv-mix3packVal').textContent = Math.round(p3 / total * 100) + '%';
+  document.getElementById('fpv-mix5packVal').textContent = Math.round(p5 / total * 100) + '%';
+  document.getElementById('fpv-mixNote').textContent = (total !== 100) ? 'Proportions auto-normalised to 100%' : '';
+  return { w: w / total, p3: p3 / total, p5: p5 / total };
+}
+
+const FPV_TIERS = ['standard', 'pro', 'championship'];
+
+function calcFpv() {
+  const numRigs = parseInt(document.getElementById('fpv-numRigs').value);
+  const wdHrs = parseInt(document.getElementById('fpv-wdHrs').value);
+  const weHrs = parseInt(document.getElementById('fpv-weHrs').value);
+  const wdOcc = parseInt(document.getElementById('fpv-wdOcc').value) / 100;
+  const weOcc = parseInt(document.getElementById('fpv-weOcc').value) / 100;
+  const sessLen = parseInt(document.getElementById('fpv-sessLen').value);
+  const opex = parseInt(document.getElementById('fpv-opex').value);
+
+  document.getElementById('fpv-numRigsVal').textContent = numRigs + ' rig' + (numRigs > 1 ? 's' : '');
+  document.getElementById('fpv-wdHrsVal').textContent = wdHrs + ' hrs';
+  document.getElementById('fpv-weHrsVal').textContent = weHrs + ' hrs';
+  document.getElementById('fpv-wdOccVal').textContent = Math.round(wdOcc * 100) + '%';
+  document.getElementById('fpv-weOccVal').textContent = Math.round(weOcc * 100) + '%';
+  document.getElementById('fpv-sessLenVal').textContent = sessLen + ' min';
+  document.getElementById('fpv-opexVal').textContent = fmt(opex);
+  document.getElementById('fpv-opexSub').textContent = fmt(opex);
+
+  const rigCost = fpvTierCosts[fpvSelectedTier];
+  const totalInvestment = rigCost * numRigs;
+  document.getElementById('fpv-fleetCost').textContent = fmt(totalInvestment);
+
+  // keep pricing sub-labels and selection counts current for every tier, like the Motion Sim tab
+  FPV_TIERS.forEach(t => {
+    const price = getFpvTierPrice(t);
+    document.getElementById('fpv-psub-' + t + '-p3').textContent = fmt(price.p3 / 3) + ' / session';
+    document.getElementById('fpv-psub-' + t + '-p5').textContent = fmt(price.p5 / 5) + ' / session';
+    document.getElementById('fpv-tp-count-' + t).textContent = (t === fpvSelectedTier) ? (numRigs + ' rig' + (numRigs > 1 ? 's' : '') + ' selected') : 'Not selected';
+  });
+
+  const sessPerHourPerRig = 60 / sessLen;
+  const wdSessions = wdHrs * sessPerHourPerRig * numRigs * wdOcc;
+  const weSessions = weHrs * sessPerHourPerRig * numRigs * weOcc;
+  const weeklySessions = Math.round(wdSessions + weSessions);
+
+  const mix = getFpvMix();
+  const activePrice = getFpvTierPrice(fpvSelectedTier);
+  const effectiveRate = mix.w * activePrice.walkin + mix.p3 * (activePrice.p3 / 3) + mix.p5 * (activePrice.p5 / 5);
+  const dailyRevenue = (weeklySessions * effectiveRate) / 7;
+  const weeklyRevenue = weeklySessions * effectiveRate;
+  const monthlyRevenue = weeklyRevenue * 4.33;
+  const annualRevenue = monthlyRevenue * 12;
+  const monthlyProfit = monthlyRevenue - opex;
+  const annualProfit = annualRevenue - opex * 12;
+  const revPerStationMonth = numRigs > 0 ? monthlyRevenue / numRigs : 0;
+  const totalOpHrsPerWeek = wdHrs + weHrs;
+  const sessionsPerHour = totalOpHrsPerWeek > 0 ? weeklySessions / totalOpHrsPerWeek : 0;
+
+  const hasInvestment = totalInvestment > 0;
+  const paybackMonths = (monthlyProfit > 0 && hasInvestment) ? totalInvestment / monthlyProfit : Infinity;
+  const roi12 = hasInvestment ? ((annualProfit - totalInvestment) / totalInvestment) * 100 : 0;
+  const roi24 = hasInvestment ? ((annualProfit * 2 - totalInvestment) / totalInvestment) * 100 : 0;
+  const roi36 = hasInvestment ? ((annualProfit * 3 - totalInvestment) / totalInvestment) * 100 : 0;
+
+  document.getElementById('fpv-weeklySessionsSub').textContent = weeklySessions.toLocaleString('en-IN') + ' sessions / week';
+  document.getElementById('fpv-effectiveRate').textContent = fmt(Math.round(effectiveRate));
+  document.getElementById('fpv-dailyRev').textContent = fmt(dailyRevenue);
+  document.getElementById('fpv-weeklyRev').textContent = fmt(weeklyRevenue);
+  document.getElementById('fpv-monthlyRev').textContent = fmt(monthlyRevenue);
+  document.getElementById('fpv-annualRev').textContent = fmt(annualRevenue);
+  document.getElementById('fpv-revPerStationMonth').textContent = numRigs > 0 ? fmt(revPerStationMonth) : 'N/A';
+  document.getElementById('fpv-sessionsPerHour').textContent = sessionsPerHour.toFixed(1);
+  document.getElementById('fpv-monthlyProfit').textContent = (monthlyProfit >= 0 ? fmt(monthlyProfit) : '\u2212' + fmt(Math.abs(monthlyProfit)));
+  document.getElementById('fpv-monthlyProfit').className = 'metric-val ' + (monthlyProfit >= 0 ? 'green' : '');
+  document.getElementById('fpv-payback').textContent = (hasInvestment && isFinite(paybackMonths)) ? paybackMonths.toFixed(1) + ' months' : 'N/A';
+  document.getElementById('fpv-roi12').textContent = hasInvestment ? roi12.toFixed(0) + '%' : 'N/A';
+  document.getElementById('fpv-m12').textContent = hasInvestment ? roi12.toFixed(0) + '%' : 'N/A';
+  document.getElementById('fpv-m24').textContent = hasInvestment ? roi24.toFixed(0) + '%' : 'N/A';
+  document.getElementById('fpv-m36').textContent = hasInvestment ? roi36.toFixed(0) + '%' : 'N/A';
+
+  const barPct = Math.min(Math.max(roi12, 0), 200);
+  document.getElementById('fpv-roiBar').style.width = (hasInvestment ? (barPct / 2) : 0) + '%';
+
+  fpvChartInstance = updateLineChart('fpv-roiChart', fpvChartInstance, totalInvestment, monthlyProfit, 'Cumulative profit', 'Total investment');
+}
+
+/* ═══════════════════════════════════════════ VR ARENA ═══════════════════════════════════════════ */
+const vrVenues = {
+  kiosk:     { stations: 4, price: 249, sessionLen: 10, hours: 10, days: 7, investment: 800000,  opex: 150000, label: 'Mall Kiosk' },
+  arena:     { stations: 8, price: 349, sessionLen: 12, hours: 8,  days: 7, investment: 2500000, opex: 350000, label: 'Standalone Arena' },
+  fec:       { stations: 6, price: 299, sessionLen: 10, hours: 9,  days: 7, investment: 1500000, opex: 250000, label: 'FEC Add-on' },
+  corporate: { stations: 5, price: 599, sessionLen: 15, hours: 6,  days: 5, investment: 1800000, opex: 200000, label: 'Corporate / Events' }
+};
+let vrActiveVenue = 'arena';
+let vrChartInstance = null;
+
+function selectVenue(v) {
+  const preset = vrVenues[v];
+  vrActiveVenue = v;
+  document.getElementById('vr-stations').value = preset.stations;
+  document.getElementById('vr-price').value = preset.price;
+  document.getElementById('vr-sessionLen').value = preset.sessionLen;
+  document.getElementById('vr-hours').value = preset.hours;
+  document.getElementById('vr-days').value = preset.days;
+  document.getElementById('vr-investment').value = preset.investment;
+  document.getElementById('vr-opex').value = preset.opex;
+
+  Object.keys(vrVenues).forEach(k => {
+    document.getElementById('vr-card-' + k).classList.toggle('selected-vr', k === v);
+  });
+
+  calcVr(true);
+}
+
+function calcVr(userEdited) {
+  if (userEdited) vrActiveVenue = null;
+  Object.keys(vrVenues).forEach(k => {
+    document.getElementById('vr-card-' + k).classList.toggle('selected-vr', k === vrActiveVenue);
+  });
+
+  const stations = parseInt(document.getElementById('vr-stations').value);
+  const price = parseInt(document.getElementById('vr-price').value);
+  const sessionLen = parseInt(document.getElementById('vr-sessionLen').value);
+  const hours = parseInt(document.getElementById('vr-hours').value);
+  const days = parseInt(document.getElementById('vr-days').value);
+  const investment = parseInt(document.getElementById('vr-investment').value);
+  const opex = parseInt(document.getElementById('vr-opex').value);
+
+  document.getElementById('vr-stationsVal').textContent = stations + (stations > 1 ? ' stations' : ' station');
+  document.getElementById('vr-priceVal').textContent = fmt(price);
+  document.getElementById('vr-sessionLenVal').textContent = sessionLen + ' min';
+  document.getElementById('vr-hoursVal').textContent = hours + ' hrs';
+  document.getElementById('vr-daysVal').textContent = days + ' days';
+  document.getElementById('vr-investmentVal').textContent = fmt(investment);
+  document.getElementById('vr-opexVal').textContent = fmt(opex);
+  document.getElementById('vr-fleetCost').textContent = fmt(investment);
+  document.getElementById('vr-fleetBreakdown').textContent = (vrActiveVenue ? vrVenues[vrActiveVenue].label : 'Custom setup') + ' \u00b7 ' + stations + (stations > 1 ? ' stations' : ' station');
+
+  const sph = Math.max(1, Math.floor(60 / sessionLen));
+  const dailySessions = stations * sph * hours;
+  const weeklySessions = dailySessions * days;
+  const dailyRevenue = dailySessions * price;
+  const weeklyRevenue = weeklySessions * price;
+  const monthlyRevenue = weeklyRevenue * 4.345;
+  const annualRevenue = weeklyRevenue * 52;
+  const monthlyProfit = monthlyRevenue - opex;
+  const annualProfit = annualRevenue - opex * 12;
+  const revPerHeadsetMonth = stations > 0 ? monthlyRevenue / stations : 0;
+  const totalOpHrsPerWeek = hours * days;
+  const sessionsPerHour = totalOpHrsPerWeek > 0 ? weeklySessions / totalOpHrsPerWeek : 0;
+
+  const hasInvestment = investment > 0;
+  const paybackMonths = (monthlyProfit > 0 && hasInvestment) ? investment / monthlyProfit : Infinity;
+  const roi12 = hasInvestment ? ((annualProfit - investment) / investment) * 100 : 0;
+  const roi24 = hasInvestment ? ((annualProfit * 2 - investment) / investment) * 100 : 0;
+  const roi36 = hasInvestment ? ((annualProfit * 3 - investment) / investment) * 100 : 0;
+
+  document.getElementById('vr-opexSub').textContent = fmt(opex);
+  document.getElementById('vr-weeklySessionsSub').textContent = weeklySessions.toLocaleString('en-IN') + ' sessions / week';
+  document.getElementById('vr-effectiveRate').textContent = fmt(price);
+  document.getElementById('vr-dailyRev').textContent = fmt(dailyRevenue);
+  document.getElementById('vr-weeklyRev').textContent = fmt(weeklyRevenue);
+  document.getElementById('vr-monthlyRev').textContent = fmt(monthlyRevenue);
+  document.getElementById('vr-annualRev').textContent = fmt(annualRevenue);
+  document.getElementById('vr-revPerHeadsetMonth').textContent = stations > 0 ? fmt(revPerHeadsetMonth) : 'N/A';
+  document.getElementById('vr-sessionsPerHour').textContent = sessionsPerHour.toFixed(1);
+  document.getElementById('vr-monthlyProfit').textContent = (monthlyProfit >= 0 ? fmt(monthlyProfit) : '\u2212' + fmt(Math.abs(monthlyProfit)));
+  document.getElementById('vr-monthlyProfit').className = 'metric-val ' + (monthlyProfit >= 0 ? 'green' : '');
+  document.getElementById('vr-payback').textContent = (hasInvestment && isFinite(paybackMonths)) ? paybackMonths.toFixed(1) + ' months' : 'N/A';
+  document.getElementById('vr-roi12').textContent = hasInvestment ? roi12.toFixed(0) + '%' : 'N/A';
+  document.getElementById('vr-m12').textContent = hasInvestment ? roi12.toFixed(0) + '%' : 'N/A';
+  document.getElementById('vr-m24').textContent = hasInvestment ? roi24.toFixed(0) + '%' : 'N/A';
+  document.getElementById('vr-m36').textContent = hasInvestment ? roi36.toFixed(0) + '%' : 'N/A';
+
+  const barPct = Math.min(Math.max(roi12, 0), 200);
+  document.getElementById('vr-roiBar').style.width = (hasInvestment ? (barPct / 2) : 0) + '%';
+
+  vrChartInstance = updateLineChart('vr-roiChart', vrChartInstance, investment, monthlyProfit, 'Cumulative profit', 'Total investment');
+}
+
+/* ═══════════════════════════════════════════ SHARED CHART HELPER ═══════════════════════════════════════════ */
+function updateLineChart(canvasId, existingInstance, investment, monthlyValue, seriesLabel, investLabel) {
+  const labels = [];
+  const cumData = [];
+  const investLine = [];
+  for (let m = 0; m <= 36; m++) {
+    labels.push(m === 0 ? 'Start' : 'M' + m);
+    cumData.push(Math.round(monthlyValue * m));
+    investLine.push(investment);
+  }
+
+  if (existingInstance) { existingInstance.destroy(); }
+
+  const canvas = document.getElementById(canvasId);
+  const ctx = canvas.getContext('2d');
+  return new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {
+          label: seriesLabel,
+          data: cumData,
+          borderColor: '#5b7fff',
+          borderWidth: 2.5,
+          pointRadius: 0,
+          tension: 0.35,
+          fill: false
+        },
+        {
+          label: investLabel,
+          data: investLine,
+          borderColor: '#ff6b4a',
+          borderWidth: 1.5,
+          borderDash: [6, 4],
+          pointRadius: 0,
+          fill: false
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      interaction: { mode: 'index', intersect: false },
+      plugins: {
+        legend: {
+          labels: {
+            font: { size: 11, family: 'DM Sans' },
+            color: '#8888a0',
+            boxWidth: 14,
+            usePointStyle: true,
+            pointStyleWidth: 14
+          }
+        },
+        tooltip: {
+          backgroundColor: '#18181f',
+          borderColor: 'rgba(255,255,255,0.1)',
+          borderWidth: 1,
+          titleColor: '#f0f0f5',
+          bodyColor: '#8888a0',
+          callbacks: {
+            label: ctx => ' ' + ctx.dataset.label + ': \u20B9' + ctx.parsed.y.toLocaleString('en-IN')
+          }
+        }
+      },
+      scales: {
+        x: {
+          ticks: { color: '#55556a', font: { size: 10 }, maxTicksLimit: 10 },
+          grid: { color: 'rgba(255,255,255,0.04)' },
+          border: { color: 'rgba(255,255,255,0.06)' }
+        },
+        y: {
+          ticks: {
+            color: '#55556a',
+            font: { size: 10 },
+            callback: v => '\u20B9' + (v / 100000).toFixed(0) + 'L'
+          },
+          grid: { color: 'rgba(255,255,255,0.04)' },
+          border: { color: 'rgba(255,255,255,0.06)' }
+        }
+      }
+    }
+  });
+}
+
+/* init */
+calcSim();
+</script>
+</body>
+</html>
