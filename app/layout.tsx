@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   title: APP_CONFIG.NAME,
   description: APP_CONFIG.DESC,
   icons: {
-    icon: "/favicon.png",
+    icon: "/favicon2.jpeg",
   },
 };
 
@@ -36,9 +36,9 @@ export default function RootLayout({
             <ThemeProvider>
               <CustomCursor />
               <WhatsAppButton />
-              
+
               <HydrationGuard />
-              
+
               <IntroSequence />
               <SmoothScroll>
                 <Navbar />
