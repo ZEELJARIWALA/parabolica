@@ -94,10 +94,10 @@ export default function Footer() {
               {/* Mumbai */}
               <div className="flex flex-col gap-4">
                 <span className={`text-[10px] font-mono tracking-widest uppercase ${isShopPage ? "text-slate-400 font-bold" : "text-white/30"}`}>Mumbai Terminal</span>
-                <p className={`text-sm font-light leading-relaxed ${isShopPage ? "text-slate-600" : "text-white/60"}`}>
+                <a href="https://maps.app.goo.gl/8mB4MtmLsqT5sWyy5" target="_blank" rel="noopener noreferrer"><p className={`text-sm font-light leading-relaxed ${isShopPage ? "text-slate-600" : "text-white/60"}`}>
                   NEW LINK ROAD, OPP. CITI MALL, <br />
                   ANDHERI WEST, MUMBAI
-                </p>
+                </p></a>
                 <div className="flex flex-col gap-2">
                   <a href="tel:+919702437855" className={`flex items-center gap-2 text-xs hover:underline ${isShopPage ? "text-slate-950 font-bold" : "text-[#00ffd2]"}`}>
                     <Phone size={12} /> +91 97024 37855
@@ -105,8 +105,11 @@ export default function Footer() {
                   <a href="tel:+918369990344" className={`flex items-center gap-2 text-xs hover:underline ${isShopPage ? "text-slate-950 font-bold" : "text-[#00ffd2]"}`}>
                     <Phone size={12} /> +91 83699 90344
                   </a>
-                  <a href="mailto:mumbai.parabolica@co.in" className={`flex items-center gap-2 text-xs hover:underline ${isShopPage ? "text-slate-950 font-bold" : "text-[#00ffd2]"}`}>
-                    <Mail size={12} /> mumbai.parabolica@co.in
+                  <a href="mailto:parabolica.mumbai@gmail.com" className={`flex items-center gap-2 text-xs hover:underline ${isShopPage ? "text-slate-950 font-bold" : "text-[#00ffd2]"}`}>
+                    <Mail size={12} /> parabolica.mumbai@gmail.com
+                  </a>
+                  <a href="mailto:mumbai@parabolica.co.in" className={`flex items-center gap-2 text-xs hover:underline ${isShopPage ? "text-slate-950 font-bold" : "text-[#00ffd2]"}`}>
+                    <Mail size={12} /> mumbai@parabolica.co.in
                   </a>
                 </div>
               </div>
@@ -114,10 +117,10 @@ export default function Footer() {
               {/* Surat */}
               <div className="flex flex-col gap-4">
                 <span className={`text-[10px] font-mono tracking-widest uppercase ${isShopPage ? "text-slate-400 font-bold" : "text-white/30"}`}>Surat Terminal</span>
-                <p className={`text-sm font-light leading-relaxed ${isShopPage ? "text-slate-600" : "text-white/60"}`}>
+                <a href="https://maps.app.goo.gl/X4VZLJjXS8B4R9tj9" target="_blank" rel="noopener noreferrer"><p className={`text-sm font-light leading-relaxed ${isShopPage ? "text-slate-600" : "text-white/60"}`}>
                   OPP. CB PATEL CLUB, 3RD FLOOR <br />
                   BESIDE OF NINIS KITCHEN, VESU SURAT
-                </p>
+                </p></a>
                 <div className="flex flex-col gap-2">
                   <a href="tel:+919702437855" className={`flex items-center gap-2 text-xs hover:underline ${isShopPage ? "text-slate-950 font-bold" : "text-[#00ffd2]"}`}>
                     <Phone size={12} /> +91 97024 37855
@@ -125,8 +128,11 @@ export default function Footer() {
                   <a href="tel:+918369990344" className={`flex items-center gap-2 text-xs hover:underline ${isShopPage ? "text-slate-950 font-bold" : "text-[#00ffd2]"}`}>
                     <Phone size={12} /> +91 83699 90344
                   </a>
-                  <a href="mailto:surat.parabolica@co.in" className={`flex items-center gap-2 text-xs hover:underline ${isShopPage ? "text-slate-950 font-bold" : "text-[#00ffd2]"}`}>
-                    <Mail size={12} /> surat.parabolica@co.in
+                  <a href="mailto:parabolica.surat@gmail.com" className={`flex items-center gap-2 text-xs hover:underline ${isShopPage ? "text-slate-950 font-bold" : "text-[#00ffd2]"}`}>
+                    <Mail size={12} /> parabolica.surat@gmail.com
+                  </a>
+                  <a href="mailto:surat@parabolica.co.in" className={`flex items-center gap-2 text-xs hover:underline ${isShopPage ? "text-slate-950 font-bold" : "text-[#00ffd2]"}`}>
+                    <Mail size={12} /> surat@parabolica.co.in
                   </a>
                 </div>
               </div>
