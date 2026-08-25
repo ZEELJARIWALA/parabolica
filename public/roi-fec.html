@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Parabolica — Simulator ROI Calculator</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+:root{
+  --bg:#0A0C10;
+  --panel:#12151B;
+  --panel-2:#171B22;
+  --border:#252A33;
+  --border-soft:#1D212A;
+  --text:#EAEDF2;
+  --text-dim:#8B93A3;
+  --text-faint:#5B6272;
+  --cyan:#22E6D9;
+  --cyan-dim:#12352F;
+  --amber:#FFB627;
+  --amber-dim:#3A2E10;
+  --red:#FF5C6C;
+  --red-dim:#3A1518;
+  --green:#5CFF9D;
+  --motion:#22E6D9;
+  --static:#FFB627;
+  --radius:10px;
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+body{
+  background:
+    radial-gradient(ellipse 900px 500px at 15% -5%, rgba(34,230,217,0.07), transparent),
+    radial-gradient(ellipse 900px 500px at 100% 10%, rgba(255,182,39,0.05), transparent),
+    var(--bg);
+  color:var(--text);
+  font-family:'Inter', -apple-system, sans-serif;
+  min-height:100vh;
+  padding-bottom:60px;
+}
+.mono{font-family:'JetBrains Mono', monospace;}
+.disp{font-family:'Rajdhani', sans-serif;}
+
+.app{max-width:1180px; margin:0 auto; padding:0 20px;}
+
+/* ===== HEADER / TELEMETRY STRIP ===== */
+header.top{
+  padding:28px 0 18px;
+  border-bottom:1px solid var(--border-soft);
+  margin-bottom:22px;
+  display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-end; gap:18px;
+}
+.brand-block .eyebrow{
+  font-family:'JetBrains Mono', monospace; font-size:11px; letter-spacing:3px; color:var(--cyan); text-transform:uppercase; margin-bottom:6px;
+}
+.brand-block h1{
+  font-family:'Rajdhani', sans-serif; font-weight:700; font-size:32px; letter-spacing:0.5px; line-height:1;
+}
+.brand-block p{color:var(--text-dim); font-size:13.5px; margin-top:6px; max-width:520px;}
+
+.telemetry{display:flex; gap:0; border:1px solid var(--border); border-radius:var(--radius); overflow:hidden;}
+.telemetry .cell{
+  padding:10px 18px; min-width:126px; border-right:1px solid var(--border); background:var(--panel);
+}
+.telemetry .cell:last-child{border-right:none;}
+.telemetry .cell .t-label{font-family:'JetBrains Mono',monospace; font-size:9.5px; letter-spacing:1.5px; color:var(--text-faint); text-transform:uppercase;}
+.telemetry .cell .t-value{font-family:'Rajdhani',sans-serif; font-weight:700; font-size:22px; margin-top:3px;}
+.telemetry .cell .t-value.cyan{color:var(--cyan);}
+.telemetry .cell .t-value.amber{color:var(--amber);}
+.telemetry .cell .t-value.green{color:var(--green);}
+
+/* ===== SECTION SHELL ===== */
+section{margin-bottom:22px;}
+.section-head{display:flex; align-items:baseline; justify-content:space-between; margin-bottom:12px; gap:10px; flex-wrap:wrap;}
+.section-head h2{font-family:'Rajdhani',sans-serif; font-weight:700; font-size:16px; letter-spacing:1px; text-transform:uppercase; color:var(--text);}
+.section-head .sub{color:var(--text-faint); font-size:12px;}
+
+.panel{
+  background:var(--panel);
+  border:1px solid var(--border-soft);
+  border-radius:var(--radius);
+  padding:20px;
+}
+
+/* ===== CONFIG GRID ===== */
+.config-grid{display:grid; grid-template-columns:1fr 1fr; gap:22px;}
+@media(max-width:820px){.config-grid{grid-template-columns:1fr;}}
+
+.product-card{
+  border:1px solid var(--border); border-radius:var(--radius); padding:16px; background:var(--panel-2);
+  position:relative; overflow:hidden;
+}
+.product-card::before{
+  content:""; position:absolute; left:0; top:0; bottom:0; width:3px;
+}
+.product-card.motion::before{background:var(--motion);}
+.product-card.static::before{background:var(--static);}
+.product-card .p-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:2px;}
+.product-card .p-name{font-family:'Rajdhani',sans-serif; font-weight:700; font-size:16px;}
+.product-card.motion .p-name{color:var(--motion);}
+.product-card.static .p-name{color:var(--static);}
+.product-card .p-price{font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--text-dim);}
+
+.field{margin-top:14px;}
+.field-head{display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;}
+.field-head label{font-size:12.5px; color:var(--text-dim); font-weight:500;}
+.field-value{font-family:'JetBrains Mono',monospace; font-size:13px; font-weight:700; color:var(--text); background:var(--panel); border:1px solid var(--border); border-radius:5px; padding:1px 8px;}
+
+input[type=range]{
+  -webkit-appearance:none; width:100%; height:4px; border-radius:2px; background:var(--border); outline:none; cursor:pointer;
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none; width:15px; height:15px; border-radius:50%; background:var(--cyan);
+  border:2px solid #06110F; cursor:pointer; box-shadow:0 0 0 3px rgba(34,230,217,0.15);
+}
+.product-card.static input[type=range]::-webkit-slider-thumb{background:var(--static); box-shadow:0 0 0 3px rgba(255,182,39,0.15);}
+input[type=range]::-moz-range-thumb{
+  width:15px; height:15px; border-radius:50%; background:var(--cyan); border:2px solid #06110F; cursor:pointer;
+}
+.warn{margin-top:10px; font-size:11.5px; color:var(--amber); background:var(--amber-dim); border:1px solid #4a3a12; border-radius:6px; padding:6px 10px; display:none;}
+.warn.show{display:block;}
+
+.assump-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:16px 24px; margin-top:4px;}
+@media(max-width:820px){.assump-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:520px){.assump-grid{grid-template-columns:1fr;}}
+
+/* ===== REVENUE SUMMARY ===== */
+.rev-cards{display:grid; grid-template-columns:repeat(3,1fr); gap:16px;}
+@media(max-width:820px){.rev-cards{grid-template-columns:1fr;}}
+.rev-card{border:1px solid var(--border-soft); border-radius:var(--radius); background:var(--panel); padding:16px;}
+.rev-card .rc-label{font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:1.5px; color:var(--text-faint); text-transform:uppercase;}
+.rev-card .rc-total{font-family:'Rajdhani',sans-serif; font-weight:700; font-size:28px; margin:6px 0 12px; color:var(--text);}
+.rc-split{display:flex; height:8px; border-radius:4px; overflow:hidden; background:var(--border); margin-bottom:8px;}
+.rc-split .m{background:var(--motion);} .rc-split .s{background:var(--static);}
+.rc-legend{display:flex; justify-content:space-between; font-size:11.5px; color:var(--text-dim);}
+.rc-legend span.dot{display:inline-block; width:7px; height:7px; border-radius:50%; margin-right:5px;}
+.rc-legend .m-dot{background:var(--motion);} .rc-legend .s-dot{background:var(--static);}
+
+/* ===== TABS ===== */
+.tabs{display:flex; gap:6px; border-bottom:1px solid var(--border-soft); margin-bottom:16px;}
+.tab-btn{
+  font-family:'Rajdhani',sans-serif; font-weight:700; font-size:14px; letter-spacing:0.5px;
+  background:none; border:none; color:var(--text-faint); padding:10px 4px; cursor:pointer;
+  border-bottom:2px solid transparent; margin-right:14px; text-transform:uppercase; transition:color .15s;
+}
+.tab-btn:hover{color:var(--text-dim);}
+.tab-btn.active{color:var(--text); border-bottom-color:var(--cyan);}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+
+.model-layout{display:grid; grid-template-columns:1.15fr 1fr; gap:20px;}
+@media(max-width:900px){.model-layout{grid-template-columns:1fr;}}
+
+.metric-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
+.metric{border:1px solid var(--border-soft); border-radius:8px; padding:12px 14px; background:var(--panel-2);}
+.metric .m-label{font-size:11px; color:var(--text-faint); text-transform:uppercase; letter-spacing:0.5px;}
+.metric .m-value{font-family:'JetBrains Mono',monospace; font-weight:700; font-size:19px; margin-top:4px;}
+.metric .m-value.pos{color:var(--green);}
+.metric .m-value.neg{color:var(--red);}
+.metric .m-note{font-size:10.5px; color:var(--text-faint); margin-top:3px;}
+
+.chart-box{border:1px solid var(--border-soft); border-radius:8px; padding:14px; background:var(--panel-2);}
+.chart-box .cb-title{font-size:11px; color:var(--text-faint); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px;}
+svg.chart{width:100%; height:150px; display:block;}
+
+.opt-toggle{display:flex; gap:8px; margin-bottom:14px;}
+.opt-btn{
+  flex:1; text-align:left; border:1px solid var(--border); background:var(--panel-2); border-radius:8px; padding:10px 12px; cursor:pointer;
+}
+.opt-btn .ob-title{font-family:'Rajdhani',sans-serif; font-weight:700; font-size:13.5px; color:var(--text-dim);}
+.opt-btn .ob-sub{font-size:10.5px; color:var(--text-faint); margin-top:2px; font-family:'JetBrains Mono',monospace;}
+.opt-btn.active{border-color:var(--cyan); background:var(--cyan-dim);}
+.opt-btn.active .ob-title{color:var(--cyan);}
+
+.note-line{font-size:11.5px; color:var(--text-faint); margin-top:12px; line-height:1.5;}
+
+/* ===== COMPARISON TABLE ===== */
+.comp-table{width:100%; border-collapse:collapse; font-size:13px;}
+.comp-table th, .comp-table td{padding:10px 12px; text-align:left; border-bottom:1px solid var(--border-soft);}
+.comp-table th{font-family:'JetBrains Mono',monospace; font-size:10.5px; letter-spacing:1px; color:var(--text-faint); text-transform:uppercase; font-weight:500;}
+.comp-table td{font-family:'JetBrains Mono',monospace;}
+.comp-table td.rowlabel{font-family:'Rajdhani',sans-serif; font-weight:700; font-size:14px; color:var(--text);}
+.comp-table tr:hover td{background:rgba(255,255,255,0.015);}
+.badge{display:inline-block; width:8px; height:8px; border-radius:50%; margin-right:8px;}
+
+footer.foot{margin-top:30px; padding-top:16px; border-top:1px solid var(--border-soft); color:var(--text-faint); font-size:11px; line-height:1.7;}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header class="top">
+    <div class="brand-block">
+      <div class="eyebrow">PARABOLICA // SIMULATOR ACQUISITION MODEL</div>
+      <h1>Motion &amp; Static Sim — ROI Calculator</h1>
+      <p>Project ticket revenue for a Parabolica sim fleet, then compare payback and returns across Rental, Outright Purchase, and Revenue Share acquisition models.</p>
+    </div>
+    <div class="telemetry">
+      <div class="cell">
+        <div class="t-label">Fleet Size</div>
+        <div class="t-value cyan" id="tFleet">4 units</div>
+      </div>
+      <div class="cell">
+        <div class="t-label">Monthly Revenue</div>
+        <div class="t-value amber" id="tRevenue">₹0 L</div>
+      </div>
+      <div class="cell">
+        <div class="t-label">Fastest Payback</div>
+        <div class="t-value green" id="tPayback">—</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- FLEET CONFIG -->
+  <section>
+    <div class="section-head">
+      <h2>Fleet Configuration</h2>
+      <div class="sub">Unit price is before GST and after discount</div>
+    </div>
+    <div class="config-grid">
+      <div class="product-card motion">
+        <div class="p-head">
+          <div class="p-name">Motion Sim</div>
+          <div class="p-price">₹10.95 L / unit</div>
+        </div>
+        <div class="field">
+          <div class="field-head"><label>Quantity</label><span class="field-value" id="qtyMotionVal">2</span></div>
+          <input type="range" id="qtyMotion" min="0" max="10" step="1" value="2">
+        </div>
+        <div class="warn" id="warnMotion">Rental requires a minimum of 2 Motion Sim units.</div>
+      </div>
+      <div class="product-card static">
+        <div class="p-head">
+          <div class="p-name">Static Sim</div>
+          <div class="p-price">₹4.90 L / unit</div>
+        </div>
+        <div class="field">
+          <div class="field-head"><label>Quantity</label><span class="field-value" id="qtyStaticVal">2</span></div>
+          <input type="range" id="qtyStatic" min="0" max="10" step="1" value="2">
+        </div>
+        <div class="warn" id="warnStatic">Rental requires a minimum of 2 Static Sim units.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVENUE ASSUMPTIONS -->
+  <section>
+    <div class="section-head">
+      <h2>Revenue Assumptions</h2>
+      <div class="sub">Occupancy, hours &amp; session length apply fleet-wide · ticket pricing is set per product</div>
+    </div>
+    <div class="panel">
+      <div class="assump-grid">
+        <div class="field">
+          <div class="field-head"><label>Weekday Occupancy</label><span class="field-value" id="wdOccVal">30%</span></div>
+          <input type="range" id="wdOcc" min="0" max="100" step="5" value="30">
+        </div>
+        <div class="field">
+          <div class="field-head"><label>Weekend Occupancy</label><span class="field-value" id="weOccVal">60%</span></div>
+          <input type="range" id="weOcc" min="0" max="100" step="5" value="60">
+        </div>
+        <div class="field">
+          <div class="field-head"><label>Session Duration</label><span class="field-value" id="sessionMinVal">8 min</span></div>
+          <input type="range" id="sessionMin" min="4" max="15" step="1" value="8">
+        </div>
+        <div class="field">
+          <div class="field-head"><label>Weekday Operating Hours</label><span class="field-value" id="wdHoursVal">10 hrs</span></div>
+          <input type="range" id="wdHours" min="4" max="16" step="1" value="10">
+        </div>
+        <div class="field">
+          <div class="field-head"><label>Weekend Operating Hours</label><span class="field-value" id="weHoursVal">12 hrs</span></div>
+          <input type="range" id="weHours" min="4" max="16" step="1" value="12">
+        </div>
+        <div class="field"></div>
+        <div class="field">
+          <div class="field-head"><label style="color:var(--motion)">Motion — Weekday Ticket</label><span class="field-value" id="motionWdVal">₹350</span></div>
+          <input type="range" id="motionWd" min="100" max="800" step="25" value="350">
+        </div>
+        <div class="field">
+          <div class="field-head"><label style="color:var(--motion)">Motion — Weekend Ticket</label><span class="field-value" id="motionWeVal">₹450</span></div>
+          <input type="range" id="motionWe" min="100" max="800" step="25" value="450">
+        </div>
+        <div class="field"></div>
+        <div class="field">
+          <div class="field-head"><label style="color:var(--static)">Static — Weekday Ticket</label><span class="field-value" id="staticWdVal">₹200</span></div>
+          <input type="range" id="staticWd" min="75" max="500" step="25" value="200">
+        </div>
+        <div class="field">
+          <div class="field-head"><label style="color:var(--static)">Static — Weekend Ticket</label><span class="field-value" id="staticWeVal">₹275</span></div>
+          <input type="range" id="staticWe" min="75" max="500" step="25" value="275">
+        </div>
+        <div class="field"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVENUE SUMMARY -->
+  <section>
+    <div class="section-head">
+      <h2>Projected Total Revenue</h2>
+      <div class="sub">Steady-state, before GST</div>
+    </div>
+    <div class="rev-cards">
+      <div class="rev-card">
+        <div class="rc-label">1 Month</div>
+        <div class="rc-total" id="rev1m">₹0</div>
+        <div class="rc-split"><div class="m" id="split1m-m" style="width:50%"></div><div class="s" id="split1m-s" style="width:50%"></div></div>
+        <div class="rc-legend"><span><span class="dot m-dot"></span>Motion <span id="rev1m-m">₹0</span></span><span><span class="dot s-dot"></span>Static <span id="rev1m-s">₹0</span></span></div>
+      </div>
+      <div class="rev-card">
+        <div class="rc-label">6 Months</div>
+        <div class="rc-total" id="rev6m">₹0</div>
+        <div class="rc-split"><div class="m" id="split6m-m" style="width:50%"></div><div class="s" id="split6m-s" style="width:50%"></div></div>
+        <div class="rc-legend"><span><span class="dot m-dot"></span>Motion <span id="rev6m-m">₹0</span></span><span><span class="dot s-dot"></span>Static <span id="rev6m-s">₹0</span></span></div>
+      </div>
+      <div class="rev-card">
+        <div class="rc-label">Annual</div>
+        <div class="rc-total" id="rev12m">₹0</div>
+        <div class="rc-split"><div class="m" id="split12m-m" style="width:50%"></div><div class="s" id="split12m-s" style="width:50%"></div></div>
+        <div class="rc-legend"><span><span class="dot m-dot"></span>Motion <span id="rev12m-m">₹0</span></span><span><span class="dot s-dot"></span>Static <span id="rev12m-s">₹0</span></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMMERCIAL MODELS -->
+  <section>
+    <div class="section-head">
+      <h2>Commercial Model — ROI &amp; Yield</h2>
+      <div class="sub">Excludes staff, rent, utilities &amp; other venue opex</div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="rental">Rental</button>
+      <button class="tab-btn" data-tab="outright">Outright Purchase</button>
+      <button class="tab-btn" data-tab="revshare">Revenue Share</button>
+    </div>
+
+    <!-- RENTAL -->
+    <div class="tab-panel active" id="panel-rental">
+      <div class="panel">
+        <div class="model-layout">
+          <div>
+            <div class="metric-grid">
+              <div class="metric"><div class="m-label">Monthly Rent (excl. GST)</div><div class="m-value" id="r-rent">₹0</div><div class="m-note" id="r-rentGst">incl. GST ₹0</div></div>
+              <div class="metric"><div class="m-label">Min. Commitment</div><div class="m-value">2 units · 2 months</div><div class="m-note">per product type</div></div>
+              <div class="metric"><div class="m-label">Monthly Net Profit</div><div class="m-value pos" id="r-net1">₹0</div><div class="m-note">revenue − rent</div></div>
+              <div class="metric"><div class="m-label">Annual Net Profit</div><div class="m-value pos" id="r-net12">₹0</div><div class="m-note" id="r-margin">margin 0%</div></div>
+            </div>
+            <div class="note-line">No capital outlay — the fleet is never owned. Operator keeps 100% of ticket revenue and pays a fixed monthly rent, rolling every 2 months. "Return" here is measured against rental spend rather than a purchase investment.</div>
+          </div>
+          <div class="chart-box">
+            <div class="cb-title">Cumulative Net Profit — 12 Months</div>
+            <svg class="chart" id="chart-rental" viewBox="0 0 300 150" preserveAspectRatio="none"></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- OUTRIGHT -->
+    <div class="tab-panel" id="panel-outright">
+      <div class="panel">
+        <div class="model-layout">
+          <div>
+            <div class="metric-grid">
+              <div class="metric"><div class="m-label">Capex (excl. GST)</div><div class="m-value" id="o-capex">₹0</div><div class="m-note" id="o-capexGst">incl. GST ₹0</div></div>
+              <div class="metric"><div class="m-label">Payback Period</div><div class="m-value" id="o-payback">—</div><div class="m-note">months to recover capex</div></div>
+              <div class="metric"><div class="m-label">12-Month Net Return</div><div class="m-value pos" id="o-net12">₹0</div><div class="m-note">revenue(12mo) − capex</div></div>
+              <div class="metric"><div class="m-label">12-Month ROI</div><div class="m-value pos" id="o-roi">0%</div><div class="m-note" id="o-yield">annual yield 0%</div></div>
+            </div>
+            <div class="note-line">Full ownership from day one — 100% of ticket revenue flows to the operator against the full unit price paid upfront.</div>
+          </div>
+          <div class="chart-box">
+            <div class="cb-title">Cumulative Cash Flow — 12 Months</div>
+            <svg class="chart" id="chart-outright" viewBox="0 0 300 150" preserveAspectRatio="none"></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- REVENUE SHARE -->
+    <div class="tab-panel" id="panel-revshare">
+      <div class="panel">
+        <div class="opt-toggle">
+          <button class="opt-btn active" data-opt="a">
+            <div class="ob-title">Option A</div>
+            <div class="ob-sub">6 MO · 60% UPFRONT · 60/40 FEC SPLIT</div>
+          </button>
+          <button class="opt-btn" data-opt="b">
+            <div class="ob-title">Option B</div>
+            <div class="ob-sub">12 MO · 40% UPFRONT · 70/30 FEC SPLIT</div>
+          </button>
+        </div>
+        <div class="model-layout">
+          <div>
+            <div class="metric-grid">
+              <div class="metric"><div class="m-label">Upfront Capital</div><div class="m-value" id="s-upfront">₹0</div><div class="m-note" id="s-upfrontGst">incl. GST ₹0</div></div>
+              <div class="metric"><div class="m-label">Payback Period</div><div class="m-value" id="s-payback">—</div><div class="m-note">months to recover upfront capital</div></div>
+              <div class="metric"><div class="m-label">Parabolica Share (period)</div><div class="m-value" id="s-share">₹0</div><div class="m-note" id="s-shareNote">over 6 months</div></div>
+              <div class="metric"><div class="m-label">12-Month ROI</div><div class="m-value pos" id="s-roi">0%</div><div class="m-note" id="s-yield">on upfront capital</div></div>
+            </div>
+            <div class="note-line">Operator pays a share of upfront capital, keeps the FEC share of revenue for the split period, then moves to 100% ownership of revenue once the period ends.</div>
+          </div>
+          <div class="chart-box">
+            <div class="cb-title">Cumulative Cash Flow — 12 Months</div>
+            <svg class="chart" id="chart-revshare" viewBox="0 0 300 150" preserveAspectRatio="none"></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARISON -->
+  <section>
+    <div class="section-head">
+      <h2>Model Comparison</h2>
+      <div class="sub">At current fleet &amp; revenue assumptions</div>
+    </div>
+    <div class="panel" style="padding:6px 20px;">
+      <table class="comp-table">
+        <thead>
+          <tr><th>Model</th><th>Upfront Capital</th><th>Monthly Commitment</th><th>Payback</th><th>12-Mo Net Return</th><th>12-Mo ROI</th></tr>
+        </thead>
+        <tbody id="compBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <footer class="foot">
+    Projections are steady-state estimates before GST and exclude venue opex (staff, premises rent, utilities, marketing). Revenue Share options assume full ownership and 100% revenue retention once the split period ends. Weeks/month taken as 4.345 (52 weeks ÷ 12). Adjust every slider to model your own scenario — figures update live.
+  </footer>
+
+</div>
+
+<script>
+const PRICE_MOTION = 1095000, PRICE_STATIC = 490000;
+const RENT_MOTION = 300000, RENT_STATIC = 150000;
+const GST = 0.18;
+const WEEKS_PER_MONTH = 4.345;
+const REV_SHARE = {
+  a: { label:'Option A', period:6,  upfront:0.60, fec:0.60, share:0.40 },
+  b: { label:'Option B', period:12, upfront:0.40, fec:0.70, share:0.30 }
+};
+
+const s = {
+  qtyMotion:2, qtyStatic:2,
+  wdOcc:30, weOcc:60, sessionMin:8, wdHours:10, weHours:12,
+  motionWd:350, motionWe:450, staticWd:200, staticWe:275,
+  revOpt:'a', activeTab:'rental'
+};
+
+const ids = ['qtyMotion','qtyStatic','wdOcc','weOcc','sessionMin','wdHours','weHours','motionWd','motionWe','staticWd','staticWe'];
+ids.forEach(id=>{
+  const el = document.getElementById(id);
+  el.addEventListener('input', ()=>{ s[id] = Number(el.value); render(); });
+});
+
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-'+btn.dataset.tab).classList.add('active');
+    s.activeTab = btn.dataset.tab;
+  });
+});
+document.querySelectorAll('.opt-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.opt-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    s.revOpt = btn.dataset.opt;
+    render();
+  });
+});
+
+function fmtINR(n){
+  const abs = Math.abs(n);
+  let out;
+  if(abs >= 10000000) out = '₹' + (n/10000000).toFixed(2) + ' Cr';
+  else if(abs >= 100000) out = '₹' + (n/100000).toFixed(2) + ' L';
+  else out = '₹' + Math.round(n).toLocaleString('en-IN');
+  return out;
+}
+function fmtPct(n){ return (n>=0?'':'') + n.toFixed(1) + '%'; }
+
+function computeRevenue(){
+  const sessPerDayWd = (s.wdHours*60)/s.sessionMin;
+  const sessPerDayWe = (s.weHours*60)/s.sessionMin;
+  const filledWd = sessPerDayWd * (s.wdOcc/100);
+  const filledWe = sessPerDayWe * (s.weOcc/100);
+
+  const perUnitMotion = (filledWd*s.motionWd*5 + filledWe*s.motionWe*2) * WEEKS_PER_MONTH;
+  const perUnitStatic = (filledWd*s.staticWd*5 + filledWe*s.staticWe*2) * WEEKS_PER_MONTH;
+
+  const motionTotal = perUnitMotion * s.qtyMotion;
+  const staticTotal = perUnitStatic * s.qtyStatic;
+  return { motionTotal, staticTotal, total: motionTotal+staticTotal };
+}
+
+function buildChart(svg, points, color){
+  svg.innerHTML = '';
+  const W=300,H=150,pad=8;
+  if(points.length===0) return;
+  const vals = points.map(p=>p.cum);
+  let min = Math.min(0, ...vals), max = Math.max(0, ...vals);
+  if(min===max){ min-=1; max+=1; }
+  const xStep = (W-2*pad)/(points.length-1);
+  const y = v => H-pad - ( (v-min)/(max-min) ) * (H-2*pad);
+  const x = i => pad + i*xStep;
+
+  // zero line
+  const zeroY = y(0);
+  const zeroLine = document.createElementNS('http://www.w3.org/2000/svg','line');
+  zeroLine.setAttribute('x1',pad); zeroLine.setAttribute('x2',W-pad);
+  zeroLine.setAttribute('y1',zeroY); zeroLine.setAttribute('y2',zeroY);
+  zeroLine.setAttribute('stroke','#333'); zeroLine.setAttribute('stroke-dasharray','3,3');
+  svg.appendChild(zeroLine);
+
+  let path = 'M ' + x(0) + ' ' + y(points[0].cum);
+  for(let i=1;i<points.length;i++) path += ' L ' + x(i) + ' ' + y(points[i].cum);
+
+  // area fill
+  const area = document.createElementNS('http://www.w3.org/2000/svg','path');
+  const areaPath = path + ` L ${x(points.length-1)} ${zeroY} L ${x(0)} ${zeroY} Z`;
+  area.setAttribute('d', areaPath);
+  area.setAttribute('fill', color); area.setAttribute('fill-opacity','0.12'); area.setAttribute('stroke','none');
+  svg.appendChild(area);
+
+  const line = document.createElementNS('http://www.w3.org/2000/svg','path');
+  line.setAttribute('d', path);
+  line.setAttribute('fill','none'); line.setAttribute('stroke', color); line.setAttribute('stroke-width','2');
+  svg.appendChild(line);
+
+  // payback marker
+  let crossIdx = points.findIndex(p=>p.cum>=0);
+  if(crossIdx > 0){
+    const dot = document.createElementNS('http://www.w3.org/2000/svg','circle');
+    dot.setAttribute('cx', x(crossIdx)); dot.setAttribute('cy', y(points[crossIdx].cum)); dot.setAttribute('r','3.5');
+    dot.setAttribute('fill', '#5CFF9D'); dot.setAttribute('stroke','#0A0C10'); dot.setAttribute('stroke-width','1');
+    svg.appendChild(dot);
+  }
+}
+
+function render(){
+  document.getElementById('qtyMotionVal').textContent = s.qtyMotion;
+  document.getElementById('qtyStaticVal').textContent = s.qtyStatic;
+  document.getElementById('wdOccVal').textContent = s.wdOcc+'%';
+  document.getElementById('weOccVal').textContent = s.weOcc+'%';
+  document.getElementById('sessionMinVal').textContent = s.sessionMin+' min';
+  document.getElementById('wdHoursVal').textContent = s.wdHours+' hrs';
+  document.getElementById('weHoursVal').textContent = s.weHours+' hrs';
+  document.getElementById('motionWdVal').textContent = '₹'+s.motionWd;
+  document.getElementById('motionWeVal').textContent = '₹'+s.motionWe;
+  document.getElementById('staticWdVal').textContent = '₹'+s.staticWd;
+  document.getElementById('staticWeVal').textContent = '₹'+s.staticWe;
+
+  document.getElementById('warnMotion').classList.toggle('show', s.qtyMotion>0 && s.qtyMotion<2);
+  document.getElementById('warnStatic').classList.toggle('show', s.qtyStatic>0 && s.qtyStatic<2);
+
+  const rev = computeRevenue();
+  const totalUnits = s.qtyMotion + s.qtyStatic;
+
+  // telemetry
+  document.getElementById('tFleet').textContent = totalUnits + ' units';
+  document.getElementById('tRevenue').textContent = fmtINR(rev.total);
+
+  // revenue cards
+  const setCard = (suffix, mult) => {
+    const m = rev.motionTotal*mult, st = rev.staticTotal*mult, tot = m+st;
+    document.getElementById('rev'+suffix).textContent = fmtINR(tot);
+    document.getElementById('rev'+suffix+'-m').textContent = fmtINR(m);
+    document.getElementById('rev'+suffix+'-s').textContent = fmtINR(st);
+    const mPct = tot>0 ? (m/tot*100) : 50;
+    document.getElementById('split'+suffix+'-m').style.width = mPct+'%';
+    document.getElementById('split'+suffix+'-s').style.width = (100-mPct)+'%';
+  };
+  setCard('1m',1); setCard('6m',6); setCard('12m',12);
+
+  // ===== RENTAL =====
+  const rentMonthly = s.qtyMotion*RENT_MOTION + s.qtyStatic*RENT_STATIC;
+  const rentalNetM = rev.total - rentMonthly;
+  const rentalNet12 = rentalNetM*12;
+  const rentalMargin = rev.total>0 ? (rentalNetM/rev.total*100) : 0;
+  document.getElementById('r-rent').textContent = fmtINR(rentMonthly);
+  document.getElementById('r-rentGst').textContent = 'incl. GST ' + fmtINR(rentMonthly*(1+GST));
+  document.getElementById('r-net1').textContent = fmtINR(rentalNetM);
+  document.getElementById('r-net1').className = 'm-value ' + (rentalNetM>=0?'pos':'neg');
+  document.getElementById('r-net12').textContent = fmtINR(rentalNet12);
+  document.getElementById('r-net12').className = 'm-value ' + (rentalNet12>=0?'pos':'neg');
+  document.getElementById('r-margin').textContent = 'margin ' + fmtPct(rentalMargin);
+
+  const rentalPoints = [];
+  let cum = 0;
+  for(let m=1;m<=12;m++){ cum += rentalNetM; rentalPoints.push({m,cum}); }
+  buildChart(document.getElementById('chart-rental'), rentalPoints, '#22E6D9');
+
+  // ===== OUTRIGHT =====
+  const capex = s.qtyMotion*PRICE_MOTION + s.qtyStatic*PRICE_STATIC;
+  const payback = rev.total>0 ? capex/rev.total : Infinity;
+  const net12 = rev.total*12 - capex;
+  const roi12 = capex>0 ? (net12/capex*100) : 0;
+  const yieldAnnual = capex>0 ? (rev.total*12/capex*100) : 0;
+  document.getElementById('o-capex').textContent = fmtINR(capex);
+  document.getElementById('o-capexGst').textContent = 'incl. GST ' + fmtINR(capex*(1+GST));
+  document.getElementById('o-payback').textContent = isFinite(payback) ? payback.toFixed(1)+' mo' : '—';
+  document.getElementById('o-net12').textContent = fmtINR(net12);
+  document.getElementById('o-net12').className = 'm-value ' + (net12>=0?'pos':'neg');
+  document.getElementById('o-roi').textContent = fmtPct(roi12);
+  document.getElementById('o-roi').className = 'm-value ' + (roi12>=0?'pos':'neg');
+  document.getElementById('o-yield').textContent = 'annual yield ' + fmtPct(yieldAnnual);
+
+  const outrightPoints = [];
+  cum = -capex;
+  for(let m=1;m<=12;m++){ cum += rev.total; outrightPoints.push({m,cum}); }
+  buildChart(document.getElementById('chart-outright'), outrightPoints, '#FFB627');
+
+  // ===== REVENUE SHARE =====
+  const opt = REV_SHARE[s.revOpt];
+  const upfront = capex*opt.upfront;
+  const shareOverPeriod = rev.total*(1-opt.fec)*opt.period;
+  const rsPoints = [];
+  cum = -upfront;
+  let rsPayback = null;
+  for(let m=1;m<=12;m++){
+    const opNet = m<=opt.period ? rev.total*opt.fec : rev.total;
+    cum += opNet;
+    if(rsPayback===null && cum>=0) rsPayback = m;
+    rsPoints.push({m,cum});
+  }
+  const rsNet12 = rsPoints[11].cum;
+  const rsRoi12 = upfront>0 ? (rsNet12/upfront*100) : 0;
+  document.getElementById('s-upfront').textContent = fmtINR(upfront);
+  document.getElementById('s-upfrontGst').textContent = 'incl. GST ' + fmtINR(upfront*(1+GST));
+  document.getElementById('s-payback').textContent = rsPayback ? rsPayback+' mo' : '—';
+  document.getElementById('s-share').textContent = fmtINR(shareOverPeriod);
+  document.getElementById('s-shareNote').textContent = 'over ' + opt.period + ' months';
+  document.getElementById('s-roi').textContent = fmtPct(rsRoi12);
+  document.getElementById('s-roi').className = 'm-value ' + (rsRoi12>=0?'pos':'neg');
+  document.getElementById('s-yield').textContent = 'on upfront capital · ' + opt.label;
+
+  buildChart(document.getElementById('chart-revshare'), rsPoints, '#5CFF9D');
+
+  // fastest payback telemetry
+  const paybacks = [
+    {name:'Outright', v: isFinite(payback) ? payback : null},
+    {name:'Rev-Share', v: rsPayback}
+  ];
+  const valid = paybacks.filter(p=>p.v!==null);
+  if(valid.length){
+    valid.sort((a,b)=>a.v-b.v);
+    document.getElementById('tPayback').textContent = valid[0].v.toFixed(1)+' mo (' + valid[0].name + ')';
+  } else {
+    document.getElementById('tPayback').textContent = '—';
+  }
+
+  // ===== COMPARISON TABLE =====
+  const optA = REV_SHARE.a, optB = REV_SHARE.b;
+  const buildRS = (opt)=>{
+    const up = capex*opt.upfront;
+    let c = -up, pb=null;
+    for(let m=1;m<=12;m++){
+      const n = m<=opt.period ? rev.total*opt.fec : rev.total;
+      c += n;
+      if(pb===null && c>=0) pb=m;
+    }
+    return { up, pb, net12:c, roi: up>0 ? c/up*100 : 0 };
+  };
+  const rsA = buildRS(optA), rsB = buildRS(optB);
+
+  const rows = [
+    { color:'#22E6D9', name:'Rental', upfront:0, monthly:rentMonthly, payback:'—', net12:rentalNet12, roi:rentalMargin },
+    { color:'#FFB627', name:'Outright Purchase', upfront:capex, monthly:0, payback:isFinite(payback)?payback.toFixed(1)+' mo':'—', net12:net12, roi:roi12 },
+    { color:'#5CFF9D', name:'Rev-Share A (6mo)', upfront:rsA.up, monthly:'—', payback: rsA.pb?rsA.pb+' mo':'—', net12:rsA.net12, roi:rsA.roi },
+    { color:'#7CC7FF', name:'Rev-Share B (12mo)', upfront:rsB.up, monthly:'—', payback: rsB.pb?rsB.pb+' mo':'—', net12:rsB.net12, roi:rsB.roi }
+  ];
+  const tbody = document.getElementById('compBody');
+  tbody.innerHTML = rows.map(r=>`
+    <tr>
+      <td class="rowlabel"><span class="badge" style="background:${r.color}"></span>${r.name}</td>
+      <td>${r.upfront>0?fmtINR(r.upfront):'—'}</td>
+      <td>${typeof r.monthly==='number' && r.monthly>0 ? fmtINR(r.monthly) : '—'}</td>
+      <td>${r.payback}</td>
+      <td class="${r.net12>=0?'':'neg'}" style="color:${r.net12>=0?'#5CFF9D':'#FF5C6C'}">${fmtINR(r.net12)}</td>
+      <td style="color:${r.roi>=0?'#5CFF9D':'#FF5C6C'}">${fmtPct(r.roi)}</td>
+    </tr>
+  `).join('');
+}
+
+render();
+</script>
+</body>
+</html>

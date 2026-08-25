@@ -84,6 +84,7 @@ export default function Footer() {
               <Link href="/blogs" className={`transition-colors ${isShopPage ? "hover:text-slate-950" : "hover:text-white"}`}>BLOG</Link>
               <Link href="/shop" className={`transition-colors ${isShopPage ? "hover:text-slate-950" : "hover:text-white"}`}>SHOP</Link>
               <Link href="/roi-calculator" className={`transition-colors ${isShopPage ? "hover:text-slate-950" : "hover:text-white"}`}>ROI Calculator</Link>
+              <Link href="/roi-fec.html" className={`transition-colors ${isShopPage ? "hover:text-slate-950" : "hover:text-white"}`}>ROI for FECs</Link>
             </nav>
           </div>
 
