@@ -53,7 +53,7 @@ const offers = [
         discount: "BEST VALUE",
         suratOnly: false,
         rates: [
-            { label: "CONTACT INFO", price: "7383756561", originalPrice: "" }
+            { label: "CONTACT INFO", price: "8758902732", originalPrice: "" }
         ],
         status: "UPLINK ESTABLISHED"
     }
@@ -190,10 +190,10 @@ export default function OffersScroll() {
                                                 CONTACT INFO
                                             </span>
                                             <a
-                                                href="tel:7383756561"
+                                                href="tel:8758902732"
                                                 className="block w-full py-3 bg-[#00ffd2]/10 hover:bg-[#00ffd2] border border-[#00ffd2]/30 hover:border-transparent text-[#00ffd2] hover:text-black font-black font-mono tracking-wider rounded-xl transition-all duration-300 text-center text-sm sm:text-base cursor-pointer pointer-events-auto relative z-20"
                                             >
-                                                +91 73837 56561
+                                                +91 87589 02732
                                             </a>
                                         </div>
                                     </div>

@@ -4,7 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 
 export const WhatsAppButton = () => {
-  const phoneNumber = "916354228913"; // Using the number you set last
+  const phoneNumber = "918758902732";
   const message = encodeURIComponent("Hello Parabolica! I'm interested in booking a session.");
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
 

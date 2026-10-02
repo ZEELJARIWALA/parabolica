@@ -286,7 +286,7 @@ export default function Navbar() {
                   <div className="flex flex-col sm:flex-row sm:items-center gap-4">
                     <a href="mailto:hello@parabolica.com" className="text-sm border-b border-white hover:border-[#00ffd2] hover:text-[#00ffd2] transition-all">hello@parabolica.com</a>
                     <span className="hidden sm:inline text-white/20">|</span>
-                    <a href="tel:7383756561" className="text-sm border-b border-white hover:border-[#00ffd2] hover:text-[#00ffd2] transition-all font-mono">7383756561</a>
+                    <a href="tel:8758902732" className="text-sm border-b border-white hover:border-[#00ffd2] hover:text-[#00ffd2] transition-all font-mono">8758902732</a>
                   </div>
                 </div>
                 <div className="flex gap-6">

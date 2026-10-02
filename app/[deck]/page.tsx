@@ -141,7 +141,7 @@ export default function DeckPage({ params }: { params: Promise<{ deck: string }>
 
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Link
-                href="https://wa.me/919702437855"
+                href="https://wa.me/918758902732"
                 target="_blank"
                 className="px-12 py-6 border-2 border-white/20 bg-white/5 backdrop-blur-xl group relative overflow-hidden transition-all hover:bg-white hover:text-black block font-black italic text-xl uppercase tracking-widest"
               >
